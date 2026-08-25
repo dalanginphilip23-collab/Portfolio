@@ -62,16 +62,22 @@ const About: React.FC<AboutProps> = ({ isDarkMode }) => {
           <ScrollReveal delay={300}>
             <div className="space-y-8">
               <h3 className={`text-[10px] font-black uppercase tracking-[0.5em] ${isDarkMode ? 'text-zinc-500' : 'text-zinc-400'}`}>Technical Toolbox</h3>
-              <div className="flex flex-wrap gap-3">
-                {TECH_STACK.map((tech, idx) => (
-                  <div key={tech} className="inline-block" style={{ animationDelay: `${idx * 50}ms` }}>
-                    <span className={`px-4 py-2 border text-[10px] font-black uppercase tracking-widest transition-all hover:scale-105 inline-block ${
-                      isDarkMode ? 'border-white/10 bg-zinc-900/50 text-white' : 'border-black/10 bg-zinc-50 text-black'
-                    }`}>
+              <div className="group relative overflow-hidden py-2 -mx-1">
+                <div className="flex gap-3 w-max animate-marquee">
+                  {[...TECH_STACK, ...TECH_STACK].map((tech, idx) => (
+                    <span
+                      key={`${tech}-${idx}`}
+                      className={`px-4 py-2 border text-[10px] font-black uppercase tracking-widest shrink-0 whitespace-nowrap transition-colors ${
+                        isDarkMode ? 'border-white/10 bg-zinc-900/50 text-white hover:border-white/20' : 'border-black/10 bg-zinc-50 text-black hover:border-black/20'
+                      }`}
+                    >
                       {tech}
                     </span>
-                  </div>
-                ))}
+                  ))}
+                </div>
+                {/* edge fades */}
+                <div className={`pointer-events-none absolute inset-y-0 left-0 w-12 bg-gradient-to-r ${isDarkMode ? 'from-black' : 'from-white'} to-transparent`} />
+                <div className={`pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l ${isDarkMode ? 'from-black' : 'from-white'} to-transparent`} />
               </div>
             </div>
           </ScrollReveal>
