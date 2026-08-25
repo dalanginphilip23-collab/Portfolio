@@ -19,11 +19,17 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setIsVisible(true);
+      return;
+    }
+    const el = ref.current;
+    if (!el) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          observer.disconnect();
+          observer.unobserve(entry.target);
         }
       },
       { 
@@ -31,23 +37,19 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
         rootMargin: "0px 0px -50px 0px" 
       }
     );
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
+    observer.observe(el);
     return () => observer.disconnect();
   }, [threshold]);
 
   return (
     <div
       ref={ref}
-      className={`${width === 'full' ? 'w-full' : 'inline-block'} transform transition-all duration-1000 cubic-bezier(0.16, 1, 0.3, 1) ${className} ${
+      className={`${width === 'full' ? 'w-full' : 'inline-block'} transform-gpu will-change-transform transition-all duration-1000 cubic-bezier(0.16, 1, 0.3, 1) ${className} ${
         isVisible 
-          ? 'opacity-100 translate-y-0 filter-none' 
-          : 'opacity-0 translate-y-24 blur-sm'
+          ? 'opacity-100 translate-y-0' 
+          : 'opacity-0 translate-y-8'
       }`}
-      style={{ transitionDelay: `${delay}ms` }}
+      style={{ transitionDelay: `${delay}ms`, backfaceVisibility: 'hidden' as const }}
     >
       {children}
     </div>

@@ -42,18 +42,19 @@ const Hero: React.FC<HeroProps> = ({ isDarkMode, onOpenResume }) => {
   }, [isDarkMode]);
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let ticking = false;
     const handleScroll = () => {
-      if (parallaxRef.current) {
-        const scrolled = window.scrollY;
-        const val = scrolled * 0.12;
-        requestAnimationFrame(() => {
-          if (parallaxRef.current) {
-            parallaxRef.current.style.transform = `translate3d(0, ${val}px, 0)`;
-          }
-        });
-      }
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        if (parallaxRef.current) {
+          const val = window.scrollY * 0.12;
+          parallaxRef.current.style.transform = `translate3d(0, ${val}px, 0)`;
+        }
+        ticking = false;
+      });
     };
-
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);

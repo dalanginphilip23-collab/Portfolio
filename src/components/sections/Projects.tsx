@@ -11,28 +11,32 @@ const ProjectGallery: React.FC<{ project: Project; isDarkMode: boolean }> = ({ p
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const intervalRef = useRef<number | null>(null);
 
-  const startSlideShow = () => {
+  const startSlideShow = React.useCallback(() => {
     if (intervalRef.current) clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(() => {
+    if (images.length <= 1) return;
+    intervalRef.current = window.setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % images.length);
-    }, 2000);
-  };
+    }, 2400);
+  }, [images.length]);
 
-  const stopSlideShow = () => {
-    if (intervalRef.current) clearInterval(intervalRef.current);
-  };
+  const stopSlideShow = React.useCallback(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  }, []);
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     if (isHovered && images.length > 1) {
       startSlideShow();
     } else {
       stopSlideShow();
-      setCurrentIndex(0);
     }
     return () => stopSlideShow();
-  }, [isHovered, images.length]);
+  }, [isHovered, images.length, startSlideShow, stopSlideShow]);
 
   const handleManualNav = (direction: 'prev' | 'next', e: React.MouseEvent) => {
     e.preventDefault();
