@@ -1,0 +1,8 @@
+{
+  "name": "John Philip Dalangin | Frontend Developer",
+  "description": "Portfolio of an aspiring Frontend Developer focused on building clean, interactive web experiences and mastering modern web technologies.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}

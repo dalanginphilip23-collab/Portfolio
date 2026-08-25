@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+/* Base layer - migrated from index.html inline styles */
+@layer base {
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: #000000;
+    color: #ffffff;
+    overflow-x: hidden;
+    letter-spacing: -0.01em;
+  }
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #333;
+  }
+  ::selection {
+    background: #3b82f6;
+    color: #ffffff;
+  }
+}
+
+@utility scrollbar-hide {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Home.tsx animations */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.92);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+.animate-fade-in-up {
+  animation: fade-in-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes slow-pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 0.8; }
+  100% { opacity: 0.6; }
+}
+.animate-slow-pulse {
+  animation: slow-pulse 4s ease-in-out infinite;
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+/* Hero.tsx animations */
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.animate-cursor-blink {
+  animation: cursor-blink 1s step-end infinite;
+}
+@keyframes sonar-1 { 0% { transform: scale(0.5); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
+@keyframes sonar-2 { 0% { transform: scale(0.3); opacity: 1; } 100% { transform: scale(1.8); opacity: 0; } }
+@keyframes sonar-3 { 0% { transform: scale(0.7); opacity: 0.8; } 100% { transform: scale(2); opacity: 0; } }
+.animate-sonar-1 { animation: sonar-1 4s linear infinite; }
+.animate-sonar-2 { animation: sonar-2 4s linear infinite 1.33s; }
+.animate-sonar-3 { animation: sonar-3 4s linear infinite 2.66s; }
+@keyframes grid-scan { 0% { top: -10%; } 100% { top: 110%; } }
+.animate-grid-scan { animation: grid-scan 3s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+@keyframes orb-float-1 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(30px, -20px); } }
+@keyframes orb-float-2 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-40px, 30px); } }
+.animate-orb-float-1 { animation: orb-float-1 8s ease-in-out infinite; }
+.animate-orb-float-2 { animation: orb-float-2 10s ease-in-out infinite; }
+@keyframes twinkle { 0%, 100% { opacity: 0.2; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } }
+.animate-twinkle-1 { animation: twinkle 3s infinite; }
+.animate-twinkle-2 { animation: twinkle 4s infinite 1s; }
+.animate-twinkle-3 { animation: twinkle 2.5s infinite 0.5s; }
+@keyframes glitch-overlay {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+.animate-glitch-overlay { animation: glitch-overlay 0.3s steps(2, end) infinite; }
+
+/* Contact.tsx animations */
+@keyframes draw-check {
+  from { stroke-dasharray: 0 100; }
+  to { stroke-dasharray: 100 100; }
+}
+.animate-draw-check {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 0;
+  animation: draw-check 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+.animate-shake {
+  animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
