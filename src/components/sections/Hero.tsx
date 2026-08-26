@@ -172,8 +172,8 @@ const Hero: React.FC<HeroProps> = ({ isDarkMode, onOpenResume }) => {
           </div>
           
           <div className="space-y-6">
-            {/* Summary-only card above is Image 1 — tagline removed per request, buttons stay */}
-            <div className="flex flex-wrap gap-4 animate-fade-in-up opacity-0 [animation-delay:1200ms]">
+            {/* Restored: GET IN TOUCH (scroll to #contact) + VIEW CV (opens ResumeModal with DOWNLOAD PDF) — summary-only above */}
+            <div className="flex flex-wrap gap-4">
               <a 
                 href="#contact" 
                 onClick={scrollToContact}
