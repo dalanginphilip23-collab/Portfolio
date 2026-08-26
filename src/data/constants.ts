@@ -68,7 +68,6 @@ export const RESUME_DATA = {
   languages: [
     "English | Native",
     "Filipino | Native",
-    "Japanese | Beginner"
   ],
   experience: [
     {
@@ -111,7 +110,7 @@ export const RESUME_DATA = {
       level: "PRIMARY EDUCATION",
       degree: "PRIMARY EDUCATION",
       institution: "Manghinao Elementary School",
-      location: "Manghinao, Bauan, Batangas",
+      location: "Manghinao Proper, Bauan, Batangas",
       period: "2009 — 2015"
     },
     {
@@ -186,24 +185,24 @@ export const PROJECTS: Project[] = [
   },
   {
     id: '3',
-    title: 'More on GitHub — Undeployed Repos',
-    description: 'Additional repositories not yet deployed: Field-Demo, my-portfolio (PHP), Philip, and others. Explore the full profile for work-in-progress experiments and IT support labs.',
-    image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=1200',
+    title: 'Portfolio',
+    description: 'Personal portfolio website — responsive React + Tailwind + TypeScript portfolio showcasing Vitalis, POS System and IT Support journey. Deployed on Vercel.',
+    image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1200',
     gallery: [
       'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&q=80&w=1200',
       'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1200'
     ],
-    tags: ['GitHub', 'PHP', 'TypeScript', 'MySQL'],
-    link: 'https://github.com/dalanginphilip23-collab',
+    tags: ['React', 'Tailwind CSS', 'TypeScript', 'Vite'],
+    link: 'https://portfolio-delta-two-13.vercel.app/',
     githubLink: 'https://github.com/dalanginphilip23-collab',
     technicalSpecifics: [
-      'Field-Demo — TypeScript experiment',
-      'my-portfolio — PHP portfolio variant',
-      'POS / POS-System — alternate JS/TS implementations',
-      'All public at https://github.com/dalanginphilip23-collab'
+      'React 19 + Vite 6 + Tailwind CSS 4 + TypeScript',
+      'Dark/light theme, animated hero, scroll reveal, project filtering',
+      'PDF resume generation via html2pdf.js, Gemini AI assistant integration',
+      'Deployed on Vercel — https://portfolio-delta-two-13.vercel.app/'
     ],
-    challenges: 'Keeping many small repos deployable while focusing on 2 main Vercel deployments (Vitalis + POS).',
-    solutions: 'Centralized portfolio to showcase 2 flagship deploys and link out to GitHub for the rest; uses this portfolio as deployment target.'
+    challenges: 'Building a fast, accessible 1-page portfolio that showcases Vitalis and POS with real screenshots while staying OJT-ready and lightweight.',
+    solutions: 'Used Vite manualChunks, lazy-loaded modals/AI, GPU-optimized marquee, single-column 1-page CV, and 1:1 public/src/assets image mirroring for Vercel deploys.'
   }
 ];
 

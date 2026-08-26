@@ -138,10 +138,10 @@ interface ProjectsProps {
 const Projects: React.FC<ProjectsProps> = ({ isDarkMode, onOpenSpecs }) => {
   const [activeTag, setActiveTag] = useState<string>('ALL');
 
-  // Project name only categories - organized, not tech tags
+  // Project name only categories - organized: ALL | Vitalis | POS System | Portfolio
   const tagData = useMemo(() => {
     const counts: Record<string, number> = { ALL: PROJECTS.length };
-    const short = (t: string) => t.includes('Vitalis') ? 'Vitalis' : t.includes('POS') ? 'POS System' : 'GitHub';
+    const short = (t: string) => t.includes('Vitalis') ? 'Vitalis' : t.includes('POS') ? 'POS System' : 'Portfolio';
     const list = ['ALL', ...PROJECTS.map(p => short(p.title))];
     PROJECTS.forEach(p => {
       const s = short(p.title);
@@ -152,7 +152,7 @@ const Projects: React.FC<ProjectsProps> = ({ isDarkMode, onOpenSpecs }) => {
 
   const filteredProjects = useMemo(() => {
     if (activeTag === 'ALL') return PROJECTS;
-    const short = (t: string) => t.includes('Vitalis') ? 'Vitalis' : t.includes('POS') ? 'POS System' : 'GitHub';
+    const short = (t: string) => t.includes('Vitalis') ? 'Vitalis' : t.includes('POS') ? 'POS System' : 'Portfolio';
     return PROJECTS.filter(project => short(project.title) === activeTag);
   }, [activeTag]);
 
