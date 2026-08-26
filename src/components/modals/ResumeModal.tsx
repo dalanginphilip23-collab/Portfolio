@@ -75,116 +75,168 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
       try {
         const { jsPDF } = await import('jspdf');
         const doc = new jsPDF({ unit: 'pt', format: 'letter', orientation: 'portrait' });
-        const margin = 36;
-        let y = 48;
-        const w = 816 - margin * 2;
+        const margin = 40;
+        const pageW = 612;
+        const pageH = 792;
+        const bottomMargin = 48;
+        let y = 52;
+        const w = pageW - margin * 2;
+        const checkPage = (needed: number) => {
+          if (y + needed > pageH - bottomMargin) {
+            doc.addPage();
+            y = 48;
+          }
+        };
         const addTitle = (text: string) => {
+          checkPage(28);
           doc.setFont('helvetica', 'bold');
           doc.setFontSize(11);
+          doc.setTextColor(0);
           doc.text(text.toUpperCase(), margin, y);
-          // underline
           doc.setDrawColor(0);
-          doc.setLineWidth(0.8);
-          doc.line(margin, y + 4, margin + w, y + 4);
-          y += 16;
+          doc.setLineWidth(0.9);
+          doc.line(margin, y + 5, margin + w, y + 5);
+          y += 18;
         };
         const addPara = (text: string) => {
           doc.setFont('helvetica', 'normal');
-          doc.setFontSize(8.5);
+          doc.setFontSize(8.8);
+          doc.setTextColor(30);
           const lines = doc.splitTextToSize(text, w);
+          checkPage(lines.length * 11 + 12);
           doc.text(lines, margin, y);
-          y += lines.length * 11 + 4;
+          y += lines.length * 11 + 10;
         };
-        const addBullets = (items: string[]) => {
-          doc.setFont('helvetica', 'normal');
-          doc.setFontSize(8.5);
-          items.forEach(item => {
-            const lines = doc.splitTextToSize(`•  ${item}`, w - 12);
-            // dot
-            doc.setFillColor(0, 0, 0);
-            doc.circle(margin + 3, y - 2.5, 1.8, 'F');
-            doc.text(lines, margin + 10, y);
-            y += lines.length * 11 + 2;
-          });
-          y += 2;
+        const addBullets = (items: string[], isTwoCol = false) => {
+          if (isTwoCol && items.length > 6) {
+            // 2-col layout like HTML grid for Technical Skills / Relevant Strengths
+            const colW = (w - 12) / 2;
+            const half = Math.ceil(items.length / 2);
+            const left = items.slice(0, half);
+            const right = items.slice(half);
+            const maxRows = Math.max(left.length, right.length);
+            checkPage(maxRows * 13 + 8);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(8.5);
+            for (let i = 0; i < maxRows; i++) {
+              if (left[i]) {
+                doc.setFillColor(0, 0, 0);
+                doc.circle(margin + 3, y - 2, 1.6, 'F');
+                const lines = doc.splitTextToSize(left[i], colW - 14);
+                doc.text(lines, margin + 10, y);
+              }
+              if (right[i]) {
+                const rx = margin + colW + 8;
+                doc.setFillColor(0, 0, 0);
+                doc.circle(rx + 3, y - 2, 1.6, 'F');
+                const lines = doc.splitTextToSize(right[i], colW - 14);
+                doc.text(lines, rx + 10, y);
+              }
+              y += 13;
+            }
+            y += 6;
+          } else {
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(8.8);
+            doc.setTextColor(30);
+            checkPage(items.length * 13 + 8);
+            items.forEach(item => {
+              const lines = doc.splitTextToSize(item, w - 16);
+              checkPage(lines.length * 11 + 4);
+              doc.setFillColor(0, 0, 0);
+              doc.circle(margin + 4, y - 2, 1.7, 'F');
+              doc.text(lines, margin + 12, y);
+              y += lines.length * 11 + 5;
+            });
+            y += 4;
+          }
         };
         // Header
         doc.setFont('helvetica', 'bold');
-        doc.setFontSize(22);
+        doc.setFontSize(20);
+        doc.setTextColor(0);
         doc.text(RESUME_DATA.name, margin, y);
-        y += 16;
+        y += 14;
         doc.setDrawColor(0);
         doc.setLineWidth(1);
         doc.line(margin, y, margin + w, y);
-        y += 8;
+        y += 10;
         doc.setFont('helvetica', 'normal');
-        doc.setFontSize(7.5);
-        doc.setTextColor(80);
+        doc.setFontSize(7.2);
+        doc.setTextColor(60);
         doc.text(`${RESUME_DATA.contact.phone}  |  ${RESUME_DATA.contact.email}  |  ${RESUME_DATA.contact.address}`, margin, y);
         doc.setTextColor(0);
-        y += 14;
-        doc.line(margin, y, margin + w, y);
         y += 12;
+        doc.line(margin, y, margin + w, y);
+        y += 16;
 
         addTitle('Professional Summary');
         addPara(RESUME_DATA.summary);
 
         addTitle('Technical Skills');
         const tech: string[] = (RESUME_DATA as any).technicalSkills || RESUME_DATA.skills;
-        addBullets(tech);
+        addBullets(tech, true);
 
         addTitle('Education');
         (RESUME_DATA.education as any[]).forEach((edu: any) => {
+          checkPage(28);
           doc.setFont('helvetica', 'bold');
           doc.setFontSize(9);
+          doc.setTextColor(0);
           doc.text((edu.degree || edu.level || '').toUpperCase(), margin, y);
-          y += 10;
+          y += 11;
           doc.setFont('helvetica', 'normal');
           doc.setFontSize(8);
-          doc.setTextColor(80);
+          doc.setTextColor(70);
           doc.text(`${edu.institution} — ${edu.location}`, margin, y);
           y += 10;
+          doc.setTextColor(110);
           doc.text(edu.period, margin, y);
           doc.setTextColor(0);
-          y += 12;
+          y += 14;
         });
 
         addTitle('Academic Project');
         const proj: any = (RESUME_DATA as any).selectedAcademicProject;
         if (proj) {
+          checkPage(36);
           doc.setFont('helvetica', 'bold');
           doc.setFontSize(9);
+          doc.setTextColor(0);
           doc.text(proj.title.toUpperCase(), margin, y);
-          y += 10;
+          y += 11;
           doc.setFont('helvetica', 'bold');
           doc.setFontSize(7);
-          doc.setTextColor(100);
+          doc.setTextColor(90);
           doc.text(proj.subtitle, margin, y);
           doc.setTextColor(0);
-          y += 10;
+          y += 12;
           addBullets(proj.points);
         }
 
         addTitle('Relevant Strengths');
-        addBullets(((RESUME_DATA as any).relevantStrengths as string[]) || []);
+        addBullets(((RESUME_DATA as any).relevantStrengths as string[]) || [], true);
 
-        y += 12;
+        // Certification
+        checkPage(40);
+        y += 6;
         doc.setFont('helvetica', 'normal');
-        doc.setFontSize(6.5);
-        doc.setTextColor(100);
-        doc.text('I hereby certify that the information stated in this resume is true, complete, and correct to the best of my knowledge and belief.', margin, y);
-        y += 18;
+        doc.setFontSize(6.8);
+        doc.setTextColor(90);
+        doc.text('I hereby certify that the information stated in this resume is true, complete, and correct to the best of my knowledge and belief.', margin, y, { maxWidth: w });
+        y += 22;
         doc.setDrawColor(0);
-        doc.line(margin, y, margin + 160, y);
-        y += 10;
+        doc.setLineWidth(0.7);
+        doc.line(margin, y, margin + 170, y);
+        y += 12;
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(8);
         doc.setTextColor(0);
         doc.text(RESUME_DATA.name, margin, y);
-        y += 8;
+        y += 9;
         doc.setFont('helvetica', 'normal');
-        doc.setFontSize(6);
-        doc.setTextColor(100);
+        doc.setFontSize(6.5);
+        doc.setTextColor(110);
         doc.text('Applicant', margin, y);
 
         doc.save(filename);
