@@ -31,8 +31,32 @@ export const RESUME_DATA = {
     religion: "Roman Catholic",
     languageSpoken: "Tagalog and English"
   },
-  summary: "A motivated and detail-oriented 4th-Year Bachelor of Science in Information Technology (BSIT) student seeking an OJT opportunity in IT Support or Technical Support. Possesses foundational knowledge of computer hardware and software troubleshooting, system configuration, basic networking, and technical problem-solving. Familiar with installing and configuring software, diagnosing common computer issues, and providing basic technical assistance. Eager to gain hands-on industry experience, apply academic knowledge in a professional environment, and develop practical skills in IT support and technical operations.",
-  // Condensed for 1-page CV - fits without overflow (was 15 lines, now 7)
+  summary: "A motivated and detail-oriented 4th-Year Bachelor of Science in Information Technology (BSIT) student seeking an OJT opportunity in IT Support or Technical Support. Possesses foundational knowledge of computer hardware and software troubleshooting, system configuration, basic networking, and technical problem-solving. Familiar with installing and configuring software and diagnosing common computer issues. Eager to gain hands-on industry experience, apply academic knowledge, and develop practical IT support skills in a professional environment.",
+  technicalSkills: [
+    "Computer Hardware Troubleshooting",
+    "Software Troubleshooting",
+    "Basic Networking",
+    "System Configuration",
+    "Software Installation & Configuration",
+    "Basic Computer Maintenance",
+    "Windows Operating System",
+    "Technical Problem-Solving",
+    "HTML, CSS & JavaScript",
+    "React & React Native",
+    "Tailwind CSS",
+    "Visual Studio Code",
+    "Microsoft Office"
+  ],
+  relevantStrengths: [
+    "Troubleshooting and Problem-Solving",
+    "Attention to Detail",
+    "Willingness to Learn",
+    "Adaptability",
+    "Patience",
+    "Team Collaboration",
+    "Ability to Follow Technical Procedures"
+  ],
+  // Condensed for 1-page CV - legacy skills kept for AI, display uses technicalSkills
   skills: [
     "HTML, CSS, JavaScript, Tailwind CSS",
     "React & React Native",
@@ -70,38 +94,25 @@ export const RESUME_DATA = {
       ]
     }
   ],
-  // SELECTED ACADEMIC PROJECT - BSIT Capstone 2025-2026
+  // SELECTED ACADEMIC PROJECT - BSIT Capstone 2026 per latest spec
   selectedAcademicProject: {
     title: "Vitalis — AI-Powered Fitness Optimization System",
-    subtitle: "Capstone Project | 2025–2026",
+    subtitle: "BSIT Capstone Project | 2026",
     points: [
-      "Developed a fitness and lifestyle management system as part of a BSIT capstone project.",
-      "Contributed to the development and implementation of the system's user interface and core features.",
-      "Applied problem-solving and technical skills throughout the development and testing process.",
-      "Assisted in troubleshooting technical issues and improving system functionality and usability."
+      "Contributed to the development of an AI-powered fitness and lifestyle management system.",
+      "Assisted in developing system interfaces and implementing project features.",
+      "Participated in system testing and troubleshooting during development.",
+      "Identified and helped resolve technical issues to improve system functionality and usability.",
+      "Applied problem-solving and technical skills throughout the development process."
     ]
   },
   education: [
     {
-      level: "PRIMARY EDUCATION",
-      degree: "PRIMARY EDUCATION",
-      institution: "Manghinao Elementary School",
-      location: "Manghinao, Bauan, Batangas",
-      period: "2009 — 2015"
-    },
-    {
-      level: "SECONDARY EDUCATION",
-      degree: "SECONDARY EDUCATION",
-      institution: "Bauan Technical High School",
-      location: "Bauan, Batangas",
-      period: "2015 — 2021"
-    },
-    {
-      level: "BACHELOR'S DEGREE",
+      level: "BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY",
       degree: "BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY",
-      institution: "STC COLLEGE OF BATANGAS",
-      location: "BAUAN BATANGAS, PH",
-      period: "2022 — 2026 (4TH YEAR, EXPECTED 2026)"
+      institution: "STC College of Batangas — Bauan, Batangas",
+      location: "4th Year",
+      period: "2022 — 2026"
     }
   ]
 };

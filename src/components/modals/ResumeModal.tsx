@@ -84,15 +84,8 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
     }
   };
 
-  const personalDataRows = [
-    { label: 'Sex:', value: (RESUME_DATA as any).personalData?.sex || 'Male' },
-    { label: 'Civil Status:', value: (RESUME_DATA as any).personalData?.civilStatus || 'Single' },
-    { label: 'Birthday:', value: (RESUME_DATA as any).personalData?.birthday || 'November 14, 2002' },
-    { label: 'Age:', value: (RESUME_DATA as any).personalData?.age || '23' },
-    { label: 'Nationality:', value: (RESUME_DATA as any).personalData?.nationality || 'Filipino' },
-    { label: 'Religion:', value: (RESUME_DATA as any).personalData?.religion || 'Roman Catholic' },
-    { label: 'Language Spoken:', value: (RESUME_DATA as any).personalData?.languageSpoken || 'Tagalog and English' },
-  ];
+  const technicalSkills: string[] = (RESUME_DATA as any).technicalSkills || RESUME_DATA.skills;
+  const relevantStrengths: string[] = (RESUME_DATA as any).relevantStrengths || [];
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-0 animate-fade-in overflow-hidden">
@@ -135,7 +128,7 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
           className="origin-top transition-transform duration-500 ease-out"
           style={{ transform: `scale(${scale})` }}
         >
-          {/* 1-page fresh-grad format - matches Image 1 example (CHARLOTTE...) */}
+          {/* 1-page per latest spec: PROFESSIONAL SUMMARY / TECHNICAL SKILLS / EDUCATION / ACADEMIC PROJECT / RELEVANT STRENGTHS */}
           <div 
             id="resume-content" 
             className="bg-white text-black relative shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)]"
@@ -145,14 +138,14 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
               boxSizing: 'border-box',
               margin: '0',
               fontFamily: "Arial, Helvetica, sans-serif",
-              fontSize: '10pt',
+              fontSize: '9.5pt',
               display: 'block',
               overflow: 'hidden',
               padding: '48px 48px 36px 48px'
             }}
             onClick={(e) => e.stopPropagation()} 
           >
-            {/* Header - Name + contact line (picture removed per request, full name JOHN PHILIP VOI G. DALANGIN) */}
+            {/* Header - Name + contact line (no picture per request) */}
             <div className="flex justify-between items-start gap-6">
               <div className="flex-1 min-w-0">
                 <h1 className="text-[26pt] font-black tracking-tight leading-none uppercase" style={{ fontFamily: 'Arial Black, Arial, sans-serif' }}>
@@ -168,34 +161,20 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
               </div>
             </div>
 
-            {/* SUMMARY */}
+            {/* PROFESSIONAL SUMMARY */}
             <div className="mt-6">
-              <h2 className="text-[13pt] font-black uppercase tracking-wide border-b border-black pb-1">Summary</h2>
+              <h2 className="text-[12pt] font-black uppercase tracking-wide border-b border-black pb-1">Professional Summary</h2>
               <p className="mt-3 text-[9.5pt] leading-[1.5] text-zinc-800 text-justify">
                 {RESUME_DATA.summary}
               </p>
             </div>
 
-            {/* PERSONAL DATA */}
+            {/* TECHNICAL SKILLS */}
             <div className="mt-6">
-              <h2 className="text-[13pt] font-black uppercase tracking-wide border-b border-black pb-1">Personal Data</h2>
-              <ul className="mt-3 space-y-1.5">
-                {personalDataRows.map((row) => (
-                  <li key={row.label} className="flex text-[9.5pt]">
-                    <span className="w-2 h-2 bg-black rounded-full mt-[6px] mr-3 shrink-0"></span>
-                    <span className="font-bold min-w-[130px] inline-block">{row.label}</span>
-                    <span className="text-zinc-700">{row.value}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* SKILLS - 2-col grid to fit 1-page (too long before) */}
-            <div className="mt-6">
-              <h2 className="text-[13pt] font-black uppercase tracking-wide border-b border-black pb-1">Skills</h2>
+              <h2 className="text-[12pt] font-black uppercase tracking-wide border-b border-black pb-1">Technical Skills</h2>
               <ul className="mt-3 grid grid-cols-2 gap-x-6 gap-y-1.5">
-                {RESUME_DATA.skills.map((skill, i) => (
-                  <li key={i} className="flex text-[9.5pt] text-zinc-800">
+                {technicalSkills.map((skill, i) => (
+                  <li key={i} className="flex text-[9pt] text-zinc-800">
                     <span className="w-2 h-2 bg-black rounded-full mt-[6px] mr-3 shrink-0"></span>
                     <span>{skill}</span>
                   </li>
@@ -203,13 +182,27 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
               </ul>
             </div>
 
-            {/* SELECTED ACADEMIC PROJECT */}
+            {/* EDUCATION */}
             <div className="mt-6">
-              <h2 className="text-[13pt] font-black uppercase tracking-wide border-b border-black pb-1">Selected Academic Project</h2>
+              <h2 className="text-[12pt] font-black uppercase tracking-wide border-b border-black pb-1">Education</h2>
+              <div className="mt-3">
+                {RESUME_DATA.education.map((edu: any, i: number) => (
+                  <div key={i}>
+                    <p className="text-[10pt] font-bold uppercase">{edu.degree}</p>
+                    <p className="text-[9pt] text-zinc-700">{edu.institution} — {edu.location}</p>
+                    <p className="text-[9pt] text-zinc-500">{edu.period}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* ACADEMIC PROJECT */}
+            <div className="mt-6">
+              <h2 className="text-[12pt] font-black uppercase tracking-wide border-b border-black pb-1">Academic Project</h2>
               <div className="mt-3">
                 <h3 className="text-[10pt] font-bold uppercase">{(RESUME_DATA as any).selectedAcademicProject?.title || 'Vitalis — AI-Powered Fitness Optimization System'}</h3>
-                <p className="text-[8.5pt] font-bold text-zinc-500 uppercase tracking-wide">{(RESUME_DATA as any).selectedAcademicProject?.subtitle || 'Capstone Project | 2025–2026'}</p>
-                <ul className="mt-2 space-y-1.5">
+                <p className="text-[8.5pt] font-bold text-zinc-500 uppercase tracking-wide">{(RESUME_DATA as any).selectedAcademicProject?.subtitle || 'BSIT Capstone Project | 2026'}</p>
+                <ul className="mt-2 space-y-1">
                   {((RESUME_DATA as any).selectedAcademicProject?.points || []).map((pt: string, i: number) => (
                     <li key={i} className="flex text-[9pt] text-zinc-700 leading-snug">
                       <span className="mr-2 shrink-0">•</span>
@@ -220,31 +213,25 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
               </div>
             </div>
 
-            {/* EDUCATIONAL BACKGROUND */}
+            {/* RELEVANT STRENGTHS */}
             <div className="mt-6">
-              <h2 className="text-[13pt] font-black uppercase tracking-wide border-b border-black pb-1">Educational Background</h2>
-              <div className="mt-3 space-y-4">
-                {RESUME_DATA.education.map((edu: any, i: number) => (
-                  <div key={i}>
-                    <h3 className="text-[10pt] font-bold uppercase">{edu.level || edu.degree}</h3>
-                    <ul className="mt-1 ml-4 list-disc text-[9pt] text-zinc-700 leading-snug">
-                      <li>
-                        {edu.institution}<br />
-                        <span className="text-zinc-500">{edu.location}</span><br />
-                        <span className="text-zinc-500">{edu.period}</span>
-                      </li>
-                    </ul>
-                  </div>
+              <h2 className="text-[12pt] font-black uppercase tracking-wide border-b border-black pb-1">Relevant Strengths</h2>
+              <ul className="mt-3 grid grid-cols-2 gap-x-6 gap-y-1">
+                {relevantStrengths.map((s, i) => (
+                  <li key={i} className="flex text-[9pt] text-zinc-800">
+                    <span className="w-2 h-2 bg-black rounded-full mt-[6px] mr-3 shrink-0"></span>
+                    <span>{s}</span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
 
             {/* Certification */}
-            <div className="mt-8 pt-6">
+            <div className="mt-8 pt-4">
               <p className="text-[7.5pt] leading-snug text-zinc-600">
                 I hereby certify that the information stated in this resume is true, complete, and correct to the best of my knowledge and belief.
               </p>
-              <div className="mt-8">
+              <div className="mt-6">
                 <div className="inline-block text-center">
                   <div className="border-t border-black min-w-[220px] pt-1">
                     <p className="text-[9pt] font-bold uppercase">{RESUME_DATA.name}</p>
