@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { RESUME_DATA } from '../../data/constants';
 
 interface HeroProps {
   isDarkMode: boolean;
@@ -130,6 +131,26 @@ const Hero: React.FC<HeroProps> = ({ isDarkMode, onOpenResume }) => {
 
   return (
     <section id="home" className="pt-32 md:pt-40 pb-16 md:pb-20 overflow-hidden">
+      {/* Bio details — restored above hero per request */}
+      <div className={`mb-10 md:mb-14 p-6 md:p-8 rounded-3xl border ${isDarkMode ? 'bg-zinc-900/40 border-white/10' : 'bg-zinc-50 border-black/5'}`}>
+        <div className="flex flex-wrap items-center gap-3 mb-3">
+          <span className={`text-[10px] font-black uppercase tracking-[0.3em] px-3 py-1.5 rounded-full border ${isDarkMode ? 'bg-white text-black border-white' : 'bg-black text-white border-black'}`}>
+            BSIT 4TH YEAR — STC COLLEGE OF BATANGAS
+          </span>
+          <span className={`text-[10px] font-black uppercase tracking-widest ${isDarkMode ? 'text-zinc-500' : 'text-zinc-400'}`}>BAUAN BATANGAS, PH</span>
+        </div>
+        <p className={`text-sm md:text-base font-light leading-relaxed max-w-4xl ${isDarkMode ? 'text-zinc-300' : 'text-zinc-600'}`}>
+          {RESUME_DATA.summary}
+        </p>
+        <div className={`mt-4 flex flex-wrap gap-2 text-[10px] font-black uppercase tracking-widest ${isDarkMode ? 'text-zinc-500' : 'text-zinc-400'}`}>
+          <span>{RESUME_DATA.contact.email}</span>
+          <span className="opacity-30">•</span>
+          <span>{RESUME_DATA.contact.address}</span>
+          <span className="opacity-30">•</span>
+          <a href={RESUME_DATA.contact.github} target="_blank" rel="noopener noreferrer" className="hover:text-blue-500 transition-colors">GitHub</a>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
         <div className="lg:col-span-7 flex flex-col justify-end space-y-8 md:space-y-12">
           <div className="space-y-4">
@@ -154,6 +175,7 @@ const Hero: React.FC<HeroProps> = ({ isDarkMode, onOpenResume }) => {
           
           <div className="max-w-md space-y-6">
             <StaggeredText text={tagline} isDarkMode={isDarkMode} />
+            {/* Restored buttons: GET IN TOUCH + VIEW CV (MY CV) */}
             <div className="flex flex-wrap gap-4 animate-fade-in-up opacity-0 [animation-delay:1200ms]">
               <a 
                 href="#contact" 

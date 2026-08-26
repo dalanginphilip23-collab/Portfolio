@@ -2,7 +2,6 @@ import { Project, NavItem } from '../types';
 
 export const NAV_ITEMS: NavItem[] = [
   { label: 'Projects', href: '#projects' },
-  { label: 'About', href: '#about' },
   { label: 'Contact', href: '#contact' },
 ];
 
@@ -97,13 +96,13 @@ export const PROJECTS: Project[] = [
       '/vitalis.png'
     ],
     tags: ['React', 'PWA', 'JavaScript', 'Tailwind CSS'],
-    link: 'https://fitnessapp-dun.vercel.app',
+    link: 'https://fitness-app-pied-tau.vercel.app/',
     githubLink: 'https://github.com/dalanginphilip23-collab/fitnessapp',
     technicalSpecifics: [
       'PWA manifest & service worker for offline caching and installability',
       'React + Vite with Tailwind CSS — screens you uploaded: Dashboard, WorkOuts, Jogging, MealTracker, Plans, Clinic, Vitalis Messenger, Desktop/Mobile looks',
       'Local storage / IndexedDB for workout persistence',
-      'Vercel deployment — https://fitnessapp-dun.vercel.app'
+      'Vercel deployment — https://fitness-app-pied-tau.vercel.app/'
     ],
     challenges: 'Making the app fully usable offline and installable while keeping bundle size small and data persistent across sessions.',
     solutions: 'Implemented Workbox service worker, cache-first strategy for assets, and IndexedDB/local sync for workouts; optimized Vite chunk splitting and PWA audit for fast cold start.'
