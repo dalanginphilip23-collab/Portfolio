@@ -127,8 +127,6 @@ const Hero: React.FC<HeroProps> = ({ isDarkMode, onOpenResume }) => {
     }
   };
 
-  const tagline = "Building clean, interactive web experiences while mastering the modern frontend stack. Passionate about learning, design, and efficient code.";
-
   return (
     <section id="home" className="pt-32 md:pt-40 pb-16 md:pb-20 overflow-hidden">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
@@ -173,9 +171,8 @@ const Hero: React.FC<HeroProps> = ({ isDarkMode, onOpenResume }) => {
             </div>
           </div>
           
-          <div className="max-w-md space-y-6">
-            <StaggeredText text={tagline} isDarkMode={isDarkMode} />
-            {/* Restored buttons: GET IN TOUCH + VIEW CV (MY CV) */}
+          <div className="space-y-6">
+            {/* Summary-only card above is Image 1 — tagline removed per request, buttons stay */}
             <div className="flex flex-wrap gap-4 animate-fade-in-up opacity-0 [animation-delay:1200ms]">
               <a 
                 href="#contact" 
