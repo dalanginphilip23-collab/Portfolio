@@ -2,6 +2,7 @@ import React, { useState, lazy, Suspense } from 'react';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import Hero from '../components/sections/Hero';
+import TechStack from '../components/sections/TechStack';
 import Projects from '../components/sections/Projects';
 import Contact from '../components/sections/Contact';
 import { Project } from '../types';
@@ -26,7 +27,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode, toggleTheme }) => {
       
       <main className="relative z-10 max-w-7xl mx-auto px-6 md:px-8">
         <Hero isDarkMode={isDarkMode} onOpenResume={() => setIsResumeOpen(true)} />
-        
+        <TechStack isDarkMode={isDarkMode} />
         <Projects isDarkMode={isDarkMode} onOpenSpecs={(project) => setSelectedProject(project)} />
         <Contact isDarkMode={isDarkMode} />
       </main>

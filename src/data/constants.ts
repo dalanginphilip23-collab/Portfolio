@@ -1,6 +1,7 @@
 import { Project, NavItem } from '../types';
 
 export const NAV_ITEMS: NavItem[] = [
+  { label: 'Tech Stack', href: '#techstack' },
   { label: 'Projects', href: '#projects' },
   { label: 'Contact', href: '#contact' },
 ];
