@@ -14,8 +14,7 @@ export const RESUME_PDF_BASE64 = "data:application/pdf;base64,JVBERi0xLjUKJb/i4u
 export const RESUME_DATA = {
   name: "JOHN PHILIP DALANGIN",
   title: "FRONTEND DEVELOPER | IT SUPPORT | BSIT-4",
-  // Use a stable local asset — replace with /src/assets/profile.jpg or hosted URL. This fallback is a neutral placeholder to avoid FB CDN expiry.
-  profileImage: "https://avatars.githubusercontent.com/u/235477794?v=4",
+  profileImage: "/profile.jpg",
   contact: {
     address: "Bauan Batangas, Philippines",
     phone: "+63 929 756 6947",
@@ -82,20 +81,20 @@ export const TECH_STACK = ['HTML', 'CSS', 'JavaScript', 'React', 'Tailwind CSS',
 export const PROJECTS: Project[] = [
   {
     id: '1',
-    title: 'Vitalis — Fitness PWA',
-    description: 'Vitalis fitness tracker — workout logging, progress overview and clean health-focused UI. Inspired by the VITALIS heartbeat brand (image 1). Offline-capable and installable design.',
-    image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=80&w=1200',
+    title: 'Vitalis',
+    description: 'Vitalis — health & fitness brand (green heartbeat logo you uploaded). Workout logging, progress overview and clean health-focused UI. Offline-capable, installable PWA design.',
+    image: '/vitalis.png',
     gallery: [
-      'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=1200',
-      'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=1200',
-      'https://images.unsplash.com/photo-1593079831268-3381b0db4a77?auto=format&fit=crop&q=80&w=1200'
+      '/vitalis.png',
+      'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=80&w=1200',
+      'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=1200'
     ],
     tags: ['React', 'PWA', 'JavaScript', 'Tailwind CSS'],
     link: 'https://fitnessapp-dun.vercel.app',
     githubLink: 'https://github.com/dalanginphilip23-collab/fitnessapp',
     technicalSpecifics: [
       'PWA manifest & service worker for offline caching and installability',
-      'React + Vite with Tailwind CSS responsive UI (VITALIS green heartbeat theme)',
+      'React + Vite with Tailwind CSS responsive UI (VITALIS green heartbeat theme — using your uploaded /vitalis.png)',
       'Local storage / IndexedDB for workout persistence',
       'Vercel deployment — https://fitnessapp-dun.vercel.app'
     ],

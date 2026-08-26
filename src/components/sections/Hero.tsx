@@ -5,8 +5,8 @@ interface HeroProps {
   onOpenResume: () => void;
 }
 
-// Stable avatar fallback — avoids FB CDN expiry that caused black box in light mode (image 3). Replace with local /public/profile.jpg if you have one.
-const FALLBACK_AVATAR = 'https://avatars.githubusercontent.com/u/235477794?v=4';
+// Local profile asset — you uploaded src/assets/profile.jpg (now copied to public/profile.jpg)
+const FALLBACK_AVATAR = '/profile.jpg';
 const seriousImage = FALLBACK_AVATAR;
 const wakeImage = FALLBACK_AVATAR;
 const sleepImage = FALLBACK_AVATAR;
