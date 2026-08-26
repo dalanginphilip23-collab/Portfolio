@@ -41,6 +41,11 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
 
   if (!isOpen) return null;
 
+  const handleClose = () => {
+    setIsGenerating(false);
+    onClose();
+  };
+
   const handleDownloadPDF = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -50,9 +55,9 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
 
     setIsGenerating(true);
 
-    // Clone off-screen to avoid scale() transform blurring and scroll offsets
     let cloneContainer: HTMLDivElement | null = null;
     let cloneEl: HTMLElement | null = null;
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
     try {
       cloneEl = element.cloneNode(true) as HTMLElement;
       cloneEl.id = 'resume-content-clone';
@@ -95,15 +100,40 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
       const mod: any = await import('html2pdf.js');
       const html2pdf = mod.default || mod;
       if (!html2pdf) throw new Error('html2pdf not loaded');
-      await (html2pdf as any)().set(opt).from(cloneEl).save();
+      const pdfPromise = (html2pdf as any)().set(opt).from(cloneEl).save();
+      const timeoutPromise = new Promise((_, reject) => {
+        timeoutId = setTimeout(() => reject(new Error('PDF timeout 12s')), 12000);
+      });
+      await Promise.race([pdfPromise, timeoutPromise]);
+      if (timeoutId) clearTimeout(timeoutId);
     } catch (error) {
       console.error("PDF Generation failed:", error);
-      // Fallback: try printing
-      window.print();
+      if (timeoutId) clearTimeout(timeoutId);
     } finally {
       if (cloneContainer && cloneContainer.parentNode) cloneContainer.parentNode.removeChild(cloneContainer);
       setIsGenerating(false);
     }
+  };
+
+  const handleDownloadWord = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const element = document.getElementById('resume-content');
+    if (!element) return;
+    const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Resume</title><style>body{font-family:Arial,sans-serif;font-size:10pt;} h1{font-size:22pt} h2{font-size:12pt;border-bottom:1px solid #000}</style></head><body>";
+    const footer = "</body></html>";
+    const html = header + element.innerHTML + footer;
+    const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Resume_${RESUME_DATA.name.replace(/\s+/g, '_')}.doc`;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 0);
   };
 
   const technicalSkills: string[] = (RESUME_DATA as any).technicalSkills || RESUME_DATA.skills;
@@ -113,14 +143,14 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-0 animate-fade-in overflow-hidden">
       <div 
         className="absolute inset-0 bg-black/98 backdrop-blur-3xl cursor-zoom-out" 
-        onClick={onClose} 
+        onClick={handleClose} 
       />
       
-      <div className="fixed top-8 right-8 flex items-center space-x-4 z-[110]">
+      <div className="fixed top-8 right-8 flex items-center space-x-3 z-[110]">
         <button 
           onClick={handleDownloadPDF}
           disabled={isGenerating}
-          className={`flex items-center space-x-3 px-8 py-4 ${isGenerating ? 'bg-zinc-800' : 'bg-blue-600 hover:bg-blue-700'} text-white rounded-lg font-bold text-[12px] tracking-wide transition-all shadow-2xl active:scale-95 group`}
+          className={`flex items-center space-x-2 px-6 py-4 ${isGenerating ? 'bg-zinc-800 cursor-wait' : 'bg-blue-600 hover:bg-blue-700'} text-white rounded-lg font-bold text-[12px] tracking-wide transition-all shadow-2xl active:scale-95 group`}
         >
           {isGenerating ? (
             <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24">
@@ -132,12 +162,22 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
             </svg>
           )}
-          <span>{isGenerating ? 'GENERATING...' : 'DOWNLOAD PDF'}</span>
+          <span>{isGenerating ? 'GENERATING...' : 'PDF'}</span>
+        </button>
+        <button 
+          onClick={handleDownloadWord}
+          className="flex items-center space-x-2 px-6 py-4 bg-white hover:bg-zinc-100 text-black rounded-lg font-bold text-[12px] tracking-wide transition-all shadow-2xl active:scale-95"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <span>WORD</span>
         </button>
         
         <button 
-          onClick={onClose}
+          onClick={handleClose}
           className="w-14 h-14 flex items-center justify-center bg-white/10 hover:bg-red-500 text-white rounded-full backdrop-blur-md transition-all border border-white/20 shadow-2xl group"
+          aria-label="Close"
         >
           <svg className="w-6 h-6 transition-transform group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
