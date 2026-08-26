@@ -82,7 +82,7 @@ export const PROJECTS: Project[] = [
     id: '1',
     title: 'Vitalis',
     description: 'Vitalis — health & fitness PWA (green heartbeat logo). Your screenshots: Dashboard, Clinic, WorkOuts, Jogging, MealTracker, Plans, Vitalis Messenger, Desktop & Mobile looks. Offline-capable, installable design.',
-    image: '/Dashboard.png',
+    image: '/Desktop.png',
     gallery: [
       '/Desktop.png',
       '/Dashboard.png',
