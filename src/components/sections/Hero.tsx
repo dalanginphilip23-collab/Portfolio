@@ -157,7 +157,6 @@ const Hero: React.FC<HeroProps> = ({ isDarkMode, onOpenResume }) => {
               <span className={`text-[10px] font-black uppercase tracking-[0.3em] px-3 py-1.5 rounded-full border ${isDarkMode ? 'bg-white text-black border-white' : 'bg-black text-white border-black'}`}>
                 BSIT 4TH YEAR — STC COLLEGE OF BATANGAS
               </span>
-              <span className={`text-[10px] font-black uppercase tracking-widest ${isDarkMode ? 'text-zinc-500' : 'text-zinc-400'}`}>BAUAN BATANGAS, PH</span>
             </div>
             <p className={`text-sm md:text-base font-light leading-relaxed max-w-xl ${isDarkMode ? 'text-zinc-300' : 'text-zinc-600'}`}>
               {RESUME_DATA.summary}
@@ -172,7 +171,6 @@ const Hero: React.FC<HeroProps> = ({ isDarkMode, onOpenResume }) => {
           </div>
           
           <div className="space-y-6">
-            {/* Restored: GET IN TOUCH (scroll to #contact) + VIEW CV (opens ResumeModal with DOWNLOAD PDF) — summary-only above */}
             <div className="flex flex-wrap gap-4">
               <a 
                 href="#contact" 
