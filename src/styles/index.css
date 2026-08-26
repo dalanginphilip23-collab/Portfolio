@@ -139,7 +139,6 @@
   .animate-marquee { animation-duration: 12s; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .animate-marquee,
   .animate-fade-in-up,
   .animate-slow-pulse,
   .animate-fade-in,
@@ -158,5 +157,9 @@
   .animate-shake {
     animation: none !important;
     transition: none !important;
+  }
+  /* Keep marquee moving even with reduced motion - user explicitly wants live loop */
+  .animate-marquee {
+    animation: marquee 16s linear infinite !important;
   }
 }
