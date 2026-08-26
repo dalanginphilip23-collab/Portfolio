@@ -22,6 +22,13 @@ export const RESUME_DATA = {
     linkedin: "https://www.linkedin.com/in/john-philip-voi-dalangin-b02113392/",
     github: "https://github.com/dalanginphilip23-collab"
   },
+  personalData: {
+    sex: "Male",
+    civilStatus: "Single",
+    nationality: "Filipino",
+    religion: "Roman Catholic",
+    languageSpoken: "Tagalog and English"
+  },
   summary: "A motivated and detail-oriented 4th-Year Bachelor of Science in Information Technology (BSIT) student with developing expertise in Frontend Development and IT Technical Support. Proficient in creating responsive, user-focused interfaces using HTML, CSS, JavaScript, React, React Native, and Tailwind CSS, with foundational knowledge of backend development, databases, APIs, and Git/GitHub. Experienced in troubleshooting hardware and software issues, configuring systems, and resolving technical problems. Adaptable, analytical, and eager to apply technical skills in a professional environment while continuously expanding knowledge in modern IT technologies.",
   skills: [
     "HTML & CSS",
@@ -71,6 +78,21 @@ export const RESUME_DATA = {
   ],
   education: [
     {
+      level: "PRIMARY EDUCATION",
+      degree: "PRIMARY EDUCATION",
+      institution: "Bauan Elementary School",
+      location: "Bauan, Batangas",
+      period: "2009 — 2015"
+    },
+    {
+      level: "SECONDARY EDUCATION",
+      degree: "SECONDARY EDUCATION",
+      institution: "Bauan Technical High School",
+      location: "Bauan, Batangas",
+      period: "2015 — 2021"
+    },
+    {
+      level: "BACHELOR'S DEGREE",
       degree: "BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY",
       institution: "STC COLLEGE OF BATANGAS",
       location: "BAUAN BATANGAS, PH",
