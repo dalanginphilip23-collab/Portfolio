@@ -66,88 +66,94 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
     try {
       const { jsPDF } = await import('jspdf');
       const doc = new jsPDF({ unit: 'pt', format: 'letter', orientation: 'portrait' });
-      const margin = 40;
+      // Compact 1-page fit for short bond letter 8.5x11 - tuned to stay on 1 page
+      const margin = 36;
       const pageW = 612;
       const pageH = 792;
-      const bottomMargin = 48;
-      let y = 52;
+      const bottomMargin = 36;
+      let y = 40;
       const w = pageW - margin * 2;
+      // Disable auto page break - compress to 1 page instead of flowing to page 2
       const checkPage = (needed) => {
-        if (y + needed > pageH - bottomMargin) { doc.addPage(); y = 48; }
+        if (y + needed > pageH - bottomMargin) {
+          // compress remaining gap instead of new page to force 1-page
+          y = pageH - bottomMargin - needed - 2;
+          if (y < 40) y = 40;
+        }
       };
       const addTitle = (text) => {
-        checkPage(28);
-        doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(0);
+        checkPage(22);
+        doc.setFont('helvetica', 'bold'); doc.setFontSize(10); doc.setTextColor(0);
         doc.text(text.toUpperCase(), margin, y);
-        doc.setDrawColor(0); doc.setLineWidth(0.9); doc.line(margin, y + 5, margin + w, y + 5);
-        y += 20;
+        doc.setDrawColor(0); doc.setLineWidth(0.8); doc.line(margin, y + 4, margin + w, y + 4);
+        y += 14;
       };
       const addPara = (text) => {
-        doc.setFont('helvetica', 'normal'); doc.setFontSize(11); doc.setTextColor(30);
+        doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5); doc.setTextColor(30);
         const lines = doc.splitTextToSize(text, w);
-        checkPage(lines.length * 13 + 14);
+        checkPage(lines.length * 10 + 8);
         doc.text(lines, margin, y);
-        y += lines.length * 13 + 12;
+        y += lines.length * 10 + 6;
       };
       const addBullets = (items, isTwoCol = false) => {
         if (isTwoCol && items.length > 6) {
-          const colW = (w - 12) / 2;
+          const colW = (w - 10) / 2;
           const half = Math.ceil(items.length / 2);
           const left = items.slice(0, half);
           const right = items.slice(half);
           const maxRows = Math.max(left.length, right.length);
-          checkPage(maxRows * 15 + 10);
-          doc.setFont('helvetica', 'normal'); doc.setFontSize(10);
+          checkPage(maxRows * 11 + 6);
+          doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5);
           for (let i = 0; i < maxRows; i++) {
-            if (left[i]) { doc.setFillColor(0,0,0); doc.circle(margin+3, y-2, 1.6, 'F'); doc.text(doc.splitTextToSize(left[i], colW-14), margin+10, y); }
-            if (right[i]) { const rx = margin+colW+8; doc.setFillColor(0,0,0); doc.circle(rx+3, y-2, 1.6, 'F'); doc.text(doc.splitTextToSize(right[i], colW-14), rx+10, y); }
-            y += 15;
+            if (left[i]) { doc.setFillColor(0,0,0); doc.circle(margin+3, y-1.5, 1.3, 'F'); doc.text(doc.splitTextToSize(left[i], colW-12), margin+8, y); }
+            if (right[i]) { const rx = margin+colW+6; doc.setFillColor(0,0,0); doc.circle(rx+3, y-1.5, 1.3, 'F'); doc.text(doc.splitTextToSize(right[i], colW-12), rx+8, y); }
+            y += 11;
           }
-          y += 8;
+          y += 4;
         } else {
-          doc.setFont('helvetica', 'normal'); doc.setFontSize(11); doc.setTextColor(30);
-          checkPage(items.length * 15 + 10);
+          doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5); doc.setTextColor(30);
+          checkPage(items.length * 11 + 6);
           items.forEach(item => {
-            const lines = doc.splitTextToSize(item, w - 16);
-            checkPage(lines.length * 12 + 6);
-            doc.setFillColor(0,0,0); doc.circle(margin+4, y-2, 1.7, 'F');
-            doc.text(lines, margin+12, y);
-            y += lines.length * 12 + 6;
+            const lines = doc.splitTextToSize(item, w - 14);
+            checkPage(lines.length * 9 + 4);
+            doc.setFillColor(0,0,0); doc.circle(margin+3, y-1.5, 1.4, 'F');
+            doc.text(lines, margin+9, y);
+            y += lines.length * 9 + 3;
           });
-          y += 6;
+          y += 2;
         }
       };
-      doc.setFont('helvetica', 'bold'); doc.setFontSize(20); doc.setTextColor(0);
-      doc.text(RESUME_DATA.name, margin, y); y+=16;
-      doc.setDrawColor(0); doc.setLineWidth(1); doc.line(margin, y, margin+w, y); y+=12;
-      doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(60);
-      doc.text(`${RESUME_DATA.contact.phone}  |  ${RESUME_DATA.contact.email}  |  ${RESUME_DATA.contact.address}`, margin, y); doc.setTextColor(0); y+=14;
-      doc.line(margin, y, margin+w, y); y+=18;
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(16); doc.setTextColor(0);
+      doc.text(RESUME_DATA.name, margin, y); y+=12;
+      doc.setDrawColor(0); doc.setLineWidth(0.9); doc.line(margin, y, margin+w, y); y+=8;
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(7); doc.setTextColor(60);
+      doc.text(`${RESUME_DATA.contact.phone}  |  ${RESUME_DATA.contact.email}  |  ${RESUME_DATA.contact.address}`, margin, y); doc.setTextColor(0); y+=10;
+      doc.line(margin, y, margin+w, y); y+=12;
       addTitle('Professional Summary'); addPara(RESUME_DATA.summary);
       addTitle('Technical Skills'); addBullets(RESUME_DATA.technicalSkills || RESUME_DATA.skills, true);
       addTitle('Education');
       RESUME_DATA.education.forEach((edu) => {
-        checkPage(32);
-        doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.text((edu.degree||edu.level||'').toUpperCase(), margin, y); y+=13;
-        doc.setFont('helvetica', 'normal'); doc.setFontSize(9.5); doc.setTextColor(70); doc.text(`${edu.institution} — ${edu.location}`, margin, y); y+=12;
-        doc.setTextColor(110); doc.text(edu.period, margin, y); doc.setTextColor(0); y+=16;
+        checkPage(24);
+        doc.setFont('helvetica', 'bold'); doc.setFontSize(8.5); doc.text((edu.degree||edu.level||'').toUpperCase(), margin, y); y+=9;
+        doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(70); doc.text(`${edu.institution} — ${edu.location}`, margin, y); y+=9;
+        doc.setTextColor(110); doc.text(edu.period, margin, y); doc.setTextColor(0); y+=11;
       });
       addTitle('Academic Project');
       const proj = RESUME_DATA.selectedAcademicProject;
       if (proj) {
-        checkPage(40);
-        doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.text(proj.title.toUpperCase(), margin, y); y+=13;
-        doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(90); doc.text(proj.subtitle, margin, y); doc.setTextColor(0); y+=14;
+        checkPage(32);
+        doc.setFont('helvetica', 'bold'); doc.setFontSize(8.5); doc.text(proj.title.toUpperCase(), margin, y); y+=9;
+        doc.setFont('helvetica', 'bold'); doc.setFontSize(6.5); doc.setTextColor(90); doc.text(proj.subtitle, margin, y); doc.setTextColor(0); y+=10;
         addBullets(proj.points);
       }
       addTitle('Relevant Strengths');
       addBullets(RESUME_DATA.relevantStrengths||[], true);
-      checkPage(40); y+=6;
-      doc.setFont('helvetica', 'normal'); doc.setFontSize(6.8); doc.setTextColor(90);
-      doc.text('I hereby certify that the information stated in this resume is true, complete, and correct to the best of my knowledge and belief.', margin, y, { maxWidth: w }); y+=22;
-      doc.setDrawColor(0); doc.setLineWidth(0.7); doc.line(margin, y, margin+170, y); y+=12;
-      doc.setFont('helvetica', 'bold'); doc.setFontSize(8); doc.setTextColor(0); doc.text(RESUME_DATA.name, margin, y); y+=9;
-      doc.setFont('helvetica', 'normal'); doc.setFontSize(6.5); doc.setTextColor(110); doc.text('Applicant', margin, y);
+      checkPage(28); y+=2;
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(6); doc.setTextColor(90);
+      doc.text('I hereby certify that the information stated in this resume is true, complete, and correct to the best of my knowledge and belief.', margin, y, { maxWidth: w }); y+=14;
+      doc.setDrawColor(0); doc.setLineWidth(0.6); doc.line(margin, y, margin+150, y); y+=9;
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(7); doc.setTextColor(0); doc.text(RESUME_DATA.name, margin, y); y+=7;
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(5.5); doc.setTextColor(110); doc.text('Applicant', margin, y);
       doc.save(filename);
     } catch (err) {
       console.error('PDF failed', err);
