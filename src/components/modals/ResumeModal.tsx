@@ -61,12 +61,138 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
     if (!element) return;
 
     setIsGenerating(true);
-    // Yield to paint spinner before blocking html2canvas
     await new Promise(r => setTimeout(r, 60));
 
     let cloneContainer: HTMLDivElement | null = null;
     let cloneEl: HTMLElement | null = null;
     let timeoutId: ReturnType<typeof setTimeout> | null = null;
+    let didFallback = false;
+    const filename = `Resume_${RESUME_DATA.name.replace(/\s+/g, '_')}.pdf`;
+
+    const fallbackTextPDF = async () => {
+      if (didFallback) return;
+      didFallback = true;
+      try {
+        const { jsPDF } = await import('jspdf');
+        const doc = new jsPDF({ unit: 'pt', format: 'letter', orientation: 'portrait' });
+        const margin = 36;
+        let y = 48;
+        const w = 816 - margin * 2;
+        const addTitle = (text: string) => {
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(11);
+          doc.text(text.toUpperCase(), margin, y);
+          // underline
+          doc.setDrawColor(0);
+          doc.setLineWidth(0.8);
+          doc.line(margin, y + 4, margin + w, y + 4);
+          y += 16;
+        };
+        const addPara = (text: string) => {
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(8.5);
+          const lines = doc.splitTextToSize(text, w);
+          doc.text(lines, margin, y);
+          y += lines.length * 11 + 4;
+        };
+        const addBullets = (items: string[]) => {
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(8.5);
+          items.forEach(item => {
+            const lines = doc.splitTextToSize(`•  ${item}`, w - 12);
+            // dot
+            doc.setFillColor(0, 0, 0);
+            doc.circle(margin + 3, y - 2.5, 1.8, 'F');
+            doc.text(lines, margin + 10, y);
+            y += lines.length * 11 + 2;
+          });
+          y += 2;
+        };
+        // Header
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(22);
+        doc.text(RESUME_DATA.name, margin, y);
+        y += 16;
+        doc.setDrawColor(0);
+        doc.setLineWidth(1);
+        doc.line(margin, y, margin + w, y);
+        y += 8;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7.5);
+        doc.setTextColor(80);
+        doc.text(`${RESUME_DATA.contact.phone}  |  ${RESUME_DATA.contact.email}  |  ${RESUME_DATA.contact.address}`, margin, y);
+        doc.setTextColor(0);
+        y += 14;
+        doc.line(margin, y, margin + w, y);
+        y += 12;
+
+        addTitle('Professional Summary');
+        addPara(RESUME_DATA.summary);
+
+        addTitle('Technical Skills');
+        const tech: string[] = (RESUME_DATA as any).technicalSkills || RESUME_DATA.skills;
+        addBullets(tech);
+
+        addTitle('Education');
+        (RESUME_DATA.education as any[]).forEach((edu: any) => {
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(9);
+          doc.text((edu.degree || edu.level || '').toUpperCase(), margin, y);
+          y += 10;
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(8);
+          doc.setTextColor(80);
+          doc.text(`${edu.institution} — ${edu.location}`, margin, y);
+          y += 10;
+          doc.text(edu.period, margin, y);
+          doc.setTextColor(0);
+          y += 12;
+        });
+
+        addTitle('Academic Project');
+        const proj: any = (RESUME_DATA as any).selectedAcademicProject;
+        if (proj) {
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(9);
+          doc.text(proj.title.toUpperCase(), margin, y);
+          y += 10;
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(7);
+          doc.setTextColor(100);
+          doc.text(proj.subtitle, margin, y);
+          doc.setTextColor(0);
+          y += 10;
+          addBullets(proj.points);
+        }
+
+        addTitle('Relevant Strengths');
+        addBullets(((RESUME_DATA as any).relevantStrengths as string[]) || []);
+
+        y += 12;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(6.5);
+        doc.setTextColor(100);
+        doc.text('I hereby certify that the information stated in this resume is true, complete, and correct to the best of my knowledge and belief.', margin, y);
+        y += 18;
+        doc.setDrawColor(0);
+        doc.line(margin, y, margin + 160, y);
+        y += 10;
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(8);
+        doc.setTextColor(0);
+        doc.text(RESUME_DATA.name, margin, y);
+        y += 8;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(6);
+        doc.setTextColor(100);
+        doc.text('Applicant', margin, y);
+
+        doc.save(filename);
+      } catch (err) {
+        console.error('Fallback PDF failed', err);
+      }
+    };
+
     try {
       cloneEl = element.cloneNode(true) as HTMLElement;
       cloneEl.id = 'resume-content-clone';
@@ -80,15 +206,14 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
       cloneContainer.style.background = '#ffffff';
       cloneContainer.appendChild(cloneEl);
       document.body.appendChild(cloneContainer);
-      // Extra yield so close button stays responsive before heavy canvas
       await new Promise(r => requestAnimationFrame(() => setTimeout(r, 30)));
 
       const opt = {
         margin: 0,
-        filename: `Resume_${RESUME_DATA.name.replace(/\s+/g, '_')}.pdf`,
-        image: { type: 'jpeg', quality: 0.95 },
+        filename,
+        image: { type: 'jpeg', quality: 0.92 },
         html2canvas: { 
-          scale: 1.5, 
+          scale: 1, 
           useCORS: true,
           letterRendering: true,
           scrollY: 0,
@@ -113,13 +238,15 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
       if (!html2pdf) throw new Error('html2pdf not loaded');
       const pdfPromise = (html2pdf as any)().set(opt).from(cloneEl).save();
       const timeoutPromise = new Promise((_, reject) => {
-        timeoutId = setTimeout(() => reject(new Error('PDF timeout 15s')), 15000);
+        timeoutId = setTimeout(() => reject(new Error('PDF timeout 10s')), 10000);
       });
       await Promise.race([pdfPromise, timeoutPromise]);
       if (timeoutId) clearTimeout(timeoutId);
     } catch (error) {
-      console.error("PDF Generation failed:", error);
+      console.error("PDF Generation failed, trying fallback:", error);
       if (timeoutId) clearTimeout(timeoutId);
+      // Fallback ensures download always happens even if html2canvas hangs/blocked
+      await fallbackTextPDF();
     } finally {
       if (cloneContainer && cloneContainer.parentNode) cloneContainer.parentNode.removeChild(cloneContainer);
       setIsGenerating(false);
