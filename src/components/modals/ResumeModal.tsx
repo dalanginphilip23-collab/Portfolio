@@ -92,36 +92,35 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
           }
         };
         const addTitle = (text: string) => {
-          checkPage(28);
+          checkPage(30);
           doc.setFont('helvetica', 'bold');
-          doc.setFontSize(11);
+          doc.setFontSize(12);
           doc.setTextColor(0);
           doc.text(text.toUpperCase(), margin, y);
           doc.setDrawColor(0);
           doc.setLineWidth(0.9);
           doc.line(margin, y + 5, margin + w, y + 5);
-          y += 18;
+          y += 20;
         };
         const addPara = (text: string) => {
           doc.setFont('helvetica', 'normal');
-          doc.setFontSize(8.8);
+          doc.setFontSize(11);
           doc.setTextColor(30);
           const lines = doc.splitTextToSize(text, w);
-          checkPage(lines.length * 11 + 12);
+          checkPage(lines.length * 13 + 14);
           doc.text(lines, margin, y);
-          y += lines.length * 11 + 10;
+          y += lines.length * 13 + 12;
         };
         const addBullets = (items: string[], isTwoCol = false) => {
           if (isTwoCol && items.length > 6) {
-            // 2-col layout like HTML grid for Technical Skills / Relevant Strengths
             const colW = (w - 12) / 2;
             const half = Math.ceil(items.length / 2);
             const left = items.slice(0, half);
             const right = items.slice(half);
             const maxRows = Math.max(left.length, right.length);
-            checkPage(maxRows * 13 + 8);
+            checkPage(maxRows * 15 + 10);
             doc.setFont('helvetica', 'normal');
-            doc.setFontSize(8.5);
+            doc.setFontSize(10);
             for (let i = 0; i < maxRows; i++) {
               if (left[i]) {
                 doc.setFillColor(0, 0, 0);
@@ -136,43 +135,43 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
                 const lines = doc.splitTextToSize(right[i], colW - 14);
                 doc.text(lines, rx + 10, y);
               }
-              y += 13;
+              y += 15;
             }
-            y += 6;
+            y += 8;
           } else {
             doc.setFont('helvetica', 'normal');
-            doc.setFontSize(8.8);
+            doc.setFontSize(11);
             doc.setTextColor(30);
-            checkPage(items.length * 13 + 8);
+            checkPage(items.length * 15 + 10);
             items.forEach(item => {
               const lines = doc.splitTextToSize(item, w - 16);
-              checkPage(lines.length * 11 + 4);
+              checkPage(lines.length * 12 + 6);
               doc.setFillColor(0, 0, 0);
               doc.circle(margin + 4, y - 2, 1.7, 'F');
               doc.text(lines, margin + 12, y);
-              y += lines.length * 11 + 5;
+              y += lines.length * 12 + 6;
             });
-            y += 4;
+            y += 6;
           }
         };
-        // Header
+        // Header - Arial 12 as per request, more spacing
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(20);
         doc.setTextColor(0);
         doc.text(RESUME_DATA.name, margin, y);
-        y += 14;
+        y += 16;
         doc.setDrawColor(0);
         doc.setLineWidth(1);
         doc.line(margin, y, margin + w, y);
-        y += 10;
+        y += 12;
         doc.setFont('helvetica', 'normal');
-        doc.setFontSize(7.2);
+        doc.setFontSize(9);
         doc.setTextColor(60);
         doc.text(`${RESUME_DATA.contact.phone}  |  ${RESUME_DATA.contact.email}  |  ${RESUME_DATA.contact.address}`, margin, y);
         doc.setTextColor(0);
-        y += 12;
+        y += 14;
         doc.line(margin, y, margin + w, y);
-        y += 16;
+        y += 18;
 
         addTitle('Professional Summary');
         addPara(RESUME_DATA.summary);
@@ -183,38 +182,38 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
 
         addTitle('Education');
         (RESUME_DATA.education as any[]).forEach((edu: any) => {
-          checkPage(28);
+          checkPage(32);
           doc.setFont('helvetica', 'bold');
-          doc.setFontSize(9);
+          doc.setFontSize(11);
           doc.setTextColor(0);
           doc.text((edu.degree || edu.level || '').toUpperCase(), margin, y);
-          y += 11;
+          y += 13;
           doc.setFont('helvetica', 'normal');
-          doc.setFontSize(8);
+          doc.setFontSize(9.5);
           doc.setTextColor(70);
           doc.text(`${edu.institution} — ${edu.location}`, margin, y);
-          y += 10;
+          y += 12;
           doc.setTextColor(110);
           doc.text(edu.period, margin, y);
           doc.setTextColor(0);
-          y += 14;
+          y += 16;
         });
 
         addTitle('Academic Project');
         const proj: any = (RESUME_DATA as any).selectedAcademicProject;
         if (proj) {
-          checkPage(36);
+          checkPage(40);
           doc.setFont('helvetica', 'bold');
-          doc.setFontSize(9);
+          doc.setFontSize(11);
           doc.setTextColor(0);
           doc.text(proj.title.toUpperCase(), margin, y);
-          y += 11;
+          y += 13;
           doc.setFont('helvetica', 'bold');
-          doc.setFontSize(7);
+          doc.setFontSize(9);
           doc.setTextColor(90);
           doc.text(proj.subtitle, margin, y);
           doc.setTextColor(0);
-          y += 12;
+          y += 14;
           addBullets(proj.points);
         }
 
@@ -369,7 +368,7 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
               boxSizing: 'border-box',
               margin: '0',
               fontFamily: "Arial, Helvetica, sans-serif",
-              fontSize: '9.5pt',
+              fontSize: '12pt',
               display: 'block',
               overflow: 'hidden',
               padding: '48px 48px 36px 48px'
@@ -393,20 +392,20 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
             </div>
 
             {/* PROFESSIONAL SUMMARY */}
-            <div className="mt-6">
-              <h2 className="text-[12pt] font-black uppercase tracking-wide border-b border-black pb-1">Professional Summary</h2>
-              <p className="mt-3 text-[9.5pt] leading-[1.5] text-zinc-800 text-justify">
+            <div className="mt-8">
+              <h2 className="text-[12pt] font-black uppercase tracking-wide border-b border-black pb-1.5">Professional Summary</h2>
+              <p className="mt-4 text-[12pt] leading-[1.6] text-zinc-800 text-justify">
                 {RESUME_DATA.summary}
               </p>
             </div>
 
             {/* TECHNICAL SKILLS */}
-            <div className="mt-6">
-              <h2 className="text-[12pt] font-black uppercase tracking-wide border-b border-black pb-1">Technical Skills</h2>
-              <ul className="mt-3 grid grid-cols-2 gap-x-6 gap-y-1.5">
+            <div className="mt-8">
+              <h2 className="text-[12pt] font-black uppercase tracking-wide border-b border-black pb-1.5">Technical Skills</h2>
+              <ul className="mt-4 grid grid-cols-2 gap-x-8 gap-y-2">
                 {technicalSkills.map((skill, i) => (
-                  <li key={i} className="flex text-[9pt] text-zinc-800">
-                    <span className="w-2 h-2 bg-black rounded-full mt-[6px] mr-3 shrink-0"></span>
+                  <li key={i} className="flex text-[12pt] text-zinc-800 leading-[1.5]">
+                    <span className="w-2 h-2 bg-black rounded-full mt-[8px] mr-3 shrink-0"></span>
                     <span>{skill}</span>
                   </li>
                 ))}
@@ -414,28 +413,28 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
             </div>
 
             {/* EDUCATION */}
-            <div className="mt-6">
-              <h2 className="text-[12pt] font-black uppercase tracking-wide border-b border-black pb-1">Education</h2>
-              <div className="mt-3">
+            <div className="mt-8">
+              <h2 className="text-[12pt] font-black uppercase tracking-wide border-b border-black pb-1.5">Education</h2>
+              <div className="mt-4 space-y-5">
                 {RESUME_DATA.education.map((edu: any, i: number) => (
                   <div key={i}>
-                    <p className="text-[10pt] font-bold uppercase">{edu.degree}</p>
-                    <p className="text-[9pt] text-zinc-700">{edu.institution} — {edu.location}</p>
-                    <p className="text-[9pt] text-zinc-500">{edu.period}</p>
+                    <p className="text-[12pt] font-bold uppercase leading-tight">{edu.degree}</p>
+                    <p className="text-[11pt] text-zinc-700 leading-snug mt-1">{edu.institution} — {edu.location}</p>
+                    <p className="text-[11pt] text-zinc-500 leading-snug">{edu.period}</p>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* ACADEMIC PROJECT */}
-            <div className="mt-6">
-              <h2 className="text-[12pt] font-black uppercase tracking-wide border-b border-black pb-1">Academic Project</h2>
-              <div className="mt-3">
-                <h3 className="text-[10pt] font-bold uppercase">{(RESUME_DATA as any).selectedAcademicProject?.title || 'Vitalis — AI-Powered Fitness Optimization System'}</h3>
-                <p className="text-[8.5pt] font-bold text-zinc-500 uppercase tracking-wide">{(RESUME_DATA as any).selectedAcademicProject?.subtitle || 'BSIT Capstone Project | 2026'}</p>
-                <ul className="mt-2 space-y-1">
+            <div className="mt-8">
+              <h2 className="text-[12pt] font-black uppercase tracking-wide border-b border-black pb-1.5">Academic Project</h2>
+              <div className="mt-4">
+                <h3 className="text-[12pt] font-bold uppercase leading-tight">{(RESUME_DATA as any).selectedAcademicProject?.title || 'Vitalis — AI-Powered Fitness Optimization System'}</h3>
+                <p className="text-[10pt] font-bold text-zinc-500 uppercase tracking-wide mt-1">{(RESUME_DATA as any).selectedAcademicProject?.subtitle || 'BSIT Capstone Project | 2026'}</p>
+                <ul className="mt-3 space-y-2">
                   {((RESUME_DATA as any).selectedAcademicProject?.points || []).map((pt: string, i: number) => (
-                    <li key={i} className="flex text-[9pt] text-zinc-700 leading-snug">
+                    <li key={i} className="flex text-[12pt] text-zinc-700 leading-[1.6]">
                       <span className="mr-2 shrink-0">•</span>
                       <span>{pt}</span>
                     </li>
@@ -445,12 +444,12 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
             </div>
 
             {/* RELEVANT STRENGTHS */}
-            <div className="mt-6">
-              <h2 className="text-[12pt] font-black uppercase tracking-wide border-b border-black pb-1">Relevant Strengths</h2>
-              <ul className="mt-3 grid grid-cols-2 gap-x-6 gap-y-1">
+            <div className="mt-8">
+              <h2 className="text-[12pt] font-black uppercase tracking-wide border-b border-black pb-1.5">Relevant Strengths</h2>
+              <ul className="mt-4 grid grid-cols-2 gap-x-8 gap-y-2">
                 {relevantStrengths.map((s, i) => (
-                  <li key={i} className="flex text-[9pt] text-zinc-800">
-                    <span className="w-2 h-2 bg-black rounded-full mt-[6px] mr-3 shrink-0"></span>
+                  <li key={i} className="flex text-[12pt] text-zinc-800 leading-[1.5]">
+                    <span className="w-2 h-2 bg-black rounded-full mt-[8px] mr-3 shrink-0"></span>
                     <span>{s}</span>
                   </li>
                 ))}
@@ -458,7 +457,7 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
             </div>
 
             {/* Certification */}
-            <div className="mt-8 pt-4">
+            <div className="mt-10 pt-6">
               <p className="text-[7.5pt] leading-snug text-zinc-600">
                 I hereby certify that the information stated in this resume is true, complete, and correct to the best of my knowledge and belief.
               </p>
