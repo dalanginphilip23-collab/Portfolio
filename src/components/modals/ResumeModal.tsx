@@ -320,12 +320,12 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
         onClick={handleClose} 
       />
       
-      <div className="fixed top-4 right-4 md:top-8 md:right-8 flex items-center gap-2 md:gap-3 z-[120] isolate">
+      <div className="fixed top-4 right-4 md:top-8 md:right-8 flex items-center gap-2 md:gap-3 z-[9999]">
         <button 
+          type="button"
           onClick={handleDownloadPDF}
           disabled={isGenerating}
-          className={`flex items-center gap-2 px-6 md:px-8 py-3 md:py-4 ${isGenerating ? 'bg-zinc-700 cursor-wait opacity-80' : 'bg-blue-600 hover:bg-blue-700 active:scale-95'} text-white rounded-lg font-bold text-[11px] md:text-[12px] tracking-wide transition-all shadow-2xl group`}
-          style={{ pointerEvents: 'auto' }}
+          className={`flex items-center gap-2 px-6 md:px-8 py-3 md:py-4 ${isGenerating ? 'bg-zinc-700 cursor-wait opacity-80' : 'bg-blue-600 hover:bg-blue-700 active:scale-95'} text-white rounded-lg font-bold text-[11px] md:text-[12px] tracking-wide transition-all shadow-2xl group cursor-pointer`}
         >
           {isGenerating ? (
             <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24">
@@ -341,14 +341,15 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
         </button>
         
         <button 
-          onClick={handleClose}
-          onMouseDown={(e) => { e.preventDefault(); handleClose(); }}
-          className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-white hover:bg-red-500 hover:text-white text-black md:text-white md:bg-white/20 rounded-full backdrop-blur-md transition-all border border-white/20 shadow-2xl group shrink-0 cursor-pointer"
+          type="button"
+          onClick={(e) => handleClose(e)}
+          onMouseDown={(e) => { e.preventDefault(); handleClose(e); }}
+          onTouchStart={(e) => { e.preventDefault(); handleClose(e as any); }}
+          className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-white text-black hover:bg-red-500 hover:text-white rounded-full backdrop-blur-md transition-all border-2 border-white shadow-2xl group shrink-0 cursor-pointer"
           aria-label="Close CV"
-          style={{ pointerEvents: 'auto' }}
         >
           <svg className="w-5 h-5 md:w-6 md:h-6 transition-transform group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
       </div>
