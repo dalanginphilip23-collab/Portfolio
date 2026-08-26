@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { Project } from '../../types';
+import { PROJECTS } from '../../data/constants';
 
 interface ProjectDetailModalProps {
   project: Project | null;
@@ -79,7 +80,7 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({ project, onClos
         isDarkMode ? 'bg-zinc-950 border-white/10 text-white' : 'bg-white border-black/10 text-black'
       }`}>
         
-        <div className="relative h-64 md:h-[500px] w-full overflow-hidden group/modal-gallery">
+        <div className="relative h-[320px] md:h-[420px] w-full overflow-hidden group/modal-gallery shrink-0">
           {images.map((src, idx) => (
             <a
               key={src}
@@ -159,65 +160,66 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({ project, onClos
           </button>
         </div>
 
-        <div className="px-6 md:px-20 pb-20 -mt-16 relative z-10">
-          <div className="space-y-16 md:space-y-20">
-            <div className="space-y-6">
-              <div className="flex items-center space-x-4">
+        <div className="px-6 md:px-10 lg:px-12 pt-8 pb-10 relative z-10 bg-inherit">
+          <div className="space-y-10 md:space-y-12">
+            <div className="space-y-5">
+              <div className="flex items-center gap-3">
                 <span className={`text-[10px] font-black uppercase tracking-[0.5em] ${isDarkMode ? 'text-zinc-600' : 'text-zinc-400'}`}>DEEP DIVE / CASE STUDY</span>
-                <div className={`h-[1px] flex-1 ${isDarkMode ? 'bg-white/10' : 'bg-black/10'}`}></div>
+                <div className={`h-px flex-1 ${isDarkMode ? 'bg-white/10' : 'bg-black/10'}`}></div>
+                <span className={`text-[10px] font-bold tracking-widest px-3 py-1 rounded-full border ${isDarkMode ? 'border-white/10 text-zinc-500' : 'border-black/10 text-zinc-500'}`}>0{currentProject.id} / {PROJECTS.length} — {currentProject.title === 'Vitalis' ? 'VITALIS' : currentProject.title === 'POS System' ? 'POS' : 'PORTFOLIO'}</span>
               </div>
-              <h2 className="text-4xl md:text-7xl font-black tracking-tighter uppercase leading-none">{currentProject.title}</h2>
-              <div className="flex flex-wrap gap-3 pt-4">
+              <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase leading-none">{currentProject.title}</h2>
+              <div className="flex flex-wrap gap-2 pt-2">
                 {currentProject.tags.map(tag => (
-                  <span key={tag} className={`text-[10px] font-black uppercase tracking-widest px-6 py-3 border rounded-2xl ${isDarkMode ? 'border-white/10 bg-white/5 text-zinc-500' : 'border-black/10 bg-black/5 text-zinc-400'}`}>
+                  <span key={tag} className={`text-[10px] font-black uppercase tracking-widest px-4 py-2 border rounded-xl ${isDarkMode ? 'border-white/10 bg-white/5 text-zinc-500' : 'border-black/10 bg-black/5 text-zinc-500'}`}>
                     {tag}
                   </span>
                 ))}
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-24">
-              <div className="md:col-span-7 space-y-12 md:space-y-16">
-                <div className="space-y-6 md:space-y-8 group">
-                  <h3 className="text-[12px] font-black uppercase tracking-[0.4em] opacity-40 group-hover:opacity-100 transition-opacity">The Challenge</h3>
-                  <div className={`p-6 md:p-8 rounded-[2rem] border transition-all duration-500 ${isDarkMode ? 'bg-white/[0.02] border-white/5 group-hover:bg-white/[0.04]' : 'bg-black/[0.02] border-black/5 group-hover:bg-black/[0.04]'}`}>
-                    <p className="text-lg md:text-xl font-light leading-relaxed">{currentProject.challenges}</p>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+              <div className="lg:col-span-7 space-y-8">
+                <div className="space-y-3 group">
+                  <h3 className="text-[11px] font-black uppercase tracking-[0.35em] opacity-50 group-hover:opacity-100 transition-opacity">The Challenge</h3>
+                  <div className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-white/[0.03] border-white/5' : 'bg-zinc-50 border-black/5'}`}>
+                    <p className="text-[15px] md:text-base font-light leading-relaxed">{currentProject.challenges}</p>
                   </div>
                 </div>
                 
-                <div className="space-y-6 md:space-y-8 group">
-                  <h3 className="text-[12px] font-black uppercase tracking-[0.4em] opacity-40 group-hover:opacity-100 transition-opacity">The Solution</h3>
-                  <div className={`p-6 md:p-8 rounded-[2rem] border transition-all duration-500 ${isDarkMode ? 'bg-blue-500/[0.03] border-blue-500/10 group-hover:bg-blue-500/[0.05]' : 'bg-blue-50 border-blue-600/5 group-hover:bg-blue-100/50'}`}>
-                    <p className={`text-lg md:text-xl font-light leading-relaxed ${isDarkMode ? 'text-zinc-300' : 'text-zinc-700'}`}>{currentProject.solutions}</p>
+                <div className="space-y-3 group">
+                  <h3 className="text-[11px] font-black uppercase tracking-[0.35em] opacity-50 group-hover:opacity-100 transition-opacity">The Solution</h3>
+                  <div className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-blue-500/[0.04] border-blue-500/10' : 'bg-blue-50/70 border-blue-600/10'}`}>
+                    <p className={`text-[15px] md:text-base font-light leading-relaxed ${isDarkMode ? 'text-zinc-200' : 'text-zinc-700'}`}>{currentProject.solutions}</p>
                   </div>
                 </div>
               </div>
 
-              <div className="md:col-span-5 space-y-8 md:space-y-12">
-                <div className={`p-8 md:p-10 rounded-[2.5rem] border shadow-2xl ${isDarkMode ? 'bg-zinc-900/50 border-white/5 shadow-black' : 'bg-zinc-50 border-black/5 shadow-zinc-200/50'}`}>
-                  <h3 className="text-[12px] font-black uppercase tracking-[0.4em] mb-8 md:mb-10 border-b pb-4 opacity-60">Tech Specs</h3>
-                  <ul className="space-y-6">
+              <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-4 self-start">
+                <div className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-zinc-900 border-white/5' : 'bg-zinc-50 border-black/5 shadow-sm'}`}>
+                  <h3 className="text-[11px] font-black uppercase tracking-[0.35em] mb-4 border-b pb-3 opacity-60">Tech Specs</h3>
+                  <ul className="space-y-4">
                     {currentProject.technicalSpecifics.map((spec, i) => (
-                      <li key={i} className="flex items-start group/spec">
-                        <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 mr-5 shrink-0 shadow-[0_0_12px_rgba(59,130,246,0.6)] group-hover/spec:scale-150 transition-transform"></span>
-                        <span className="text-[13px] md:text-[14px] font-bold leading-tight opacity-70 tracking-wide group-hover/spec:opacity-100 transition-opacity">{spec}</span>
+                      <li key={i} className="flex items-start gap-3">
+                        <span className="mt-2 w-1.5 h-1.5 bg-blue-500 rounded-full shrink-0 shadow-[0_0_10px_rgba(59,130,246,0.5)]"></span>
+                        <span className="text-[13px] font-medium leading-snug opacity-80">{spec}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-3 pt-2">
                   <a 
                     href={currentProject.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`w-full py-6 md:py-8 flex items-center justify-center space-x-6 text-[12px] font-black uppercase tracking-[0.4em] transition-all rounded-3xl border transform-gpu hover:scale-[1.02] active:scale-[0.98] ${
-                      isDarkMode ? 'bg-white text-black hover:bg-zinc-200 shadow-2xl shadow-white/5' : 'bg-black text-white hover:bg-zinc-800 shadow-2xl shadow-black/20'
+                    className={`w-full py-4 flex items-center justify-center gap-3 text-[11px] font-black uppercase tracking-[0.3em] transition-all rounded-2xl border ${
+                      isDarkMode ? 'bg-white text-black hover:bg-zinc-200 border-white' : 'bg-black text-white hover:bg-zinc-800 border-black'
                     }`}
                   >
-                    <span>LAUNCH PROJECT</span>
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    <span>Live Demo</span>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
                   </a>
 
@@ -226,12 +228,12 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({ project, onClos
                       href={currentProject.githubLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`w-full py-5 md:py-6 flex items-center justify-center space-x-5 text-[11px] font-black uppercase tracking-[0.4em] transition-all rounded-2xl border transform-gpu hover:scale-[1.02] active:scale-[0.98] opacity-60 hover:opacity-100 ${
-                        isDarkMode ? 'border-white/20 text-white' : 'border-black/20 text-black'
+                      className={`w-full py-3.5 flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] transition-all rounded-xl border ${
+                        isDarkMode ? 'border-white/15 text-white/70 hover:text-white hover:border-white/30 bg-white/5' : 'border-black/10 text-black/60 hover:text-black hover:border-black/20 bg-black/[0.02]'
                       }`}
                     >
-                      <span>BROWSE SOURCE</span>
-                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                      <span>Source</span>
+                      <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.042-1.416-4.042-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
                       </svg>
                     </a>
