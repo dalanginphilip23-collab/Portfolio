@@ -29,7 +29,7 @@ export const RESUME_DATA = {
     religion: "Roman Catholic",
     languageSpoken: "Tagalog and English"
   },
-  summary: "A motivated and detail-oriented 4th-Year Bachelor of Science in Information Technology (BSIT) student with a strong foundation in Frontend Development and IT Technical Support. Skilled in developing responsive, user-focused interfaces using HTML, CSS, JavaScript, React, React Native, and Tailwind CSS, with foundational knowledge of backend development, databases, APIs, and Git/GitHub. Proficient in troubleshooting hardware and software issues, system configuration, and technical problem-solving. Eager to contribute technical skills to a professional team while continuously developing expertise in modern IT technologies.",
+  summary: "A motivated and detail-oriented 4th-Year Bachelor of Science in Information Technology (BSIT) student seeking an OJT opportunity in IT Support or Technical Support. Possesses foundational knowledge of computer hardware, software troubleshooting, system configuration, networking, and technical problem-solving. Familiar with diagnosing and resolving common hardware and software issues, installing and configuring applications, and providing basic technical assistance. Also equipped with knowledge of web technologies, databases, APIs, and Git/GitHub. Eager to apply academic knowledge in a professional environment, support daily IT operations, and develop practical technical skills.",
   // Condensed for 1-page CV - fits without overflow (was 15 lines, now 7)
   skills: [
     "HTML, CSS, JavaScript, Tailwind CSS",
