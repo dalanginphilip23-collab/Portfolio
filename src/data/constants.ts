@@ -12,7 +12,7 @@ export const NAV_ITEMS: NavItem[] = [
 export const RESUME_PDF_BASE64 = "data:application/pdf;base64,JVBERi0xLjUKJb/i4u8KMSAwIG9iago8PAovVHlwZSAvQ2F0YWxvZwovUGFnZXMgMiAwIFIKPj4KZW5kb2JqCjIgMCBvYmoKPDwKL1R5cGUgL1BhZ2VzCi9Db3VudCAxCi9LaWRzIFszIDAgUl0KPj4KZW5kb2JqCjMgMCBvYmoKPDwKL1R5cGUgL1BhZ2UKL1BhcmVudCAyIDAgUgovTWVkaWFCb3ggWzAgMCA2MTIgNzkyXQovUmVzb3VyY2VzIDw8Ci9Gb250IDw8Ci9Gb250IDw8Ci9GMSA0IDAgUgo+Pgo+PgovQ29udGVudHMgNSAwIFIKPj4KZW5kb2JqCjQgMCBvYmoKPDwKL1R5cGUgL0ZvbnQKL1N1YnR5cGUgL1R5cGUxCi9CYXNlRm9udCAvSGVsdmV0aWNhCj4+CmVuZG9iago1IDAgb2JqCjw8Ci9MZW5ndGggNDQKPj4Kc3RyZWFtCkJUCi9GMSAyNCBUZgoxMDAgNzAwIFRkIChKb2huIFBoaWxpcCBEYWxhbmdpbiAtIFJlc3VtZSkgVGoKRVQKZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgNgowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwMTUgMDAwMDAgbiAKMDAwMDAwMDA2OCAwMDAwMCBuIAowMDAwMDAwMTIxIDAwMDAwIG4gCjAwMDAwMDAyNDEgMDAwMDAgbiAKMDAwMDAwMDMzOCAwMDAwMCBuIAp0cmFpbGVyCjw8Ci9TaXplIDYKL1Jvb3QgMSAwIFIKPj4Kc3RhcnR4cmVmCjQzMQolJUVPRgo=";
 
 export const RESUME_DATA = {
-  name: "JOHN PHILIP DALANGIN",
+  name: "JOHN PHILIP VOI G. DALANGIN",
   title: "FRONTEND DEVELOPER | IT SUPPORT | BSIT-4",
   profileImage: "/profile.jpg",
   contact: {
@@ -25,11 +25,13 @@ export const RESUME_DATA = {
   personalData: {
     sex: "Male",
     civilStatus: "Single",
+    birthday: "November 14, 2002",
+    age: "23",
     nationality: "Filipino",
     religion: "Roman Catholic",
     languageSpoken: "Tagalog and English"
   },
-  summary: "A motivated and detail-oriented 4th-Year Bachelor of Science in Information Technology (BSIT) student seeking an OJT opportunity in IT Support or Technical Support. Possesses foundational knowledge of computer hardware, software troubleshooting, system configuration, networking, and technical problem-solving. Familiar with diagnosing and resolving common hardware and software issues, installing and configuring applications, and providing basic technical assistance. Also equipped with knowledge of web technologies, databases, APIs, and Git/GitHub. Eager to apply academic knowledge in a professional environment, support daily IT operations, and develop practical technical skills.",
+  summary: "A motivated and detail-oriented 4th-Year Bachelor of Science in Information Technology (BSIT) student seeking an OJT opportunity in IT Support or Technical Support. Possesses foundational knowledge of computer hardware and software troubleshooting, system configuration, basic networking, and technical problem-solving. Familiar with installing and configuring software, diagnosing common computer issues, and providing basic technical assistance. Eager to gain hands-on industry experience, apply academic knowledge in a professional environment, and develop practical skills in IT support and technical operations.",
   // Condensed for 1-page CV - fits without overflow (was 15 lines, now 7)
   skills: [
     "HTML, CSS, JavaScript, Tailwind CSS",
@@ -68,12 +70,23 @@ export const RESUME_DATA = {
       ]
     }
   ],
+  // SELECTED ACADEMIC PROJECT - BSIT Capstone 2025-2026
+  selectedAcademicProject: {
+    title: "Vitalis — AI-Powered Fitness Optimization System",
+    subtitle: "Capstone Project | 2025–2026",
+    points: [
+      "Developed a fitness and lifestyle management system as part of a BSIT capstone project.",
+      "Contributed to the development and implementation of the system's user interface and core features.",
+      "Applied problem-solving and technical skills throughout the development and testing process.",
+      "Assisted in troubleshooting technical issues and improving system functionality and usability."
+    ]
+  },
   education: [
     {
       level: "PRIMARY EDUCATION",
       degree: "PRIMARY EDUCATION",
-      institution: "Bauan Elementary School",
-      location: "Bauan, Batangas",
+      institution: "Manghinao Elementary School",
+      location: "Manghinao, Bauan, Batangas",
       period: "2009 — 2015"
     },
     {

@@ -87,6 +87,8 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
   const personalDataRows = [
     { label: 'Sex:', value: (RESUME_DATA as any).personalData?.sex || 'Male' },
     { label: 'Civil Status:', value: (RESUME_DATA as any).personalData?.civilStatus || 'Single' },
+    { label: 'Birthday:', value: (RESUME_DATA as any).personalData?.birthday || 'November 14, 2002' },
+    { label: 'Age:', value: (RESUME_DATA as any).personalData?.age || '23' },
     { label: 'Nationality:', value: (RESUME_DATA as any).personalData?.nationality || 'Filipino' },
     { label: 'Religion:', value: (RESUME_DATA as any).personalData?.religion || 'Roman Catholic' },
     { label: 'Language Spoken:', value: (RESUME_DATA as any).personalData?.languageSpoken || 'Tagalog and English' },
@@ -150,10 +152,10 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
             }}
             onClick={(e) => e.stopPropagation()} 
           >
-            {/* Header - Name + contact line + photo */}
+            {/* Header - Name + contact line (picture removed per request, full name JOHN PHILIP VOI G. DALANGIN) */}
             <div className="flex justify-between items-start gap-6">
               <div className="flex-1 min-w-0">
-                <h1 className="text-[28pt] font-black tracking-tight leading-none uppercase" style={{ fontFamily: 'Arial Black, Arial, sans-serif' }}>
+                <h1 className="text-[26pt] font-black tracking-tight leading-none uppercase" style={{ fontFamily: 'Arial Black, Arial, sans-serif' }}>
                   {RESUME_DATA.name}
                 </h1>
                 <div className="mt-2 border-t-[1.5px] border-black pt-2 pb-2 border-b-[1.5px] flex flex-wrap gap-2 text-[8.5pt] text-zinc-700">
@@ -163,9 +165,6 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
                   <span className="opacity-40">|</span>
                   <span>{RESUME_DATA.contact.address}</span>
                 </div>
-              </div>
-              <div className="w-[112px] h-[136px] border border-black shrink-0 bg-white overflow-hidden">
-                <img src={RESUME_DATA.profileImage} alt={RESUME_DATA.name} className="w-full h-full object-cover" />
               </div>
             </div>
 
@@ -202,6 +201,23 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
                   </li>
                 ))}
               </ul>
+            </div>
+
+            {/* SELECTED ACADEMIC PROJECT */}
+            <div className="mt-6">
+              <h2 className="text-[13pt] font-black uppercase tracking-wide border-b border-black pb-1">Selected Academic Project</h2>
+              <div className="mt-3">
+                <h3 className="text-[10pt] font-bold uppercase">{(RESUME_DATA as any).selectedAcademicProject?.title || 'Vitalis — AI-Powered Fitness Optimization System'}</h3>
+                <p className="text-[8.5pt] font-bold text-zinc-500 uppercase tracking-wide">{(RESUME_DATA as any).selectedAcademicProject?.subtitle || 'Capstone Project | 2025–2026'}</p>
+                <ul className="mt-2 space-y-1.5">
+                  {((RESUME_DATA as any).selectedAcademicProject?.points || []).map((pt: string, i: number) => (
+                    <li key={i} className="flex text-[9pt] text-zinc-700 leading-snug">
+                      <span className="mr-2 shrink-0">•</span>
+                      <span>{pt}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
 
             {/* EDUCATIONAL BACKGROUND */}
