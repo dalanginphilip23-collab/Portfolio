@@ -115,26 +115,7 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
     }
   };
 
-  const handleDownloadWord = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const element = document.getElementById('resume-content');
-    if (!element) return;
-    const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Resume</title><style>body{font-family:Arial,sans-serif;font-size:10pt;} h1{font-size:22pt} h2{font-size:12pt;border-bottom:1px solid #000}</style></head><body>";
-    const footer = "</body></html>";
-    const html = header + element.innerHTML + footer;
-    const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `Resume_${RESUME_DATA.name.replace(/\s+/g, '_')}.doc`;
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(() => {
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }, 0);
-  };
+  // kept for single-button PDF short bond paper only - WORD removed per request "one button"
 
   const technicalSkills: string[] = (RESUME_DATA as any).technicalSkills || RESUME_DATA.skills;
   const relevantStrengths: string[] = (RESUME_DATA as any).relevantStrengths || [];
@@ -150,7 +131,7 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
         <button 
           onClick={handleDownloadPDF}
           disabled={isGenerating}
-          className={`flex items-center space-x-2 px-6 py-4 ${isGenerating ? 'bg-zinc-800 cursor-wait' : 'bg-blue-600 hover:bg-blue-700'} text-white rounded-lg font-bold text-[12px] tracking-wide transition-all shadow-2xl active:scale-95 group`}
+          className={`flex items-center space-x-2 px-8 py-4 ${isGenerating ? 'bg-zinc-800 cursor-wait' : 'bg-blue-600 hover:bg-blue-700'} text-white rounded-lg font-bold text-[12px] tracking-wide transition-all shadow-2xl active:scale-95 group`}
         >
           {isGenerating ? (
             <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24">
@@ -162,16 +143,7 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
             </svg>
           )}
-          <span>{isGenerating ? 'GENERATING...' : 'PDF'}</span>
-        </button>
-        <button 
-          onClick={handleDownloadWord}
-          className="flex items-center space-x-2 px-6 py-4 bg-white hover:bg-zinc-100 text-black rounded-lg font-bold text-[12px] tracking-wide transition-all shadow-2xl active:scale-95"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-          <span>WORD</span>
+          <span>{isGenerating ? 'GENERATING...' : 'DOWNLOAD'}</span>
         </button>
         
         <button 
