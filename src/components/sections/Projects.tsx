@@ -138,26 +138,22 @@ interface ProjectsProps {
 const Projects: React.FC<ProjectsProps> = ({ isDarkMode, onOpenSpecs }) => {
   const [activeTag, setActiveTag] = useState<string>('ALL');
 
+  // Project name only categories - organized, not tech tags
   const tagData = useMemo(() => {
     const counts: Record<string, number> = { ALL: PROJECTS.length };
-    const uniqueTags = new Set<string>();
-    
+    const short = (t: string) => t.includes('Vitalis') ? 'Vitalis' : t.includes('POS') ? 'POS System' : 'GitHub';
+    const list = ['ALL', ...PROJECTS.map(p => short(p.title))];
     PROJECTS.forEach(p => {
-      p.tags.forEach(tag => {
-        uniqueTags.add(tag);
-        counts[tag] = (counts[tag] || 0) + 1;
-      });
+      const s = short(p.title);
+      counts[s] = (counts[s] || 0) + 1;
     });
-
-    return {
-      list: ['ALL', ...Array.from(uniqueTags).sort()],
-      counts
-    };
+    return { list, counts };
   }, []);
 
   const filteredProjects = useMemo(() => {
     if (activeTag === 'ALL') return PROJECTS;
-    return PROJECTS.filter(project => project.tags.includes(activeTag));
+    const short = (t: string) => t.includes('Vitalis') ? 'Vitalis' : t.includes('POS') ? 'POS System' : 'GitHub';
+    return PROJECTS.filter(project => short(project.title) === activeTag);
   }, [activeTag]);
 
   return (
@@ -172,7 +168,7 @@ const Projects: React.FC<ProjectsProps> = ({ isDarkMode, onOpenSpecs }) => {
               <div className={`h-[2px] w-24 ${isDarkMode ? 'bg-blue-600' : 'bg-black'}`}></div>
             </div>
 
-            <div className="flex flex-wrap gap-2 md:max-w-xl justify-start md:justify-end">
+            <div className="flex flex-wrap gap-2 md:max-w-xl justify-center md:justify-end">
                {tagData.list.map(tag => {
                   const isActive = activeTag === tag;
                   return (
@@ -245,21 +241,14 @@ const Projects: React.FC<ProjectsProps> = ({ isDarkMode, onOpenSpecs }) => {
                         <div className="space-y-8">
                           <div className="flex flex-wrap gap-2">
                             {project.tags.map(tag => (
-                              <button 
+                              <span 
                                 key={tag}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setActiveTag(tag);
-                                  window.scrollTo({ top: document.getElementById('projects')?.offsetTop || 0, behavior: 'smooth' });
-                                }}
-                                className={`text-[10px] font-black uppercase tracking-widest px-4 py-2 border rounded-lg transition-all duration-500 ${
-                                  activeTag === tag 
-                                    ? (isDarkMode ? 'border-white bg-white text-black shadow-lg' : 'border-black bg-black text-white shadow-lg')
-                                    : (isDarkMode ? 'border-white/10 text-zinc-600 hover:border-white/40 hover:text-white' : 'border-black/10 text-zinc-400 hover:border-black/40 hover:text-black')
+                                className={`text-[10px] font-black uppercase tracking-widest px-4 py-2 border rounded-lg ${
+                                  isDarkMode ? 'border-white/10 text-zinc-600 bg-white/5' : 'border-black/10 text-zinc-400 bg-black/5'
                                 }`}
                               >
                                 {tag}
-                              </button>
+                              </span>
                             ))}
                           </div>
 
