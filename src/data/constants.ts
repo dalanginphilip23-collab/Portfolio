@@ -187,10 +187,9 @@ export const PROJECTS: Project[] = [
     id: '3',
     title: 'Portfolio',
     description: 'Personal portfolio website — responsive React + Tailwind + TypeScript portfolio showcasing Vitalis, POS System and IT Support journey. Deployed on Vercel.',
-    image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1200',
+    image: '/portfolio.png',
     gallery: [
-      'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&q=80&w=1200',
-      'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1200'
+      '/portfolio.png'
     ],
     tags: ['React', 'Tailwind CSS', 'TypeScript', 'Vite'],
     link: 'https://portfolio-delta-two-13.vercel.app/',
