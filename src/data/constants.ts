@@ -82,19 +82,26 @@ export const PROJECTS: Project[] = [
   {
     id: '1',
     title: 'Vitalis',
-    description: 'Vitalis — health & fitness brand (green heartbeat logo you uploaded). Workout logging, progress overview and clean health-focused UI. Offline-capable, installable PWA design.',
-    image: '/vitalis-mockup.png',
+    description: 'Vitalis — health & fitness PWA (green heartbeat logo). Your screenshots: Dashboard, Clinic, WorkOuts, Jogging, MealTracker, Plans, Vitalis Messenger, Desktop & Mobile looks. Offline-capable, installable design.',
+    image: '/Dashboard.png',
     gallery: [
-      '/vitalis-mockup.png',
-      '/vitalis.png',
-      'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=80&w=1200'
+      '/Dashboard.png',
+      '/WorkOuts.png',
+      '/Jogging.png',
+      '/MealTracker.png',
+      '/Plans.png',
+      '/Clinic.png',
+      '/Vitalis-Messenger.png',
+      '/Desktop-Looks.png',
+      '/Mobile-Looks.png',
+      '/vitalis.png'
     ],
     tags: ['React', 'PWA', 'JavaScript', 'Tailwind CSS'],
     link: 'https://fitnessapp-dun.vercel.app',
     githubLink: 'https://github.com/dalanginphilip23-collab/fitnessapp',
     technicalSpecifics: [
       'PWA manifest & service worker for offline caching and installability',
-      'React + Vite with Tailwind CSS responsive UI (VITALIS green heartbeat theme — /vitalis.png logo + /vitalis-mockup.png device mockup you uploaded)',
+      'React + Vite with Tailwind CSS — screens you uploaded: Dashboard, WorkOuts, Jogging, MealTracker, Plans, Clinic, Vitalis Messenger, Desktop/Mobile looks',
       'Local storage / IndexedDB for workout persistence',
       'Vercel deployment — https://fitnessapp-dun.vercel.app'
     ],
@@ -103,20 +110,19 @@ export const PROJECTS: Project[] = [
   },
   {
     id: '2',
-    title: 'QuickServe — Restaurant POS & Ordering',
-    description: 'Restaurant ordering / POS system seen in screenshot (image 2): DASH / MENU / HISTORY / PORTAL navigation, category filters (All, Main Course, Beverages, Desserts, Appetizers), food cards (₱185-₱550) with +ADD and right-side CART. Built for dine-in / takeaway flow.',
-    image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&q=80&w=1200',
+    title: 'POS System',
+    description: 'POS System — restaurant ordering as in your POS.png screenshot: DASH / MENU / HISTORY / PORTAL, category filters (All, Main Course, Beverages, Desserts, Appetizers), food cards with +ADD and right-side CART / EMPTY TRAY.',
+    image: '/POS.png',
     gallery: [
-      'https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&q=80&w=1200',
-      'https://images.unsplash.com/photo-1586953208448-b95a79798f07?auto=format&fit=crop&q=80&w=1200',
-      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200'
+      '/POS.png',
+      '/Dashboard.png'
     ],
     tags: ['React', 'TypeScript', 'Tailwind CSS', 'MySQL'],
     link: 'https://pos-xi-six.vercel.app/',
     githubLink: 'https://github.com/dalanginphilip23-collab/POS-System',
     technicalSpecifics: [
-      'React + TypeScript frontend with Tailwind CSS (matches menu UI from screenshot)',
-      'Category filtering + cart state (Cart / Empty Tray states as in image 2)',
+      'React + TypeScript frontend with Tailwind CSS (POS.png menu UI)',
+      'Category filtering + cart state (Cart / Empty Tray states)',
       'MySQL-ready data model for menu, orders and inventory',
       'Vercel deployment — https://pos-xi-six.vercel.app'
     ],
