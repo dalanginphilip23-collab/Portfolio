@@ -191,10 +191,10 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
               </ul>
             </div>
 
-            {/* SKILLS */}
+            {/* SKILLS - 2-col grid to fit 1-page (too long before) */}
             <div className="mt-6">
               <h2 className="text-[13pt] font-black uppercase tracking-wide border-b border-black pb-1">Skills</h2>
-              <ul className="mt-3 space-y-1.5">
+              <ul className="mt-3 grid grid-cols-2 gap-x-6 gap-y-1.5">
                 {RESUME_DATA.skills.map((skill, i) => (
                   <li key={i} className="flex text-[9.5pt] text-zinc-800">
                     <span className="w-2 h-2 bg-black rounded-full mt-[6px] mr-3 shrink-0"></span>

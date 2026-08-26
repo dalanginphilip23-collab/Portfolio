@@ -30,22 +30,14 @@ export const RESUME_DATA = {
     languageSpoken: "Tagalog and English"
   },
   summary: "A motivated and detail-oriented 4th-Year Bachelor of Science in Information Technology (BSIT) student with developing expertise in Frontend Development and IT Technical Support. Proficient in creating responsive, user-focused interfaces using HTML, CSS, JavaScript, React, React Native, and Tailwind CSS, with foundational knowledge of backend development, databases, APIs, and Git/GitHub. Experienced in troubleshooting hardware and software issues, configuring systems, and resolving technical problems. Adaptable, analytical, and eager to apply technical skills in a professional environment while continuously expanding knowledge in modern IT technologies.",
+  // Condensed for 1-page CV - fits without overflow (was 15 lines, now 7)
   skills: [
-    "HTML & CSS",
-    "JavaScript (ES6+)",
-    "React.js & React Native",
-    "Tailwind CSS",
-    "Backend Development — Foundational",
-    "Databases & APIs — Foundational",
-    "Git & GitHub",
-    "MySQL — Basic",
-    "Figma — Basic",
-    "IT Support — Cabling (LAN/UTP), Hardware Assembly & Troubleshooting",
-    "OS / Software Installation & System Maintenance",
-    "Networking Basics",
-    "Canva",
-    "Adobe Premiere — Basic",
-    "CapCut — Basic"
+    "HTML, CSS, JavaScript, Tailwind CSS",
+    "React & React Native",
+    "MySQL, Databases & APIs (Foundational)",
+    "Git & GitHub, Figma",
+    "IT Support — Cabling, Hardware, OS/Networking & Troubleshooting",
+    "Canva, Adobe Premiere, CapCut — Basic Video Editing"
   ],
   languages: [
     "English | Native",
