@@ -84,6 +84,7 @@ export const PROJECTS: Project[] = [
     description: 'Vitalis — health & fitness PWA (green heartbeat logo). Your screenshots: Dashboard, Clinic, WorkOuts, Jogging, MealTracker, Plans, Vitalis Messenger, Desktop & Mobile looks. Offline-capable, installable design.',
     image: '/Dashboard.png',
     gallery: [
+      '/Desktop-Looks.png',
       '/Dashboard.png',
       '/WorkOuts.png',
       '/Jogging.png',
@@ -114,7 +115,6 @@ export const PROJECTS: Project[] = [
     image: '/POS.png',
     gallery: [
       '/POS.png',
-      '/Dashboard.png'
     ],
     tags: ['React', 'TypeScript', 'Tailwind CSS', 'MySQL'],
     link: 'https://pos-xi-six.vercel.app/',
