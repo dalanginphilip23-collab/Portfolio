@@ -108,6 +108,20 @@ export const RESUME_DATA = {
   },
   education: [
     {
+      level: "PRIMARY EDUCATION",
+      degree: "PRIMARY EDUCATION",
+      institution: "Manghinao Elementary School",
+      location: "Manghinao, Bauan, Batangas",
+      period: "2009 — 2015"
+    },
+    {
+      level: "SECONDARY EDUCATION",
+      degree: "SECONDARY EDUCATION",
+      institution: "Bauan Technical High School",
+      location: "Bauan, Batangas",
+      period: "2015 — 2021"
+    },
+    {
       level: "BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY",
       degree: "BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY",
       institution: "STC College of Batangas — Bauan, Batangas",
