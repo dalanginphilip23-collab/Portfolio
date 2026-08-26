@@ -16,6 +16,13 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
       document.body.style.overflow = 'hidden';
       handleResize();
       window.addEventListener('resize', handleResize);
+      const onEsc = (e: KeyboardEvent) => { if (e.key === 'Escape') handleClose(); };
+      window.addEventListener('keydown', onEsc);
+      return () => {
+        document.body.style.overflow = 'unset';
+        window.removeEventListener('resize', handleResize);
+        window.removeEventListener('keydown', onEsc);
+      };
     } else {
       document.body.style.overflow = 'unset';
     }
@@ -54,6 +61,8 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
     if (!element) return;
 
     setIsGenerating(true);
+    // Yield to paint spinner before blocking html2canvas
+    await new Promise(r => setTimeout(r, 60));
 
     let cloneContainer: HTMLDivElement | null = null;
     let cloneEl: HTMLElement | null = null;
@@ -71,13 +80,15 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
       cloneContainer.style.background = '#ffffff';
       cloneContainer.appendChild(cloneEl);
       document.body.appendChild(cloneContainer);
+      // Extra yield so close button stays responsive before heavy canvas
+      await new Promise(r => requestAnimationFrame(() => setTimeout(r, 30)));
 
       const opt = {
         margin: 0,
         filename: `Resume_${RESUME_DATA.name.replace(/\s+/g, '_')}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
+        image: { type: 'jpeg', quality: 0.95 },
         html2canvas: { 
-          scale: 2, 
+          scale: 1.5, 
           useCORS: true,
           letterRendering: true,
           scrollY: 0,
@@ -102,7 +113,7 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
       if (!html2pdf) throw new Error('html2pdf not loaded');
       const pdfPromise = (html2pdf as any)().set(opt).from(cloneEl).save();
       const timeoutPromise = new Promise((_, reject) => {
-        timeoutId = setTimeout(() => reject(new Error('PDF timeout 12s')), 12000);
+        timeoutId = setTimeout(() => reject(new Error('PDF timeout 15s')), 15000);
       });
       await Promise.race([pdfPromise, timeoutPromise]);
       if (timeoutId) clearTimeout(timeoutId);
@@ -127,11 +138,11 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
         onClick={handleClose} 
       />
       
-      <div className="fixed top-8 right-8 flex items-center space-x-3 z-[110]">
+      <div className="fixed top-4 right-4 md:top-8 md:right-8 flex items-center gap-2 md:gap-3 z-[110] pointer-events-none">
         <button 
           onClick={handleDownloadPDF}
           disabled={isGenerating}
-          className={`flex items-center space-x-2 px-8 py-4 ${isGenerating ? 'bg-zinc-800 cursor-wait' : 'bg-blue-600 hover:bg-blue-700'} text-white rounded-lg font-bold text-[12px] tracking-wide transition-all shadow-2xl active:scale-95 group`}
+          className={`pointer-events-auto flex items-center gap-2 px-6 md:px-8 py-3 md:py-4 ${isGenerating ? 'bg-zinc-700 cursor-wait opacity-80' : 'bg-blue-600 hover:bg-blue-700'} text-white rounded-lg font-bold text-[11px] md:text-[12px] tracking-wide transition-all shadow-2xl active:scale-95 group`}
         >
           {isGenerating ? (
             <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24">
@@ -148,10 +159,10 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
         
         <button 
           onClick={handleClose}
-          className="w-14 h-14 flex items-center justify-center bg-white/10 hover:bg-red-500 text-white rounded-full backdrop-blur-md transition-all border border-white/20 shadow-2xl group"
+          className="pointer-events-auto w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-white hover:bg-red-500 hover:text-white text-black md:text-white md:bg-white/10 rounded-full backdrop-blur-md transition-all border border-white/20 shadow-2xl group shrink-0"
           aria-label="Close"
         >
-          <svg className="w-6 h-6 transition-transform group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5 md:w-6 md:h-6 transition-transform group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
