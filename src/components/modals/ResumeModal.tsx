@@ -48,8 +48,12 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
 
   if (!isOpen) return null;
 
-  const handleClose = () => {
+  const handleClose = (e?: React.MouseEvent | KeyboardEvent) => {
+    e?.preventDefault?.();
+    e?.stopPropagation?.();
     setIsGenerating(false);
+    // Ensure overflow reset even if download stuck
+    document.body.style.overflow = 'unset';
     onClose();
   };
 
@@ -317,11 +321,12 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
         onClick={handleClose} 
       />
       
-      <div className="fixed top-4 right-4 md:top-8 md:right-8 flex items-center gap-2 md:gap-3 z-[110] pointer-events-none">
+      <div className="fixed top-4 right-4 md:top-8 md:right-8 flex items-center gap-2 md:gap-3 z-[120] isolate">
         <button 
           onClick={handleDownloadPDF}
           disabled={isGenerating}
-          className={`pointer-events-auto flex items-center gap-2 px-6 md:px-8 py-3 md:py-4 ${isGenerating ? 'bg-zinc-700 cursor-wait opacity-80' : 'bg-blue-600 hover:bg-blue-700'} text-white rounded-lg font-bold text-[11px] md:text-[12px] tracking-wide transition-all shadow-2xl active:scale-95 group`}
+          className={`flex items-center gap-2 px-6 md:px-8 py-3 md:py-4 ${isGenerating ? 'bg-zinc-700 cursor-wait opacity-80' : 'bg-blue-600 hover:bg-blue-700 active:scale-95'} text-white rounded-lg font-bold text-[11px] md:text-[12px] tracking-wide transition-all shadow-2xl group`}
+          style={{ pointerEvents: 'auto' }}
         >
           {isGenerating ? (
             <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24">
@@ -338,8 +343,10 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
         
         <button 
           onClick={handleClose}
-          className="pointer-events-auto w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-white hover:bg-red-500 hover:text-white text-black md:text-white md:bg-white/10 rounded-full backdrop-blur-md transition-all border border-white/20 shadow-2xl group shrink-0"
-          aria-label="Close"
+          onMouseDown={(e) => { e.preventDefault(); handleClose(); }}
+          className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-white hover:bg-red-500 hover:text-white text-black md:text-white md:bg-white/20 rounded-full backdrop-blur-md transition-all border border-white/20 shadow-2xl group shrink-0 cursor-pointer"
+          aria-label="Close CV"
+          style={{ pointerEvents: 'auto' }}
         >
           <svg className="w-5 h-5 md:w-6 md:h-6 transition-transform group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
