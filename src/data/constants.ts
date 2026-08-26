@@ -83,18 +83,18 @@ export const PROJECTS: Project[] = [
     id: '1',
     title: 'Vitalis',
     description: 'Vitalis — health & fitness brand (green heartbeat logo you uploaded). Workout logging, progress overview and clean health-focused UI. Offline-capable, installable PWA design.',
-    image: '/vitalis.png',
+    image: '/vitalis-mockup.png',
     gallery: [
+      '/vitalis-mockup.png',
       '/vitalis.png',
-      'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=80&w=1200',
-      'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=1200'
+      'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=80&w=1200'
     ],
     tags: ['React', 'PWA', 'JavaScript', 'Tailwind CSS'],
     link: 'https://fitnessapp-dun.vercel.app',
     githubLink: 'https://github.com/dalanginphilip23-collab/fitnessapp',
     technicalSpecifics: [
       'PWA manifest & service worker for offline caching and installability',
-      'React + Vite with Tailwind CSS responsive UI (VITALIS green heartbeat theme — using your uploaded /vitalis.png)',
+      'React + Vite with Tailwind CSS responsive UI (VITALIS green heartbeat theme — /vitalis.png logo + /vitalis-mockup.png device mockup you uploaded)',
       'Local storage / IndexedDB for workout persistence',
       'Vercel deployment — https://fitnessapp-dun.vercel.app'
     ],
