@@ -21,12 +21,15 @@ export const RESUME_DATA = {
     linkedin: "https://www.linkedin.com/in/john-philip-voi-dalangin-b02113392/",
     github: "https://github.com/dalanginphilip23-collab"
   },
-  summary: "BSIT 4th Year at STC College of Batangas — OJT-ready. Frontend Developer + IT Support with basic hands-on knowledge in cabling (LAN/UTP), hardware assembly, OS/software installation, troubleshooting and system maintenance. Basic tech stack: HTML, CSS, JavaScript, React, Tailwind CSS, MySQL and Figma. Also does basic video editing with Canva, Adobe Premiere and CapCut. Focused on clean, responsive web apps and eager to apply skills in a real-world OJT environment.",
+  summary: "A motivated and detail-oriented 4th-Year Bachelor of Science in Information Technology (BSIT) student with developing expertise in Frontend Development and IT Technical Support. Proficient in creating responsive, user-focused interfaces using HTML, CSS, JavaScript, React, React Native, and Tailwind CSS, with foundational knowledge of backend development, databases, APIs, and Git/GitHub. Experienced in troubleshooting hardware and software issues, configuring systems, and resolving technical problems. Adaptable, analytical, and eager to apply technical skills in a professional environment while continuously expanding knowledge in modern IT technologies.",
   skills: [
     "HTML & CSS",
     "JavaScript (ES6+)",
-    "React.js",
+    "React.js & React Native",
     "Tailwind CSS",
+    "Backend Development — Foundational",
+    "Databases & APIs — Foundational",
+    "Git & GitHub",
     "MySQL — Basic",
     "Figma — Basic",
     "IT Support — Cabling (LAN/UTP), Hardware Assembly & Troubleshooting",
@@ -75,7 +78,7 @@ export const RESUME_DATA = {
   ]
 };
 
-export const TECH_STACK = ['HTML', 'CSS', 'JavaScript', 'React', 'Tailwind CSS', 'MySQL', 'Figma', 'Canva', 'Adobe Premiere', 'CapCut'];
+export const TECH_STACK = ['HTML', 'CSS', 'JavaScript', 'React', 'React Native', 'Tailwind CSS', 'MySQL', 'Figma', 'Canva', 'Adobe Premiere', 'CapCut', 'Git/GitHub', 'APIs', 'Databases'];
 
 export const PROJECTS: Project[] = [
   {
