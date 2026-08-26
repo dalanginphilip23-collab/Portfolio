@@ -7,24 +7,25 @@ interface AboutProps {
 }
 
 const About: React.FC<AboutProps> = ({ isDarkMode }) => {
+  // Derived from RESUME_DATA to keep single source of truth — matches constants.ts:14
   const experiences = [
     { 
-      year: '2025 — PRESENT', 
-      title: 'Frontend Developer', 
-      company: 'Self-Employed', 
-      desc: 'Building responsive websites for local businesses using React and Tailwind CSS. Focusing on modern design patterns and accessible code while expanding my knowledge of the web ecosystem.' 
+      year: '2022 — PRESENT', 
+      title: 'BSIT 4th Year — Frontend & IT Support', 
+      company: 'STC College of Batangas', 
+      desc: 'OJT-ready. Building responsive sites with HTML/CSS/JS, React + Tailwind + basic MySQL. IT Support basics: LAN/UTP cabling, hardware assembly, OS/software install, troubleshooting and maintenance. Figma for prototypes; Canva / Premiere / CapCut for basic video edits.' 
     },
     { 
-      year: '2024 — 2025', 
-      title: 'Learning Journey & Personal Projects', 
-      company: 'Independent Study', 
-      desc: 'Completed intensive online courses and built various personal projects. Gained proficiency in HTML, CSS, JavaScript, and started exploring React and Next.js.' 
+      year: '2024 — PRESENT', 
+      title: 'Personal Projects', 
+      company: 'Vitalis PWA + QuickServe POS', 
+      desc: 'Shipped Vitalis (fitnessapp-dun.vercel.app) and QuickServe POS (pos-xi-six.vercel.app) on Vercel. More undeployed repos on GitHub: github.com/dalanginphilip23-collab — Field-Demo, my-portfolio, POS-System variants.' 
     },
     { 
-      year: '2025 — 2026', 
-      title: 'Web Basics', 
+      year: '2022 — 2024', 
+      title: 'Web Basics & IT Foundations', 
       company: 'Self-Taught', 
-      desc: 'Discovered my passion for web development. Began with the fundamentals of web architecture, semantic HTML, and the basics of UI/UX design.' 
+      desc: 'Started with semantic HTML, CSS, JS fundamentals and web architecture; added IT Support foundations — cabling, hardware/software, networking basics and system maintenance.' 
     }
   ];
 

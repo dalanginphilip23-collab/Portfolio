@@ -5,9 +5,11 @@ interface HeroProps {
   onOpenResume: () => void;
 }
 
-const seriousImage = 'https://scontent.fmnl30-3.fna.fbcdn.net/v/t1.15752-9/620870650_2339459906562009_2873488728105491365_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeGx5P8bwmPk28XHfySXVfEWzzorlC5pR7DPOiuULmlHsEuGHGtpAMnRL6ZXoN2Tb8fBLzctxe9F3cUWhC6HA8CN&_nc_ohc=YfFd21n82PgQ7kNvwEcKAnq&_nc_oc=AdnAV3HcMFa2jtcB_8vGVEvd-UjME7waS2jvQH3MI_uDQmHnrdp-lpTR6qdW3708cUY&_nc_zt=23&_nc_ht=scontent.fmnl30-3.fna&oh=03_Q7cD4gEM3dYjhF8p-A0afmm0uMObu72V8jtUSeuQ3QvTl_sK3A&oe=69B674AE';
-const wakeImage = 'https://scontent.fmnl30-3.fna.fbcdn.net/v/t1.15752-9/620870650_2339459906562009_2873488728105491365_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeGx5P8bwmPk28XHfySXVfEWzzorlC5pR7DPOiuULmlHsEuGHGtpAMnRL6ZXoN2Tb8fBLzctxe9F3cUWhC6HA8CN&_nc_ohc=YfFd21n82PgQ7kNvwEcKAnq&_nc_oc=AdnAV3HcMFa2jtcB_8vGVEvd-UjME7waS2jvQH3MI_uDQmHnrdp-lpTR6qdW3708cUY&_nc_zt=23&_nc_ht=scontent.fmnl30-3.fna&oh=03_Q7cD4gEM3dYjhF8p-A0afmm0uMObu72V8jtUSeuQ3QvTl_sK3A&oe=69B674AE';
-const sleepImage = 'https://scontent.fmnl30-3.fna.fbcdn.net/v/t1.15752-9/620870650_2339459906562009_2873488728105491365_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeGx5P8bwmPk28XHfySXVfEWzzorlC5pR7DPOiuULmlHsEuGHGtpAMnRL6ZXoN2Tb8fBLzctxe9F3cUWhC6HA8CN&_nc_ohc=YfFd21n82PgQ7kNvwEcKAnq&_nc_oc=AdnAV3HcMFa2jtcB_8vGVEvd-UjME7waS2jvQH3MI_uDQmHnrdp-lpTR6qdW3708cUY&_nc_zt=23&_nc_ht=scontent.fmnl30-3.fna&oh=03_Q7cD4gEM3dYjhF8p-A0afmm0uMObu72V8jtUSeuQ3QvTl_sK3A&oe=69B674AE';
+// Stable avatar fallback — avoids FB CDN expiry that caused black box in light mode (image 3). Replace with local /public/profile.jpg if you have one.
+const FALLBACK_AVATAR = 'https://avatars.githubusercontent.com/u/235477794?v=4';
+const seriousImage = FALLBACK_AVATAR;
+const wakeImage = FALLBACK_AVATAR;
+const sleepImage = FALLBACK_AVATAR;
 
 const StaggeredText: React.FC<{ text: string; isDarkMode: boolean }> = ({ text, isDarkMode }) => {
   const words = text.split(' ');
@@ -187,20 +189,24 @@ const Hero: React.FC<HeroProps> = ({ isDarkMode, onOpenResume }) => {
             >
               <img 
                 src={seriousImage} 
-                alt="Serious" 
+                alt="John Philip Dalangin" 
+                onError={(e) => { (e.currentTarget as HTMLImageElement).src = FALLBACK_AVATAR; }}
                 className="absolute inset-0 w-full h-full object-cover transform-gpu grayscale-[0.2]" 
               />
               
               <img 
                 src={wakeImage} 
-                alt="Wake" 
+                alt="John Philip Dalangin awake" 
+                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
                 className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[1200ms] cubic-bezier(0.4, 0, 0.2, 1) transform-gpu ${!isDarkMode && isAwake ? 'opacity-100' : 'opacity-0'}`} 
               />
               
               <div className={`absolute inset-0 transition-opacity duration-[1200ms] cubic-bezier(0.4, 0, 0.2, 1) transform-gpu ${isDarkMode ? 'opacity-100' : 'opacity-0'}`}>
                 <img 
                   src={sleepImage} 
-                  alt="Sleep" 
+                  alt="" 
+                  aria-hidden="true"
+                  onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
                   className="w-full h-full object-cover animate-slow-pulse transform-gpu" 
                 />
                 <div className="absolute inset-0 bg-blue-900/20 mix-blend-multiply" />

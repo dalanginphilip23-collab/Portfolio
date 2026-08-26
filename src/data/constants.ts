@@ -13,27 +13,30 @@ export const RESUME_PDF_BASE64 = "data:application/pdf;base64,JVBERi0xLjUKJb/i4u
 
 export const RESUME_DATA = {
   name: "JOHN PHILIP DALANGIN",
-  title: "FRONTEND DEVELOPER",
-  profileImage: "https://scontent.fmnl30-3.fna.fbcdn.net/v/t1.15752-9/620870650_2339459906562009_2873488728105491365_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeGx5P8bwmPk28XHfySXVfEWzzorlC5pR7DPOiuULmlHsEuGHGtpAMnRL6ZXoN2Tb8fBLzctxe9F3cUWhC6HA8CN&_nc_ohc=YfFd21n82PgQ7kNvwEcKAnq&_nc_oc=AdnAV3HcMFa2jtcB_8vGVEvd-UjME7waS2jvQH3MI_uDQmHnrdp-lpTR6qdW3708cUY&_nc_zt=23&_nc_ht=scontent.fmnl30-3.fna&oh=03_Q7cD4gEM3dYjhF8p-A0afmm0uMObu72V8jtUSeuQ3QvTl_sK3A&oe=69B674AE",
+  title: "FRONTEND DEVELOPER | IT SUPPORT | BSIT-4",
+  // Use a stable local asset — replace with /src/assets/profile.jpg or hosted URL. This fallback is a neutral placeholder to avoid FB CDN expiry.
+  profileImage: "https://avatars.githubusercontent.com/u/235477794?v=4",
   contact: {
     address: "Bauan Batangas, Philippines",
-    phone: "+63 900 000 0000",
+    phone: "+63 929 756 6947",
     email: "dalangin.philip23@gmail.com",
-    linkedin: "https://www.linkedin.com/in/john-philip-voi-dalangin-b02113392/"
+    linkedin: "https://www.linkedin.com/in/john-philip-voi-dalangin-b02113392/",
+    github: "https://github.com/dalanginphilip23-collab"
   },
-  summary: "Frontend developer detail-oriented and proactive, with a passion for building high-performance web applications. Extensive experience in modern JavaScript frameworks and responsive design. Has a proven track record of success in creating intuitive user interfaces and maintaining clean, scalable codebases.",
+  summary: "BSIT 4th Year at STC College of Batangas — OJT-ready. Frontend Developer + IT Support with basic hands-on knowledge in cabling (LAN/UTP), hardware assembly, OS/software installation, troubleshooting and system maintenance. Basic tech stack: HTML, CSS, JavaScript, React, Tailwind CSS, MySQL and Figma. Also does basic video editing with Canva, Adobe Premiere and CapCut. Focused on clean, responsive web apps and eager to apply skills in a real-world OJT environment.",
   skills: [
     "HTML & CSS",
     "JavaScript (ES6+)",
     "React.js",
     "Tailwind CSS",
-    "Node.js & Express",
-    "MySQL",
-    "Figma",
-    "CapCut",
-    "Adobe Premiere",
-    "Git & GitHub",
-    "Responsive Design"
+    "MySQL — Basic",
+    "Figma — Basic",
+    "IT Support — Cabling (LAN/UTP), Hardware Assembly & Troubleshooting",
+    "OS / Software Installation & System Maintenance",
+    "Networking Basics",
+    "Canva",
+    "Adobe Premiere — Basic",
+    "CapCut — Basic"
   ],
   languages: [
     "English | Native",
@@ -42,45 +45,45 @@ export const RESUME_DATA = {
   ],
   experience: [
     {
-      role: "FRONTEND DEVELOPER",
-      company: "NEW DEVELOPER",
-      location: "REMOTE",
-      period: "Feb 2023 - Present",
+      role: "FRONTEND DEVELOPER (OJT-READY)",
+      company: "BSIT-4 — STC COLLEGE OF BATANGAS",
+      location: "BAUAN, BATANGAS",
+      period: "2022 - Present",
       points: [
-        "Developing and maintaining front-end code for diverse client projects using React.",
-        "Collaborating with designers to translate Figma prototypes into pixel-perfect web pages.",
-        "Optimizing applications for maximum speed and scalability."
+        "Built responsive web apps with HTML, CSS, JavaScript, React and Tailwind CSS; basic MySQL integration.",
+        "Hands-on IT Support: LAN cabling, PC assembly, OS/software install, hardware/software troubleshooting.",
+        "Designed UI prototypes in Figma and produced basic video edits with Canva / Premiere / CapCut."
       ]
     },
     {
-      role: "WEB DEVELOPER TRAINEE",
-      company: "TECH LEARNING PATH",
-      location: "MANILA, PH",
-      period: "Jan 2022 - Feb 2023",
+      role: "PERSONAL PROJECTS & SELF-STUDY",
+      company: "INDEPENDENT",
+      location: "REMOTE",
+      period: "2024 - Present",
       points: [
-        "Mastered the fundamentals of web development through intensive self-study and projects.",
-        "Built 10+ responsive websites focusing on UI/UX best practices.",
-        "Integrated third-party APIs and managed state using modern React hooks."
+        "Developed Vitalis (fitness PWA) and Restaurant POS/Ordering System — deployed on Vercel; additional repos on GitHub (not yet deployed).",
+        "Practiced UI/UX best practices and state management with modern React hooks.",
+        "Explored video editing workflows and Figma-to-code translation."
       ]
     }
   ],
   education: [
     {
-      degree: "BACHELOR OF SCIENCE IN IT",
+      degree: "BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY",
       institution: "STC COLLEGE OF BATANGAS",
       location: "BAUAN BATANGAS, PH",
-      period: "STUDENT"
+      period: "2022 — 2026 (4TH YEAR, EXPECTED 2026)"
     }
   ]
 };
 
-export const TECH_STACK = ['HTML', 'CSS', 'JavaScript', 'React', 'Tailwind CSS', 'Node.js', 'Express', 'MySQL', 'Figma', 'CapCut', 'Adobe Premiere'];
+export const TECH_STACK = ['HTML', 'CSS', 'JavaScript', 'React', 'Tailwind CSS', 'MySQL', 'Figma', 'Canva', 'Adobe Premiere', 'CapCut'];
 
 export const PROJECTS: Project[] = [
   {
     id: '1',
-    title: 'FitTrack PWA',
-    description: 'Progressive Web App for fitness tracking — workout logging, progress charts, offline support, and installable mobile experience.',
+    title: 'Vitalis — Fitness PWA',
+    description: 'Vitalis fitness tracker — workout logging, progress overview and clean health-focused UI. Inspired by the VITALIS heartbeat brand (image 1). Offline-capable and installable design.',
     image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=80&w=1200',
     gallery: [
       'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=1200',
@@ -88,38 +91,59 @@ export const PROJECTS: Project[] = [
       'https://images.unsplash.com/photo-1593079831268-3381b0db4a77?auto=format&fit=crop&q=80&w=1200'
     ],
     tags: ['React', 'PWA', 'JavaScript', 'Tailwind CSS'],
-    link: 'https://fitness-app-pied-tau.vercel.app/',
-    githubLink: 'https://fitness-app-pied-tau.vercel.app/',
+    link: 'https://fitnessapp-dun.vercel.app',
+    githubLink: 'https://github.com/dalanginphilip23-collab/fitnessapp',
     technicalSpecifics: [
       'PWA manifest & service worker for offline caching and installability',
-      'React + Vite with Tailwind CSS responsive UI',
+      'React + Vite with Tailwind CSS responsive UI (VITALIS green heartbeat theme)',
       'Local storage / IndexedDB for workout persistence',
-      'Lighthouse PWA audit 90+ (installable, offline-ready)'
+      'Vercel deployment — https://fitnessapp-dun.vercel.app'
     ],
     challenges: 'Making the app fully usable offline and installable while keeping bundle size small and data persistent across sessions.',
-    solutions: 'Implemented Workbox service worker, cache-first strategy for assets, and IndexedDB sync for workouts; added install prompt and optimized Vite chunk splitting for fast cold start.'
+    solutions: 'Implemented Workbox service worker, cache-first strategy for assets, and IndexedDB/local sync for workouts; optimized Vite chunk splitting and PWA audit for fast cold start.'
   },
   {
     id: '2',
-    title: 'POS System',
-    description: 'Web-based Point-of-Sale system — inventory, sales, receipts, and role-based dashboard for small businesses.',
-    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=1200',
+    title: 'QuickServe — Restaurant POS & Ordering',
+    description: 'Restaurant ordering / POS system seen in screenshot (image 2): DASH / MENU / HISTORY / PORTAL navigation, category filters (All, Main Course, Beverages, Desserts, Appetizers), food cards (₱185-₱550) with +ADD and right-side CART. Built for dine-in / takeaway flow.',
+    image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&q=80&w=1200',
     gallery: [
       'https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&q=80&w=1200',
       'https://images.unsplash.com/photo-1586953208448-b95a79798f07?auto=format&fit=crop&q=80&w=1200',
       'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200'
     ],
-    tags: ['React', 'Node.js', 'Express', 'MySQL', 'Tailwind CSS'],
+    tags: ['React', 'TypeScript', 'Tailwind CSS', 'MySQL'],
     link: 'https://pos-xi-six.vercel.app/',
-    githubLink: 'https://pos-xi-six.vercel.app/',
+    githubLink: 'https://github.com/dalanginphilip23-collab/POS-System',
     technicalSpecifics: [
-      'React frontend with Tailwind CSS admin dashboard',
-      'Node.js + Express REST API with MySQL persistence',
-      'Authentication & role-based access for cashier/admin',
-      'Real-time inventory and sales reporting'
+      'React + TypeScript frontend with Tailwind CSS (matches menu UI from screenshot)',
+      'Category filtering + cart state (Cart / Empty Tray states as in image 2)',
+      'MySQL-ready data model for menu, orders and inventory',
+      'Vercel deployment — https://pos-xi-six.vercel.app'
     ],
-    challenges: 'Ensuring accurate inventory sync and fast sales transactions under concurrent usage without data inconsistency.',
-    solutions: 'Built transactional MySQL queries with Express, optimistic UI updates in React, and receipt generation with html2pdf; added debounced search and pagination for large catalogs.'
+    challenges: 'Ensuring accurate menu/category filtering, cart consistency and fast add-to-cart interactions across many items without lag.',
+    solutions: 'Used React state + debounced filtering, optimistic cart updates, and Tailwind responsive grid matching the 4-col menu layout; structured MySQL schema for menu/orders for future POS backend.'
+  },
+  {
+    id: '3',
+    title: 'More on GitHub — Undeployed Repos',
+    description: 'Additional repositories not yet deployed: Field-Demo, my-portfolio (PHP), Philip, and others. Explore the full profile for work-in-progress experiments and IT support labs.',
+    image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=1200',
+    gallery: [
+      'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&q=80&w=1200',
+      'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1200'
+    ],
+    tags: ['GitHub', 'PHP', 'TypeScript', 'MySQL'],
+    link: 'https://github.com/dalanginphilip23-collab',
+    githubLink: 'https://github.com/dalanginphilip23-collab',
+    technicalSpecifics: [
+      'Field-Demo — TypeScript experiment',
+      'my-portfolio — PHP portfolio variant',
+      'POS / POS-System — alternate JS/TS implementations',
+      'All public at https://github.com/dalanginphilip23-collab'
+    ],
+    challenges: 'Keeping many small repos deployable while focusing on 2 main Vercel deployments (Vitalis + POS).',
+    solutions: 'Centralized portfolio to showcase 2 flagship deploys and link out to GitHub for the rest; uses this portfolio as deployment target.'
   }
 ];
 
@@ -179,8 +203,8 @@ ${PROJECTS.map(p => `
 6. **Fallback**: If unsure, say: "I don't have that information in John's portfolio — but I can tell you about his skills/projects."`;
 
 export const QUICK_PROMPTS = [
-  "Tell me about FitTrack PWA — how was it built?",
-  "How does the POS System handle inventory?",
+  "Tell me about Vitalis — how was it built?",
+  "How does QuickServe handle the menu and cart?",
   "What is John's tech stack?",
-  "Breakdown the POS technical specifics."
+  "Show my GitHub repos that are not deployed."
 ];

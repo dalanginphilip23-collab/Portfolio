@@ -1,8 +1,5 @@
 {
-  "name": "John Philip Dalangin | Frontend Developer",
-  "description": "Portfolio of an aspiring Frontend Developer focused on building clean, interactive web experiences and mastering modern web technologies.",
-  "requestFramePermissions": [
-    "camera",
-    "microphone"
-  ]
+  "name": "John Philip Dalangin | Frontend Developer · IT Support · BSIT-4",
+  "description": "BSIT 4th Year — Frontend (HTML/CSS/JS, React, Tailwind, MySQL, Figma) + IT Support (cabling, hardware/software, troubleshooting) + basic Canva/Premiere/CapCut. Vitalis PWA + QuickServe POS.",
+  "requestFramePermissions": []
 }
