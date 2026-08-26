@@ -50,36 +50,58 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
 
     setIsGenerating(true);
 
-    const opt = {
-      margin: 0,
-      filename: `Resume_${RESUME_DATA.name.replace(/\s+/g, '_')}.pdf`,
-      image: { type: 'jpeg', quality: 1.0 },
-      html2canvas: { 
-        scale: 3, 
-        useCORS: true,
-        letterRendering: true,
-        scrollY: 0,
-        scrollX: 0,
-        windowWidth: 816, 
-        width: 816,
-        backgroundColor: '#ffffff',
-        logging: false
-      },
-      jsPDF: { 
-        unit: 'in', 
-        format: 'letter',
-        orientation: 'portrait',
-        compress: true,
-        precision: 16
-      }
-    };
-
+    // Clone off-screen to avoid scale() transform blurring and scroll offsets
+    let cloneContainer: HTMLDivElement | null = null;
+    let cloneEl: HTMLElement | null = null;
     try {
-      const html2pdf = (await import('html2pdf.js')).default;
-      await (html2pdf as any)().set(opt).from(element).save();
+      cloneEl = element.cloneNode(true) as HTMLElement;
+      cloneEl.id = 'resume-content-clone';
+      cloneEl.style.transform = 'none';
+      cloneEl.style.margin = '0';
+      cloneContainer = document.createElement('div');
+      cloneContainer.style.position = 'fixed';
+      cloneContainer.style.left = '-10000px';
+      cloneContainer.style.top = '0';
+      cloneContainer.style.width = '816px';
+      cloneContainer.style.background = '#ffffff';
+      cloneContainer.appendChild(cloneEl);
+      document.body.appendChild(cloneContainer);
+
+      const opt = {
+        margin: 0,
+        filename: `Resume_${RESUME_DATA.name.replace(/\s+/g, '_')}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { 
+          scale: 2, 
+          useCORS: true,
+          letterRendering: true,
+          scrollY: 0,
+          scrollX: 0,
+          windowWidth: 816, 
+          width: 816,
+          backgroundColor: '#ffffff',
+          logging: false
+        },
+        jsPDF: { 
+          unit: 'in', 
+          format: 'letter',
+          orientation: 'portrait',
+          compress: true,
+          precision: 16
+        },
+        pagebreak: { mode: ['css', 'legacy'] }
+      };
+
+      const mod: any = await import('html2pdf.js');
+      const html2pdf = mod.default || mod;
+      if (!html2pdf) throw new Error('html2pdf not loaded');
+      await (html2pdf as any)().set(opt).from(cloneEl).save();
     } catch (error) {
       console.error("PDF Generation failed:", error);
+      // Fallback: try printing
+      window.print();
     } finally {
+      if (cloneContainer && cloneContainer.parentNode) cloneContainer.parentNode.removeChild(cloneContainer);
       setIsGenerating(false);
     }
   };
