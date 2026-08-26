@@ -25,11 +25,11 @@ const TechStack: React.FC<TechStackProps> = ({ isDarkMode }) => {
         </div>
       </ScrollReveal>
 
-      {/* Sliding loops animation only - like Image 2 (single row infinite marquee) */}
+      {/* Sliding loops animation only - like Image 2 (single row infinite marquee) - FIXED to move live */}
       <ScrollReveal delay={100}>
-        <div className="group relative overflow-hidden py-3 -mx-1">
-          <div className="flex gap-3 w-max animate-marquee">
-            {[...TECH_STACK, ...TECH_STACK].map((tech, idx) => (
+        <div className="group relative overflow-hidden py-3 -mx-1 select-none">
+          <div className="flex gap-3 w-max animate-marquee will-change-transform" style={{ animation: 'marquee 16s linear infinite' }}>
+            {[...TECH_STACK, ...TECH_STACK, ...TECH_STACK].map((tech, idx) => (
               <span
                 key={`${tech}-${idx}`}
                 className={`px-5 py-3 border text-[11px] font-black uppercase tracking-widest shrink-0 whitespace-nowrap rounded-xl transition-colors ${
