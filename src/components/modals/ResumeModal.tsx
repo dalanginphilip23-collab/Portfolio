@@ -60,250 +60,98 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
   const handleDownloadPDF = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    
-    const element = document.getElementById('resume-content');
-    if (!element) return;
-
     setIsGenerating(true);
-    await new Promise(r => setTimeout(r, 60));
-
-    let cloneContainer: HTMLDivElement | null = null;
-    let cloneEl: HTMLElement | null = null;
-    let timeoutId: ReturnType<typeof setTimeout> | null = null;
-    let didFallback = false;
+    await new Promise(r => setTimeout(r, 80));
     const filename = `Resume_${RESUME_DATA.name.replace(/\s+/g, '_')}.pdf`;
-
-    const fallbackTextPDF = async () => {
-      if (didFallback) return;
-      didFallback = true;
-      try {
-        const { jsPDF } = await import('jspdf');
-        const doc = new jsPDF({ unit: 'pt', format: 'letter', orientation: 'portrait' });
-        const margin = 40;
-        const pageW = 612;
-        const pageH = 792;
-        const bottomMargin = 48;
-        let y = 52;
-        const w = pageW - margin * 2;
-        const checkPage = (needed: number) => {
-          if (y + needed > pageH - bottomMargin) {
-            doc.addPage();
-            y = 48;
-          }
-        };
-        const addTitle = (text: string) => {
-          checkPage(30);
-          doc.setFont('helvetica', 'bold');
-          doc.setFontSize(12);
-          doc.setTextColor(0);
-          doc.text(text.toUpperCase(), margin, y);
-          doc.setDrawColor(0);
-          doc.setLineWidth(0.9);
-          doc.line(margin, y + 5, margin + w, y + 5);
-          y += 20;
-        };
-        const addPara = (text: string) => {
-          doc.setFont('helvetica', 'normal');
-          doc.setFontSize(11);
-          doc.setTextColor(30);
-          const lines = doc.splitTextToSize(text, w);
-          checkPage(lines.length * 13 + 14);
-          doc.text(lines, margin, y);
-          y += lines.length * 13 + 12;
-        };
-        const addBullets = (items: string[], isTwoCol = false) => {
-          if (isTwoCol && items.length > 6) {
-            const colW = (w - 12) / 2;
-            const half = Math.ceil(items.length / 2);
-            const left = items.slice(0, half);
-            const right = items.slice(half);
-            const maxRows = Math.max(left.length, right.length);
-            checkPage(maxRows * 15 + 10);
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(10);
-            for (let i = 0; i < maxRows; i++) {
-              if (left[i]) {
-                doc.setFillColor(0, 0, 0);
-                doc.circle(margin + 3, y - 2, 1.6, 'F');
-                const lines = doc.splitTextToSize(left[i], colW - 14);
-                doc.text(lines, margin + 10, y);
-              }
-              if (right[i]) {
-                const rx = margin + colW + 8;
-                doc.setFillColor(0, 0, 0);
-                doc.circle(rx + 3, y - 2, 1.6, 'F');
-                const lines = doc.splitTextToSize(right[i], colW - 14);
-                doc.text(lines, rx + 10, y);
-              }
-              y += 15;
-            }
-            y += 8;
-          } else {
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(11);
-            doc.setTextColor(30);
-            checkPage(items.length * 15 + 10);
-            items.forEach(item => {
-              const lines = doc.splitTextToSize(item, w - 16);
-              checkPage(lines.length * 12 + 6);
-              doc.setFillColor(0, 0, 0);
-              doc.circle(margin + 4, y - 2, 1.7, 'F');
-              doc.text(lines, margin + 12, y);
-              y += lines.length * 12 + 6;
-            });
-            y += 6;
-          }
-        };
-        // Header - Arial 12 as per request, more spacing
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(20);
-        doc.setTextColor(0);
-        doc.text(RESUME_DATA.name, margin, y);
-        y += 16;
-        doc.setDrawColor(0);
-        doc.setLineWidth(1);
-        doc.line(margin, y, margin + w, y);
-        y += 12;
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(9);
-        doc.setTextColor(60);
-        doc.text(`${RESUME_DATA.contact.phone}  |  ${RESUME_DATA.contact.email}  |  ${RESUME_DATA.contact.address}`, margin, y);
-        doc.setTextColor(0);
-        y += 14;
-        doc.line(margin, y, margin + w, y);
-        y += 18;
-
-        addTitle('Professional Summary');
-        addPara(RESUME_DATA.summary);
-
-        addTitle('Technical Skills');
-        const tech: string[] = (RESUME_DATA as any).technicalSkills || RESUME_DATA.skills;
-        addBullets(tech, true);
-
-        addTitle('Education');
-        (RESUME_DATA.education as any[]).forEach((edu: any) => {
-          checkPage(32);
-          doc.setFont('helvetica', 'bold');
-          doc.setFontSize(11);
-          doc.setTextColor(0);
-          doc.text((edu.degree || edu.level || '').toUpperCase(), margin, y);
-          y += 13;
-          doc.setFont('helvetica', 'normal');
-          doc.setFontSize(9.5);
-          doc.setTextColor(70);
-          doc.text(`${edu.institution} — ${edu.location}`, margin, y);
-          y += 12;
-          doc.setTextColor(110);
-          doc.text(edu.period, margin, y);
-          doc.setTextColor(0);
-          y += 16;
-        });
-
-        addTitle('Academic Project');
-        const proj: any = (RESUME_DATA as any).selectedAcademicProject;
-        if (proj) {
-          checkPage(40);
-          doc.setFont('helvetica', 'bold');
-          doc.setFontSize(11);
-          doc.setTextColor(0);
-          doc.text(proj.title.toUpperCase(), margin, y);
-          y += 13;
-          doc.setFont('helvetica', 'bold');
-          doc.setFontSize(9);
-          doc.setTextColor(90);
-          doc.text(proj.subtitle, margin, y);
-          doc.setTextColor(0);
-          y += 14;
-          addBullets(proj.points);
-        }
-
-        addTitle('Relevant Strengths');
-        addBullets(((RESUME_DATA as any).relevantStrengths as string[]) || [], true);
-
-        // Certification
-        checkPage(40);
-        y += 6;
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(6.8);
-        doc.setTextColor(90);
-        doc.text('I hereby certify that the information stated in this resume is true, complete, and correct to the best of my knowledge and belief.', margin, y, { maxWidth: w });
-        y += 22;
-        doc.setDrawColor(0);
-        doc.setLineWidth(0.7);
-        doc.line(margin, y, margin + 170, y);
-        y += 12;
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(8);
-        doc.setTextColor(0);
-        doc.text(RESUME_DATA.name, margin, y);
-        y += 9;
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(6.5);
-        doc.setTextColor(110);
-        doc.text('Applicant', margin, y);
-
-        doc.save(filename);
-      } catch (err) {
-        console.error('Fallback PDF failed', err);
-      }
-    };
-
     try {
-      cloneEl = element.cloneNode(true) as HTMLElement;
-      cloneEl.id = 'resume-content-clone';
-      cloneEl.style.transform = 'none';
-      cloneEl.style.margin = '0';
-      cloneContainer = document.createElement('div');
-      cloneContainer.style.position = 'fixed';
-      cloneContainer.style.left = '-10000px';
-      cloneContainer.style.top = '0';
-      cloneContainer.style.width = '816px';
-      cloneContainer.style.background = '#ffffff';
-      cloneContainer.appendChild(cloneEl);
-      document.body.appendChild(cloneContainer);
-      await new Promise(r => requestAnimationFrame(() => setTimeout(r, 30)));
-
-      const opt = {
-        margin: 0,
-        filename,
-        image: { type: 'jpeg', quality: 0.92 },
-        html2canvas: { 
-          scale: 1, 
-          useCORS: true,
-          letterRendering: true,
-          scrollY: 0,
-          scrollX: 0,
-          windowWidth: 816, 
-          width: 816,
-          backgroundColor: '#ffffff',
-          logging: false
-        },
-        jsPDF: { 
-          unit: 'in', 
-          format: 'letter',
-          orientation: 'portrait',
-          compress: true,
-          precision: 16
-        },
-        pagebreak: { mode: ['css', 'legacy'] }
+      const { jsPDF } = await import('jspdf');
+      const doc = new jsPDF({ unit: 'pt', format: 'letter', orientation: 'portrait' });
+      const margin = 40;
+      const pageW = 612;
+      const pageH = 792;
+      const bottomMargin = 48;
+      let y = 52;
+      const w = pageW - margin * 2;
+      const checkPage = (needed) => {
+        if (y + needed > pageH - bottomMargin) { doc.addPage(); y = 48; }
       };
-
-      const mod: any = await import('html2pdf.js');
-      const html2pdf = mod.default || mod;
-      if (!html2pdf) throw new Error('html2pdf not loaded');
-      const pdfPromise = (html2pdf as any)().set(opt).from(cloneEl).save();
-      const timeoutPromise = new Promise((_, reject) => {
-        timeoutId = setTimeout(() => reject(new Error('PDF timeout 10s')), 10000);
+      const addTitle = (text) => {
+        checkPage(28);
+        doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(0);
+        doc.text(text.toUpperCase(), margin, y);
+        doc.setDrawColor(0); doc.setLineWidth(0.9); doc.line(margin, y + 5, margin + w, y + 5);
+        y += 20;
+      };
+      const addPara = (text) => {
+        doc.setFont('helvetica', 'normal'); doc.setFontSize(11); doc.setTextColor(30);
+        const lines = doc.splitTextToSize(text, w);
+        checkPage(lines.length * 13 + 14);
+        doc.text(lines, margin, y);
+        y += lines.length * 13 + 12;
+      };
+      const addBullets = (items, isTwoCol = false) => {
+        if (isTwoCol && items.length > 6) {
+          const colW = (w - 12) / 2;
+          const half = Math.ceil(items.length / 2);
+          const left = items.slice(0, half);
+          const right = items.slice(half);
+          const maxRows = Math.max(left.length, right.length);
+          checkPage(maxRows * 15 + 10);
+          doc.setFont('helvetica', 'normal'); doc.setFontSize(10);
+          for (let i = 0; i < maxRows; i++) {
+            if (left[i]) { doc.setFillColor(0,0,0); doc.circle(margin+3, y-2, 1.6, 'F'); doc.text(doc.splitTextToSize(left[i], colW-14), margin+10, y); }
+            if (right[i]) { const rx = margin+colW+8; doc.setFillColor(0,0,0); doc.circle(rx+3, y-2, 1.6, 'F'); doc.text(doc.splitTextToSize(right[i], colW-14), rx+10, y); }
+            y += 15;
+          }
+          y += 8;
+        } else {
+          doc.setFont('helvetica', 'normal'); doc.setFontSize(11); doc.setTextColor(30);
+          checkPage(items.length * 15 + 10);
+          items.forEach(item => {
+            const lines = doc.splitTextToSize(item, w - 16);
+            checkPage(lines.length * 12 + 6);
+            doc.setFillColor(0,0,0); doc.circle(margin+4, y-2, 1.7, 'F');
+            doc.text(lines, margin+12, y);
+            y += lines.length * 12 + 6;
+          });
+          y += 6;
+        }
+      };
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(20); doc.setTextColor(0);
+      doc.text(RESUME_DATA.name, margin, y); y+=16;
+      doc.setDrawColor(0); doc.setLineWidth(1); doc.line(margin, y, margin+w, y); y+=12;
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(60);
+      doc.text(`${RESUME_DATA.contact.phone}  |  ${RESUME_DATA.contact.email}  |  ${RESUME_DATA.contact.address}`, margin, y); doc.setTextColor(0); y+=14;
+      doc.line(margin, y, margin+w, y); y+=18;
+      addTitle('Professional Summary'); addPara(RESUME_DATA.summary);
+      addTitle('Technical Skills'); addBullets(RESUME_DATA.technicalSkills || RESUME_DATA.skills, true);
+      addTitle('Education');
+      RESUME_DATA.education.forEach((edu) => {
+        checkPage(32);
+        doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.text((edu.degree||edu.level||'').toUpperCase(), margin, y); y+=13;
+        doc.setFont('helvetica', 'normal'); doc.setFontSize(9.5); doc.setTextColor(70); doc.text(`${edu.institution} — ${edu.location}`, margin, y); y+=12;
+        doc.setTextColor(110); doc.text(edu.period, margin, y); doc.setTextColor(0); y+=16;
       });
-      await Promise.race([pdfPromise, timeoutPromise]);
-      if (timeoutId) clearTimeout(timeoutId);
-    } catch (error) {
-      console.error("PDF Generation failed, trying fallback:", error);
-      if (timeoutId) clearTimeout(timeoutId);
-      // Fallback ensures download always happens even if html2canvas hangs/blocked
-      await fallbackTextPDF();
+      addTitle('Academic Project');
+      const proj = RESUME_DATA.selectedAcademicProject;
+      if (proj) {
+        checkPage(40);
+        doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.text(proj.title.toUpperCase(), margin, y); y+=13;
+        doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(90); doc.text(proj.subtitle, margin, y); doc.setTextColor(0); y+=14;
+        addBullets(proj.points);
+      }
+      addTitle('Relevant Strengths');
+      addBullets(RESUME_DATA.relevantStrengths||[], true);
+      checkPage(40); y+=6;
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(6.8); doc.setTextColor(90);
+      doc.text('I hereby certify that the information stated in this resume is true, complete, and correct to the best of my knowledge and belief.', margin, y, { maxWidth: w }); y+=22;
+      doc.setDrawColor(0); doc.setLineWidth(0.7); doc.line(margin, y, margin+170, y); y+=12;
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(8); doc.setTextColor(0); doc.text(RESUME_DATA.name, margin, y); y+=9;
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(6.5); doc.setTextColor(110); doc.text('Applicant', margin, y);
+      doc.save(filename);
+    } catch (err) {
+      console.error('PDF failed', err);
     } finally {
-      if (cloneContainer && cloneContainer.parentNode) cloneContainer.parentNode.removeChild(cloneContainer);
       setIsGenerating(false);
     }
   };
