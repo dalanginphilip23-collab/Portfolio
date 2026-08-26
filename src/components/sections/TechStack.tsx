@@ -28,7 +28,7 @@ const TechStack: React.FC<TechStackProps> = ({ isDarkMode }) => {
       {/* Sliding loops animation only - like Image 2 (single row infinite marquee) - FIXED to move live */}
       <ScrollReveal delay={100}>
         <div className="group relative overflow-hidden py-3 -mx-1 select-none">
-          <div className="flex gap-3 w-max animate-marquee will-change-transform" style={{ animation: 'marquee 16s linear infinite' }}>
+          <div className="flex gap-3 w-max animate-marquee will-change-transform" style={{ animation: 'marquee 32s linear infinite' }}>
             {[...TECH_STACK, ...TECH_STACK, ...TECH_STACK].map((tech, idx) => (
               <span
                 key={`${tech}-${idx}`}
