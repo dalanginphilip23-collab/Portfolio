@@ -1,5 +1,4 @@
 import React from 'react';
-import { TECH_STACK } from '../../data/constants';
 import ScrollReveal from '../ui/ScrollReveal';
 
 interface TechStackProps {
@@ -25,9 +24,9 @@ const TechStack: React.FC<TechStackProps> = ({ isDarkMode }) => {
         </div>
       </ScrollReveal>
 
-      {/* Grouped skills — scannable for recruiters, marquee kept as ambient strip */}
+      {/* Grouped skills — single source, no duplicate marquee */}
       <ScrollReveal variant="scale" delay={80}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {[
             { label: 'Frontend', items: ['HTML', 'CSS', 'JavaScript', 'React', 'Tailwind CSS'] },
             { label: 'Data', items: ['MySQL', 'APIs', 'Databases'] },
@@ -45,26 +44,6 @@ const TechStack: React.FC<TechStackProps> = ({ isDarkMode }) => {
               </ul>
             </div>
           ))}
-        </div>
-      </ScrollReveal>
-
-      {/* Sliding loops animation only - like Image 2 (single row infinite marquee) - FIXED to move live */}
-      <ScrollReveal variant="fade" delay={150}>
-        <div className="group relative overflow-hidden py-3 -mx-1 select-none">
-          <div className="flex gap-3 w-max animate-marquee will-change-transform" style={{ animation: 'marquee 32s linear infinite' }}>
-            {[...TECH_STACK, ...TECH_STACK, ...TECH_STACK].map((tech, idx) => (
-              <span
-                key={`${tech}-${idx}`}
-                className={`px-5 py-3 border text-[11px] font-black uppercase tracking-widest shrink-0 whitespace-nowrap rounded-xl transition-colors ${
-                  isDarkMode ? 'border-white/10 bg-zinc-900/50 text-white hover:border-white/20' : 'border-black/10 bg-white text-black hover:border-black/20'
-                }`}
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-          <div className={`pointer-events-none absolute inset-y-0 left-0 w-12 bg-gradient-to-r ${isDarkMode ? 'from-black' : 'from-white'} to-transparent`} />
-          <div className={`pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l ${isDarkMode ? 'from-black' : 'from-white'} to-transparent`} />
         </div>
       </ScrollReveal>
     </section>
