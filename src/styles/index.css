@@ -1,26 +1,37 @@
 @import "tailwindcss";
 
-/* Base layer - migrated from index.html inline styles */
+/* Minimal system — quiet type, hairlines, lots of air */
 @layer base {
   body {
-    font-family: 'Inter', sans-serif;
-    background-color: #000000;
-    color: #ffffff;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #FAFAF9;
+    color: #18181B;
     overflow-x: hidden;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.011em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .dark body {
+    background-color: #09090B;
+    color: #F4F4F5;
   }
   ::-webkit-scrollbar {
-    width: 4px;
+    width: 6px;
   }
   ::-webkit-scrollbar-track {
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: #333;
+    background: #D4D4D8;
+    border-radius: 999px;
   }
   ::selection {
-    background: #3b82f6;
-    color: #ffffff;
+    background: #18181B;
+    color: #FAFAF9;
+  }
+  .dark ::selection {
+    background: #F4F4F5;
+    color: #09090B;
   }
 }
 
@@ -32,75 +43,30 @@
   scrollbar-width: none;
 }
 
-/* Home.tsx animations — GPU-optimized (no filter blur) */
+/* Subtle reveal only — minimal motion */
 @keyframes fade-in-up {
   from {
     opacity: 0;
-    transform: translate3d(0,40px,0) scale(0.92);
+    transform: translate3d(0, 16px, 0);
   }
   to {
     opacity: 1;
-    transform: translate3d(0,0,0) scale(1);
+    transform: translate3d(0, 0, 0);
   }
 }
 .animate-fade-in-up {
-  animation: fade-in-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fade-in-up 0.7s cubic-bezier(0.21, 1, 0.36, 1) forwards;
   will-change: transform, opacity;
-}
-@keyframes slow-pulse {
-  0% { opacity: 0.6; }
-  50% { opacity: 0.8; }
-  100% { opacity: 0.6; }
-}
-.animate-slow-pulse {
-  animation: slow-pulse 4s ease-in-out infinite;
-  will-change: opacity;
 }
 @keyframes fade-in {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 .animate-fade-in {
-  animation: fade-in 0.6s ease-out forwards;
-  will-change: opacity;
+  animation: fade-in 0.5s ease-out forwards;
 }
 
-/* Hero.tsx animations — all GPU layers */
-@keyframes cursor-blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-.animate-cursor-blink {
-  animation: cursor-blink 1s step-end infinite;
-  will-change: opacity;
-}
-@keyframes sonar-1 { 0% { transform: scale(0.5); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
-@keyframes sonar-2 { 0% { transform: scale(0.3); opacity: 1; } 100% { transform: scale(1.8); opacity: 0; } }
-@keyframes sonar-3 { 0% { transform: scale(0.7); opacity: 0.8; } 100% { transform: scale(2); opacity: 0; } }
-.animate-sonar-1 { animation: sonar-1 4s linear infinite; will-change: transform, opacity; }
-.animate-sonar-2 { animation: sonar-2 4s linear infinite 1.33s; will-change: transform, opacity; }
-.animate-sonar-3 { animation: sonar-3 4s linear infinite 2.66s; will-change: transform, opacity; }
-@keyframes grid-scan { 0% { transform: translateY(-10%); } 100% { transform: translateY(110%); } }
-.animate-grid-scan { animation: grid-scan 3s cubic-bezier(0.4, 0, 0.2, 1) infinite; will-change: transform; }
-@keyframes orb-float-1 { 0%, 100% { transform: translate3d(0,0,0); } 50% { transform: translate3d(30px,-20px,0); } }
-@keyframes orb-float-2 { 0%, 100% { transform: translate3d(0,0,0); } 50% { transform: translate3d(-40px,30px,0); } }
-.animate-orb-float-1 { animation: orb-float-1 8s ease-in-out infinite; will-change: transform; }
-.animate-orb-float-2 { animation: orb-float-2 10s ease-in-out infinite; will-change: transform; }
-@keyframes twinkle { 0%, 100% { opacity: 0.2; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } }
-.animate-twinkle-1 { animation: twinkle 3s infinite; will-change: transform, opacity; }
-.animate-twinkle-2 { animation: twinkle 4s infinite 1s; will-change: transform, opacity; }
-.animate-twinkle-3 { animation: twinkle 2.5s infinite 0.5s; will-change: transform, opacity; }
-@keyframes glitch-overlay {
-  0% { transform: translate3d(0,0,0); }
-  20% { transform: translate3d(-2px, 2px,0); }
-  40% { transform: translate3d(-2px, -2px,0); }
-  60% { transform: translate3d(2px, 2px,0); }
-  80% { transform: translate3d(2px, -2px,0); }
-  100% { transform: translate3d(0,0,0); }
-}
-.animate-glitch-overlay { animation: glitch-overlay 0.3s steps(2, end) infinite; will-change: transform; }
-
-/* Contact.tsx animations */
+/* Form feedback — kept, quiet */
 @keyframes draw-check {
   from { stroke-dasharray: 0 100; }
   to { stroke-dasharray: 100 100; }
@@ -108,54 +74,39 @@
 .animate-draw-check {
   stroke-dasharray: 100;
   stroke-dashoffset: 0;
-  animation: draw-check 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: draw-check 1s cubic-bezier(0.21, 1, 0.36, 1) forwards;
 }
 @keyframes shake {
-  0%, 100% { transform: translate3d(0,0,0); }
-  25% { transform: translate3d(-4px,0,0); }
-  75% { transform: translate3d(4px,0,0); }
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  25% { transform: translate3d(-3px, 0, 0); }
+  75% { transform: translate3d(3px, 0, 0); }
 }
 .animate-shake {
-  animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-  will-change: transform;
+  animation: shake 0.3s ease both;
 }
 
-/* Technical Toolbox infinite marquee — GPU - horizontal live looping */
-@keyframes marquee {
-  0% { transform: translate3d(0,0,0); }
-  100% { transform: translate3d(-50%,0,0); }
-}
+/* Legacy classes kept as no-ops so old markup doesn't break during migration */
+.animate-slow-pulse,
+.animate-cursor-blink,
+.animate-sonar-1,
+.animate-sonar-2,
+.animate-sonar-3,
+.animate-grid-scan,
+.animate-orb-float-1,
+.animate-orb-float-2,
+.animate-twinkle-1,
+.animate-twinkle-2,
+.animate-twinkle-3,
+.animate-glitch-overlay,
 .animate-marquee {
-  animation: marquee 32s linear infinite;
-  will-change: transform;
-  display: flex;
-  flex-wrap: nowrap;
-  width: max-content;
+  animation: none !important;
 }
-.group:hover .animate-marquee {
-  animation-play-state: paused;
-}
-@media (max-width: 768px) {
-  .animate-marquee { animation-duration: 24s; }
-}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-in-up,
-  .animate-slow-pulse,
   .animate-fade-in,
-  .animate-cursor-blink,
-  .animate-sonar-1,
-  .animate-sonar-2,
-  .animate-sonar-3,
-  .animate-grid-scan,
-  .animate-orb-float-1,
-  .animate-orb-float-2,
-  .animate-twinkle-1,
-  .animate-twinkle-2,
-  .animate-twinkle-3,
-  .animate-glitch-overlay,
   .animate-draw-check,
-  .animate-shake,
-  .animate-marquee {
+  .animate-shake {
     animation: none !important;
     transition: none !important;
   }

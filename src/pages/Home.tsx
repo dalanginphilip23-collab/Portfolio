@@ -23,11 +23,11 @@ const Home: React.FC<HomeProps> = ({ isDarkMode, toggleTheme }) => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   return (
-    <div className={`transition-colors duration-700 min-h-screen relative ${isDarkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
-      
+    <div className={`min-h-screen transition-colors ${isDarkMode ? 'bg-[#09090B] text-zinc-100' : 'bg-[#FAFAF9] text-zinc-900'}`}>
+
       <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
-      
-      <main className="relative z-10 max-w-7xl mx-auto px-6 md:px-8">
+
+      <main className="max-w-3xl mx-auto px-6">
         <Hero isDarkMode={isDarkMode} onOpenResume={() => setIsResumeOpen(true)} />
         <TechStack isDarkMode={isDarkMode} />
         <About isDarkMode={isDarkMode} />

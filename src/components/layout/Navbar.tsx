@@ -24,110 +24,83 @@ const Navbar: React.FC<NavbarProps> = ({ isDarkMode, toggleTheme }) => {
 
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
-    const targetId = href.replace('#', '');
-    const elem = document.getElementById(targetId);
+    const elem = document.getElementById(href.replace('#', ''));
     if (elem) {
-      const offset = 100;
-      const elementPosition = elem.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      });
+      const offsetPosition = elem.getBoundingClientRect().top + window.pageYOffset - 80;
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
     }
     setIsMenuOpen(false);
   };
 
   return (
     <>
-      <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4 md:px-6 pointer-events-none">
-        <nav className={`pointer-events-auto h-14 px-5 md:px-8 flex items-center justify-between md:justify-start rounded-full space-x-0 md:space-x-8 w-full md:w-auto max-w-lg md:max-w-fit border transition-all duration-500 ${
-          isDarkMode 
-            ? 'bg-black/20 backdrop-blur-md border-white/10 text-white' 
-            : 'bg-white/50 backdrop-blur-md border-black/10 text-black shadow-sm'
-        }`}>
-          <a 
-            href="#home" 
+      <header className={`fixed top-0 left-0 right-0 z-50 border-b ${isDarkMode ? 'bg-[#09090B]/80 border-white/10 backdrop-blur-md' : 'bg-[#FAFAF9]/80 border-zinc-200 backdrop-blur-md'}`}>
+        <nav className="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between">
+          <a
+            href="#home"
             onClick={(e) => scrollToSection(e, '#home')}
-            className="text-xs font-black tracking-[0.3em] hover:opacity-70 transition-opacity z-50"
+            className={`text-sm font-semibold tracking-tight ${isDarkMode ? 'text-zinc-100' : 'text-zinc-900'}`}
           >
-            JOHN
+            John Philip
+            <span className={`ml-2 text-xs font-normal ${isDarkMode ? 'text-zinc-500' : 'text-zinc-500'}`}>— Portfolio</span>
           </a>
 
-          <div className={`h-4 w-[1px] hidden md:block ${isDarkMode ? 'bg-white/10' : 'bg-black/10'}`}></div>
-          
-          <div className="hidden md:flex space-x-8">
+          <div className="hidden md:flex items-center gap-7">
             {NAV_ITEMS.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
                 onClick={(e) => scrollToSection(e, item.href)}
-                className="text-[10px] opacity-50 hover:opacity-100 transition-opacity font-black uppercase tracking-widest"
+                className={`text-sm transition-colors ${isDarkMode ? 'text-zinc-400 hover:text-zinc-100' : 'text-zinc-600 hover:text-zinc-900'}`}
               >
                 {item.label}
               </a>
             ))}
+            <button
+              onClick={toggleTheme}
+              aria-label="Toggle theme"
+              className={`text-sm px-3 py-1.5 rounded-full border transition-colors ${isDarkMode ? 'border-white/15 text-zinc-300 hover:border-white/30' : 'border-zinc-300 text-zinc-600 hover:border-zinc-400'}`}
+            >
+              {isDarkMode ? 'Light' : 'Dark'}
+            </button>
           </div>
 
-          <div className="flex-1 md:hidden"></div>
-
-          <div className="flex items-center space-x-3 md:space-x-4">
-            <button 
+          <div className="flex md:hidden items-center gap-2">
+            <button
               onClick={toggleTheme}
-              className={`p-2 rounded-full border transition-all duration-300 ${
-                isDarkMode ? 'border-white/20 hover:bg-white hover:text-black' : 'border-black/20 hover:bg-black hover:text-white'
-              }`}
-              aria-label="Toggle Theme"
+              aria-label="Toggle theme"
+              className={`text-sm px-3 py-1.5 rounded-full border ${isDarkMode ? 'border-white/15 text-zinc-300' : 'border-zinc-300 text-zinc-600'}`}
             >
-              {isDarkMode ? (
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.364l-.707.707M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-              ) : (
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                </svg>
-              )}
+              {isDarkMode ? 'Light' : 'Dark'}
             </button>
-
-            <button 
+            <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-expanded={isMenuOpen}
               aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-              className={`md:hidden p-2 rounded-full border transition-all duration-300 z-50 ${
-                isDarkMode ? 'border-white/20 hover:bg-white hover:text-black' : 'border-black/20 hover:bg-black hover:text-white'
-              } ${isMenuOpen ? (isDarkMode ? 'bg-white text-black' : 'bg-black text-white') : ''}`}
+              className={`px-3 py-1.5 text-sm rounded-full border ${isDarkMode ? 'border-white/15 text-zinc-200' : 'border-zinc-300 text-zinc-700'}`}
             >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                {isMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
-                )}
-              </svg>
+              {isMenuOpen ? 'Close' : 'Menu'}
             </button>
           </div>
         </nav>
-      </div>
 
-      <div className={`fixed inset-0 z-40 backdrop-blur-3xl transition-all duration-500 md:hidden flex flex-col justify-center items-center space-y-10 ${
-        isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-      } ${isDarkMode ? 'bg-black/90' : 'bg-white/90'}`}>
-         {NAV_ITEMS.map((item, idx) => (
-            <a
-              key={item.label}
-              href={item.href}
-              onClick={(e) => scrollToSection(e, item.href)}
-              className={`text-3xl font-black uppercase tracking-[0.2em] transition-all duration-500 transform hover:scale-110 active:scale-95 ${
-                isMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-              } ${isDarkMode ? 'text-white' : 'text-black'}`}
-              style={{ transitionDelay: `${100 + idx * 100}ms` }}
-            >
-              {item.label}
-            </a>
-          ))}
-      </div>
+        {isMenuOpen && (
+          <div className={`md:hidden border-t ${isDarkMode ? 'border-white/10 bg-[#09090B]' : 'border-zinc-200 bg-white'}`}>
+            <div className="max-w-3xl mx-auto px-6 py-4 flex flex-col">
+              {NAV_ITEMS.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  onClick={(e) => scrollToSection(e, item.href)}
+                  className={`py-3 text-[15px] border-b last:border-0 ${isDarkMode ? 'text-zinc-200 border-white/5' : 'text-zinc-800 border-zinc-100'}`}
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+      </header>
     </>
   );
 };

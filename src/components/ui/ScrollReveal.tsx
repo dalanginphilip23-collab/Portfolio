@@ -44,12 +44,12 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
   return (
     <div
       ref={ref}
-      className={`${width === 'full' ? 'w-full' : 'inline-block'} transform-gpu will-change-transform transition-all duration-1000 cubic-bezier(0.16, 1, 0.3, 1) ${className} ${
-        isVisible 
-          ? 'opacity-100 translate-y-0' 
-          : 'opacity-0 translate-y-8'
+      className={`${width === 'full' ? 'w-full' : 'inline-block'} transition-opacity transition-transform duration-700 ease-out ${className} ${
+        isVisible
+          ? 'opacity-100 translate-y-0'
+          : 'opacity-0 translate-y-4'
       }`}
-      style={{ transitionDelay: `${delay}ms`, backfaceVisibility: 'hidden' as const }}
+      style={{ transitionDelay: `${delay}ms` }}
     >
       {children}
     </div>

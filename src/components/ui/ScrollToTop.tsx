@@ -25,11 +25,11 @@ const ScrollToTop: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = true }) 
       onClick={scrollToTop}
       aria-label="Back to top"
       tabIndex={isVisible ? 0 : -1}
-      className={`fixed bottom-8 left-8 z-40 w-12 h-12 flex items-center justify-center rounded-full border backdrop-blur-md transition-all duration-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
-      } ${isDarkMode ? 'bg-zinc-900/90 text-white border-white/10 hover:bg-white hover:text-black' : 'bg-white/90 text-black border-black/10 hover:bg-black hover:text-white'}`}
+      className={`fixed bottom-6 left-6 z-40 w-10 h-10 flex items-center justify-center rounded-full border text-sm transition-opacity ${
+        isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
+      } ${isDarkMode ? 'bg-[#09090B]/90 border-white/15 text-zinc-300' : 'bg-white/90 border-zinc-300 text-zinc-600'}`}
     >
-      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
       </svg>
     </button>
