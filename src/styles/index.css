@@ -1,37 +1,26 @@
 @import "tailwindcss";
 
-/* Minimal system — quiet type, hairlines, lots of air (animations kept) */
+/* Base layer - migrated from index.html inline styles */
 @layer base {
   body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background-color: #FAFAF9;
-    color: #18181B;
+    font-family: 'Inter', sans-serif;
+    background-color: #000000;
+    color: #ffffff;
     overflow-x: hidden;
-    letter-spacing: -0.011em;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-  }
-  .dark body {
-    background-color: #09090B;
-    color: #F4F4F5;
+    letter-spacing: -0.01em;
   }
   ::-webkit-scrollbar {
-    width: 6px;
+    width: 4px;
   }
   ::-webkit-scrollbar-track {
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: #D4D4D8;
-    border-radius: 999px;
+    background: #333;
   }
   ::selection {
-    background: #18181B;
-    color: #FAFAF9;
-  }
-  .dark ::selection {
-    background: #F4F4F5;
-    color: #09090B;
+    background: #3b82f6;
+    color: #ffffff;
   }
 }
 
@@ -43,38 +32,40 @@
   scrollbar-width: none;
 }
 
-/* Reveal */
+/* Home.tsx animations — GPU-optimized (no filter blur) */
 @keyframes fade-in-up {
   from {
     opacity: 0;
-    transform: translate3d(0, 16px, 0);
+    transform: translate3d(0,40px,0) scale(0.92);
   }
   to {
     opacity: 1;
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(0,0,0) scale(1);
   }
 }
 .animate-fade-in-up {
-  animation: fade-in-up 0.7s cubic-bezier(0.21, 1, 0.36, 1) forwards;
+  animation: fade-in-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   will-change: transform, opacity;
+}
+@keyframes slow-pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 0.8; }
+  100% { opacity: 0.6; }
+}
+.animate-slow-pulse {
+  animation: slow-pulse 4s ease-in-out infinite;
+  will-change: opacity;
 }
 @keyframes fade-in {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 .animate-fade-in {
-  animation: fade-in 0.5s ease-out forwards;
-}
-
-/* Restored ambient animations — all kept, minimal-friendly speeds */
-@keyframes slow-pulse {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
-}
-.animate-slow-pulse {
-  animation: slow-pulse 4s ease-in-out infinite;
+  animation: fade-in 0.6s ease-out forwards;
   will-change: opacity;
 }
+
+/* Hero.tsx animations — all GPU layers */
 @keyframes cursor-blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
@@ -83,9 +74,9 @@
   animation: cursor-blink 1s step-end infinite;
   will-change: opacity;
 }
-@keyframes sonar-1 { 0% { transform: scale(0.5); opacity: 0.8; } 100% { transform: scale(1.5); opacity: 0; } }
-@keyframes sonar-2 { 0% { transform: scale(0.3); opacity: 0.8; } 100% { transform: scale(1.8); opacity: 0; } }
-@keyframes sonar-3 { 0% { transform: scale(0.7); opacity: 0.6; } 100% { transform: scale(2); opacity: 0; } }
+@keyframes sonar-1 { 0% { transform: scale(0.5); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
+@keyframes sonar-2 { 0% { transform: scale(0.3); opacity: 1; } 100% { transform: scale(1.8); opacity: 0; } }
+@keyframes sonar-3 { 0% { transform: scale(0.7); opacity: 0.8; } 100% { transform: scale(2); opacity: 0; } }
 .animate-sonar-1 { animation: sonar-1 4s linear infinite; will-change: transform, opacity; }
 .animate-sonar-2 { animation: sonar-2 4s linear infinite 1.33s; will-change: transform, opacity; }
 .animate-sonar-3 { animation: sonar-3 4s linear infinite 2.66s; will-change: transform, opacity; }
@@ -109,7 +100,7 @@
 }
 .animate-glitch-overlay { animation: glitch-overlay 0.3s steps(2, end) infinite; will-change: transform; }
 
-/* Form feedback */
+/* Contact.tsx animations */
 @keyframes draw-check {
   from { stroke-dasharray: 0 100; }
   to { stroke-dasharray: 100 100; }
@@ -117,21 +108,22 @@
 .animate-draw-check {
   stroke-dasharray: 100;
   stroke-dashoffset: 0;
-  animation: draw-check 1s cubic-bezier(0.21, 1, 0.36, 1) forwards;
+  animation: draw-check 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 @keyframes shake {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  25% { transform: translate3d(-3px, 0, 0); }
-  75% { transform: translate3d(3px, 0, 0); }
+  0%, 100% { transform: translate3d(0,0,0); }
+  25% { transform: translate3d(-4px,0,0); }
+  75% { transform: translate3d(4px,0,0); }
 }
 .animate-shake {
-  animation: shake 0.3s ease both;
+  animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  will-change: transform;
 }
 
-/* Marquee — restored */
+/* Technical Toolbox infinite marquee — GPU - horizontal live looping */
 @keyframes marquee {
-  0% { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(-50%, 0, 0); }
+  0% { transform: translate3d(0,0,0); }
+  100% { transform: translate3d(-50%,0,0); }
 }
 .animate-marquee {
   animation: marquee 32s linear infinite;
@@ -146,7 +138,6 @@
 @media (max-width: 768px) {
   .animate-marquee { animation-duration: 24s; }
 }
-
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-in-up,
   .animate-slow-pulse,

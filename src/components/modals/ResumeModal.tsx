@@ -168,29 +168,43 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
   const relevantStrengths: string[] = (RESUME_DATA as any).relevantStrengths || [];
 
   return (
-    <div role="dialog" aria-modal="true" aria-label="Resume preview" className="fixed inset-0 z-[100] flex items-center justify-center p-4 animate-fade-in">
-      <div
-        className="absolute inset-0 bg-black/50"
-        onClick={handleClose}
+    <div role="dialog" aria-modal="true" aria-label="Resume preview" className="fixed inset-0 z-[100] flex items-center justify-center p-0 animate-fade-in overflow-hidden">
+      <div 
+        className="absolute inset-0 bg-black/98 backdrop-blur-3xl cursor-zoom-out" 
+        onClick={handleClose} 
       />
-
-      <div className="fixed top-4 right-4 flex items-center gap-2 z-[9999]">
-        <button
+      
+      <div className="fixed top-4 right-4 md:top-8 md:right-8 flex items-center gap-2 md:gap-3 z-[9999]">
+        <button 
           type="button"
           onClick={handleDownloadPDF}
           disabled={isGenerating}
-          className="px-4 py-2 text-sm rounded-full bg-zinc-900 text-white disabled:opacity-60"
+          className={`flex items-center gap-2 px-6 md:px-8 py-3 md:py-4 ${isGenerating ? 'bg-zinc-700 cursor-wait opacity-80' : 'bg-blue-600 hover:bg-blue-700 active:scale-95'} text-white rounded-lg font-bold text-[11px] md:text-[12px] tracking-wide transition-all shadow-2xl group cursor-pointer`}
         >
-          <span>{isGenerating ? 'Preparing…' : 'Download PDF'}</span>
+          {isGenerating ? (
+            <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+          ) : (
+            <svg className="w-5 h-5 group-hover:-translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+          )}
+          <span>{isGenerating ? 'GENERATING...' : 'DOWNLOAD'}</span>
         </button>
-
-        <button
+        
+        <button 
           type="button"
           onClick={(e) => handleClose(e)}
-          className="px-4 py-2 text-sm rounded-full border border-zinc-300 bg-white text-zinc-700"
+          onMouseDown={(e) => { e.preventDefault(); handleClose(e); }}
+          onTouchStart={(e) => { e.preventDefault(); handleClose(e as any); }}
+          className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-white text-black hover:bg-red-500 hover:text-white rounded-full backdrop-blur-md transition-all border-2 border-white shadow-2xl group shrink-0 cursor-pointer"
           aria-label="Close CV"
         >
-          Close
+          <svg className="w-5 h-5 md:w-6 md:h-6 transition-transform group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+          </svg>
         </button>
       </div>
 

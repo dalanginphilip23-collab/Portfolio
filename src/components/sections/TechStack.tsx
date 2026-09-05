@@ -6,53 +6,65 @@ interface TechStackProps {
   isDarkMode: boolean;
 }
 
-const GROUPS = [
-  { label: 'Frontend', items: ['HTML', 'CSS', 'JavaScript', 'React', 'Tailwind CSS'] },
-  { label: 'Data', items: ['MySQL', 'REST APIs', 'Databases'] },
-  { label: 'Design & Media', items: ['Figma', 'Canva', 'Premiere', 'CapCut'] },
-  { label: 'Support & Workflow', items: ['Git & GitHub', 'Windows', 'Hardware', 'Networking'] },
-];
-
 const TechStack: React.FC<TechStackProps> = ({ isDarkMode }) => {
+
   return (
-    <section id="techstack" className={`py-12 scroll-mt-20 border-t ${isDarkMode ? 'border-white/10' : 'border-zinc-200'}`}>
-      <ScrollReveal variant="fade">
-        <h2 className={`text-sm font-medium ${isDarkMode ? 'text-zinc-400' : 'text-zinc-500'}`}>Stack</h2>
-        <p className={`mt-2 text-base leading-relaxed ${isDarkMode ? 'text-zinc-300' : 'text-zinc-600'}`}>
-          Tools I use for Vitalis, POS System, and day-to-day support.
-        </p>
+    <section id="techstack" className="py-20 md:py-28 scroll-mt-24">
+      <ScrollReveal>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
+          <div className="space-y-4">
+            <span className={`text-[10px] font-black uppercase tracking-[0.5em] ${isDarkMode ? 'text-zinc-500' : 'text-zinc-400'}`}>01 / Stack & Tools</span>
+            <h2 className={`text-4xl md:text-6xl font-black tracking-tighter uppercase leading-[0.85] ${isDarkMode ? 'text-white' : 'text-black'}`}>
+              STACK &<br />TOOLS.
+            </h2>
+            <div className={`h-[2px] w-20 ${isDarkMode ? 'bg-blue-600' : 'bg-black'}`}></div>
+          </div>
+          <p className={`text-sm md:text-[15px] font-light leading-relaxed max-w-md ${isDarkMode ? 'text-zinc-400' : 'text-zinc-600'}`}>
+            What I use for Vitalis, POS System, and day-to-day IT support — grouped by craft.
+          </p>
+        </div>
       </ScrollReveal>
 
-      <div className="mt-8">
-        {GROUPS.map((group, i) => (
-          <ScrollReveal key={group.label} variant="left" delay={i * 80} threshold={0.2}>
-            <div
-              className={`py-5 grid grid-cols-1 sm:grid-cols-[140px_1fr] gap-2 sm:gap-6 border-t last:border-b transition-colors hover:pl-1 duration-300 ${isDarkMode ? 'border-white/10' : 'border-zinc-200'}`}
-            >
-              <h3 className="text-sm text-zinc-500">{group.label}</h3>
-              <p className={`text-[15px] leading-relaxed ${isDarkMode ? 'text-zinc-200' : 'text-zinc-800'}`}>
-                {group.items.join('  ·  ')}
-              </p>
+      {/* Grouped skills — scannable for recruiters, marquee kept as ambient strip */}
+      <ScrollReveal delay={50}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
+          {[
+            { label: 'Frontend', items: ['HTML', 'CSS', 'JavaScript', 'React', 'Tailwind CSS'] },
+            { label: 'Data', items: ['MySQL', 'APIs', 'Databases'] },
+            { label: 'Design & Media', items: ['Figma', 'Canva', 'Adobe Premiere', 'CapCut'] },
+            { label: 'IT Support & Workflow', items: ['Git/GitHub', 'React Native', 'Windows OS', 'Cabling & Hardware'] },
+          ].map((group) => (
+            <div key={group.label} className={`p-5 rounded-2xl border ${isDarkMode ? 'border-white/10 bg-white/[0.03]' : 'border-black/10 bg-black/[0.02]'}`}>
+              <h3 className={`text-[10px] font-black uppercase tracking-[0.3em] mb-4 ${isDarkMode ? 'text-zinc-400' : 'text-zinc-500'}`}>{group.label}</h3>
+              <ul className="flex flex-wrap gap-2">
+                {group.items.map((item) => (
+                  <li key={item} className={`px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider rounded-lg border ${isDarkMode ? 'border-white/10 bg-zinc-900/60 text-zinc-100' : 'border-black/10 bg-white text-zinc-800'}`}>
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </div>
-          </ScrollReveal>
-        ))}
-      </div>
+          ))}
+        </div>
+      </ScrollReveal>
 
-      {/* Restored ambient marquee — kept below groups, minimal pills */}
-      <ScrollReveal variant="fade" delay={120}>
-        <div className="group relative overflow-hidden py-4 mt-6 select-none" aria-hidden="true">
-          <div className="flex gap-2 w-max animate-marquee">
-            {[...TECH_STACK, ...TECH_STACK].map((tech, idx) => (
+      {/* Sliding loops animation only - like Image 2 (single row infinite marquee) - FIXED to move live */}
+      <ScrollReveal delay={100}>
+        <div className="group relative overflow-hidden py-3 -mx-1 select-none">
+          <div className="flex gap-3 w-max animate-marquee will-change-transform" style={{ animation: 'marquee 32s linear infinite' }}>
+            {[...TECH_STACK, ...TECH_STACK, ...TECH_STACK].map((tech, idx) => (
               <span
                 key={`${tech}-${idx}`}
-                className={`px-3.5 py-1.5 border text-[13px] rounded-full whitespace-nowrap ${isDarkMode ? 'border-white/10 text-zinc-400 bg-white/[0.02]' : 'border-zinc-200 text-zinc-600 bg-white'}`}
+                className={`px-5 py-3 border text-[11px] font-black uppercase tracking-widest shrink-0 whitespace-nowrap rounded-xl transition-colors ${
+                  isDarkMode ? 'border-white/10 bg-zinc-900/50 text-white hover:border-white/20' : 'border-black/10 bg-white text-black hover:border-black/20'
+                }`}
               >
                 {tech}
               </span>
             ))}
           </div>
-          <div className={`pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r ${isDarkMode ? 'from-[#09090B]' : 'from-[#FAFAF9]'} to-transparent`} />
-          <div className={`pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l ${isDarkMode ? 'from-[#09090B]' : 'from-[#FAFAF9]'} to-transparent`} />
+          <div className={`pointer-events-none absolute inset-y-0 left-0 w-12 bg-gradient-to-r ${isDarkMode ? 'from-black' : 'from-white'} to-transparent`} />
+          <div className={`pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l ${isDarkMode ? 'from-black' : 'from-white'} to-transparent`} />
         </div>
       </ScrollReveal>
     </section>
