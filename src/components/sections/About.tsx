@@ -33,7 +33,7 @@ const About: React.FC<AboutProps> = ({ isDarkMode }) => {
     <section id="about" className="py-24 md:py-32 border-t border-zinc-500/10 scroll-mt-24">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
         <div className="lg:col-span-4">
-          <ScrollReveal>
+          <ScrollReveal variant="fade">
             <div className="lg:sticky lg:top-32 space-y-6">
               <span className={`text-[10px] font-black uppercase tracking-[0.5em] ${isDarkMode ? 'text-zinc-500' : 'text-zinc-400'}`}>02 / About</span>
               <h2 className={`text-4xl md:text-5xl font-black tracking-tighter uppercase leading-none ${isDarkMode ? 'text-white' : 'text-black'}`}>
@@ -53,7 +53,7 @@ const About: React.FC<AboutProps> = ({ isDarkMode }) => {
         <div className="lg:col-span-8 space-y-16">
           <div className="space-y-12">
             {experiences.map((exp, i) => (
-              <ScrollReveal key={exp.title} delay={i * 100}>
+              <ScrollReveal key={exp.title} variant={i % 2 === 0 ? 'left' : 'right'} delay={i * 100}>
                 <div className={`grid grid-cols-1 md:grid-cols-12 gap-4 pb-12 border-b last:border-0 ${isDarkMode ? 'border-white/5' : 'border-black/5'}`}>
                   <div className={`md:col-span-4 text-[11px] font-black uppercase tracking-widest ${isDarkMode ? 'text-zinc-400' : 'text-zinc-500'}`}>
                     {exp.year}
@@ -71,7 +71,7 @@ const About: React.FC<AboutProps> = ({ isDarkMode }) => {
               </ScrollReveal>
             ))}
           </div>
-          <ScrollReveal delay={200}>
+          <ScrollReveal variant="fade" delay={200}>
             <div className="space-y-6">
               <h3 className={`text-[10px] font-black uppercase tracking-[0.5em] ${isDarkMode ? 'text-zinc-400' : 'text-zinc-500'}`}>Relevant strengths</h3>
               <ul className="flex flex-wrap gap-2">

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NAV_ITEMS } from '../../data/constants';
+import { handleAnchorScroll } from '../../lib/scroll';
 
 interface NavbarProps {
   isDarkMode: boolean;
@@ -8,6 +9,14 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ isDarkMode, toggleTheme }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -23,30 +32,17 @@ const Navbar: React.FC<NavbarProps> = ({ isDarkMode, toggleTheme }) => {
   }, [isMenuOpen]);
 
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    const targetId = href.replace('#', '');
-    const elem = document.getElementById(targetId);
-    if (elem) {
-      const offset = 100;
-      const elementPosition = elem.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      });
-    }
-    setIsMenuOpen(false);
+    handleAnchorScroll(e, href, undefined, () => setIsMenuOpen(false));
   };
 
   return (
     <>
       <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4 md:px-6 pointer-events-none">
         <nav className={`pointer-events-auto h-14 px-5 md:px-8 flex items-center justify-between md:justify-start rounded-full space-x-0 md:space-x-8 w-full md:w-auto max-w-lg md:max-w-fit border transition-all duration-500 ${
-          isDarkMode 
-            ? 'bg-black/20 backdrop-blur-md border-white/10 text-white' 
+          isDarkMode
+            ? 'bg-black/20 backdrop-blur-md border-white/10 text-white'
             : 'bg-white/50 backdrop-blur-md border-black/10 text-black shadow-sm'
-        }`}>
+        } ${scrolled ? 'shadow-[0_8px_30px_rgba(0,0,0,0.12)]' : ''}`}>
           <a 
             href="#home" 
             onClick={(e) => scrollToSection(e, '#home')}

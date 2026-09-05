@@ -1,7 +1,8 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useMemo } from 'react';
 import { PROJECTS } from '../../data/constants';
 import { Project } from '../../types';
 import ScrollReveal from '../ui/ScrollReveal';
+import { useGallery } from '../../hooks/useGallery';
 
 const ProjectGallery: React.FC<{ project: Project; isDarkMode: boolean }> = ({ project, isDarkMode }) => {
   const images = useMemo(() => {
@@ -9,49 +10,24 @@ const ProjectGallery: React.FC<{ project: Project; isDarkMode: boolean }> = ({ p
     return Array.from(new Set(allImages));
   }, [project]);
 
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-  const intervalRef = useRef<number | null>(null);
-
-  const startSlideShow = React.useCallback(() => {
-    if (intervalRef.current) clearInterval(intervalRef.current);
-    if (images.length <= 1) return;
-    intervalRef.current = window.setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % images.length);
-    }, 2400);
-  }, [images.length]);
-
-  const stopSlideShow = React.useCallback(() => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
-  }, []);
-
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (isHovered && images.length > 1) {
-      startSlideShow();
-    } else {
-      stopSlideShow();
-    }
-    return () => stopSlideShow();
-  }, [isHovered, images.length, startSlideShow, stopSlideShow]);
+  const { currentIndex, goTo, next, prev, start } = useGallery(images.length, {
+    autoplayMs: 2400,
+    autoplayWhen: isHovered,
+  });
 
   const handleManualNav = (direction: 'prev' | 'next', e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    
-    stopSlideShow();
-    
+
     if (direction === 'next') {
-        setCurrentIndex((prev) => (prev + 1) % images.length);
+        next();
     } else {
-        setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+        prev();
     }
 
     if (isHovered) {
-        startSlideShow();
+        start();
     }
   };
 
@@ -121,7 +97,7 @@ const ProjectGallery: React.FC<{ project: Project; isDarkMode: boolean }> = ({ p
           {images.map((_, idx) => (
             <button
               key={idx}
-              onClick={(e) => { e.preventDefault(); e.stopPropagation(); setCurrentIndex(idx); }}
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); goTo(idx); }}
               aria-label={`Go to ${project.title} image ${idx + 1}`}
               aria-current={idx === currentIndex}
               className={`h-1 rounded-full transition-all duration-300 focus-visible:outline-2 focus-visible:outline-white ${idx === currentIndex ? 'w-6 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]' : 'w-4 bg-white/40 hover:bg-white/70'
@@ -163,7 +139,7 @@ const Projects: React.FC<ProjectsProps> = ({ isDarkMode, onOpenSpecs }) => {
   return (
     <section id="projects" className="py-24 md:py-32 scroll-mt-24">
       <div className="space-y-16">
-        <ScrollReveal>
+        <ScrollReveal variant="fade">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-12">
             <div className="space-y-6">
               <span className={`text-[10px] font-black uppercase tracking-[0.5em] ${isDarkMode ? 'text-zinc-500' : 'text-zinc-400'}`}>03 / Selected Works</span>
@@ -211,7 +187,7 @@ const Projects: React.FC<ProjectsProps> = ({ isDarkMode, onOpenSpecs }) => {
         <div className="grid grid-cols-1 gap-16 md:gap-24 pt-8">
           {filteredProjects.length > 0 ? (
             filteredProjects.map((project, idx) => (
-              <ScrollReveal key={`${project.id}-${activeTag}`} delay={idx * 150} threshold={0.1}>
+              <ScrollReveal key={`${project.id}-${activeTag}`} variant="scale" delay={idx * 150} threshold={0.1}>
                 <div 
                   className={`group relative p-6 md:p-12 rounded-[2.5rem] md:rounded-[3.5rem] transition-all duration-700 border transform-gpu hover:-translate-y-2 ${
                     isDarkMode 

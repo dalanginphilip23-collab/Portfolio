@@ -1,5 +1,6 @@
 import React from 'react';
 import { RESUME_DATA, NAV_ITEMS } from '../../data/constants';
+import { handleAnchorScroll } from '../../lib/scroll';
 
 interface FooterProps {
   isDarkMode: boolean;
@@ -7,12 +8,7 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    const elem = document.getElementById(href.replace('#', ''));
-    if (elem) {
-      const offsetPosition = elem.getBoundingClientRect().top + window.pageYOffset - 100;
-      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-    }
+    handleAnchorScroll(e, href);
   };
 
   const socialLinks = [

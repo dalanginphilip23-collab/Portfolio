@@ -18,6 +18,23 @@ interface FormErrors {
   message?: string;
 }
 
+/** Shared label + control + error shell — the 3 fields were identical copies. */
+const ContactField: React.FC<{
+  isDarkMode: boolean;
+  label: string;
+  htmlFor: string;
+  error?: string;
+  children: React.ReactNode;
+}> = ({ isDarkMode, label, htmlFor, error, children }) => (
+  <div className="space-y-4 group">
+    <label htmlFor={htmlFor} className={`text-[11px] font-black uppercase tracking-[0.3em] transition-colors ${
+      error ? 'text-red-500' : (isDarkMode ? 'text-zinc-500 group-focus-within:text-white' : 'text-zinc-500 group-focus-within:text-black')
+    }`}>{label}</label>
+    {children}
+    {error && <p role="alert" className="text-[10px] font-bold text-red-500 uppercase tracking-widest animate-fade-in-up">{error}</p>}
+  </div>
+);
+
 const Contact: React.FC<ContactProps> = ({ isDarkMode }) => {
   const [formData, setFormData] = useState<FormState>({ name: '', email: '', message: '' });
   const [errors, setErrors] = useState<FormErrors>({});
@@ -164,9 +181,7 @@ const Contact: React.FC<ContactProps> = ({ isDarkMode }) => {
               <form onSubmit={handleSubmit} noValidate className={`space-y-12 transition-all duration-700 ${isSubmitting ? 'opacity-40 pointer-events-none grayscale' : 'opacity-100'}`}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                   <ScrollReveal delay={200}>
-                    <div className="space-y-4 group">
-                      <label htmlFor="contact-name" className={`text-[11px] font-black uppercase tracking-[0.3em] transition-colors ${errors.name ? 'text-red-500' : (isDarkMode ? 'text-zinc-500 group-focus-within:text-white' : 'text-zinc-500 group-focus-within:text-black')
-                        }`}>Name</label>
+                    <ContactField isDarkMode={isDarkMode} htmlFor="contact-name" label="Name" error={errors.name}>
                       <input
                         id="contact-name"
                         type="text"
@@ -181,14 +196,11 @@ const Contact: React.FC<ContactProps> = ({ isDarkMode }) => {
                             : (isDarkMode ? 'border-zinc-800 focus:border-white' : 'border-zinc-200 focus:border-black')
                           }`}
                       />
-                      {errors.name && <p role="alert" className="text-[10px] font-bold text-red-500 uppercase tracking-widest animate-fade-in-up">{errors.name}</p>}
-                    </div>
+                    </ContactField>
                   </ScrollReveal>
 
                   <ScrollReveal delay={300}>
-                    <div className="space-y-4 group">
-                      <label htmlFor="contact-email" className={`text-[11px] font-black uppercase tracking-[0.3em] transition-colors ${errors.email ? 'text-red-500' : (isDarkMode ? 'text-zinc-500 group-focus-within:text-white' : 'text-zinc-500 group-focus-within:text-black')
-                        }`}>Email</label>
+                    <ContactField isDarkMode={isDarkMode} htmlFor="contact-email" label="Email" error={errors.email}>
                       <input
                         id="contact-email"
                         type="email"
@@ -203,15 +215,12 @@ const Contact: React.FC<ContactProps> = ({ isDarkMode }) => {
                             : (isDarkMode ? 'border-zinc-800 focus:border-white' : 'border-zinc-200 focus:border-black')
                           }`}
                       />
-                      {errors.email && <p role="alert" className="text-[10px] font-bold text-red-500 uppercase tracking-widest animate-fade-in-up">{errors.email}</p>}
-                    </div>
+                    </ContactField>
                   </ScrollReveal>
                 </div>
 
                 <ScrollReveal delay={400}>
-                  <div className="space-y-4 group">
-                    <label htmlFor="contact-message" className={`text-[11px] font-black uppercase tracking-[0.3em] transition-colors ${errors.message ? 'text-red-500' : (isDarkMode ? 'text-zinc-500 group-focus-within:text-white' : 'text-zinc-500 group-focus-within:text-black')
-                      }`}>Message</label>
+                  <ContactField isDarkMode={isDarkMode} htmlFor="contact-message" label="Message" error={errors.message}>
                     <textarea
                       id="contact-message"
                       rows={4}
@@ -225,8 +234,7 @@ const Contact: React.FC<ContactProps> = ({ isDarkMode }) => {
                           : (isDarkMode ? 'border-zinc-800 focus:border-white' : 'border-zinc-200 focus:border-black')
                         }`}
                     />
-                    {errors.message && <p role="alert" className="text-[10px] font-bold text-red-500 uppercase tracking-widest animate-fade-in-up">{errors.message}</p>}
-                  </div>
+                  </ContactField>
                 </ScrollReveal>
 
                 <ScrollReveal delay={500}>

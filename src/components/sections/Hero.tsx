@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { RESUME_DATA } from '../../data/constants';
+import { handleAnchorScroll } from '../../lib/scroll';
 
 interface HeroProps {
   isDarkMode: boolean;
@@ -79,17 +80,7 @@ const Hero: React.FC<HeroProps> = ({ isDarkMode, onOpenResume }) => {
   }, [line1, line2, phase]);
 
   const scrollToContact = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    const elem = document.getElementById('contact');
-    if (elem) {
-      const offset = 100;
-      const elementPosition = elem.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      });
-    }
+    handleAnchorScroll(e, '#contact');
   };
 
   return (

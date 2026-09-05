@@ -10,7 +10,7 @@ const TechStack: React.FC<TechStackProps> = ({ isDarkMode }) => {
 
   return (
     <section id="techstack" className="py-20 md:py-28 scroll-mt-24">
-      <ScrollReveal>
+      <ScrollReveal variant="fade">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
           <div className="space-y-4">
             <span className={`text-[10px] font-black uppercase tracking-[0.5em] ${isDarkMode ? 'text-zinc-500' : 'text-zinc-400'}`}>01 / Stack & Tools</span>
@@ -26,7 +26,7 @@ const TechStack: React.FC<TechStackProps> = ({ isDarkMode }) => {
       </ScrollReveal>
 
       {/* Grouped skills — scannable for recruiters, marquee kept as ambient strip */}
-      <ScrollReveal delay={50}>
+      <ScrollReveal variant="scale" delay={80}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
           {[
             { label: 'Frontend', items: ['HTML', 'CSS', 'JavaScript', 'React', 'Tailwind CSS'] },
@@ -49,7 +49,7 @@ const TechStack: React.FC<TechStackProps> = ({ isDarkMode }) => {
       </ScrollReveal>
 
       {/* Sliding loops animation only - like Image 2 (single row infinite marquee) - FIXED to move live */}
-      <ScrollReveal delay={100}>
+      <ScrollReveal variant="fade" delay={150}>
         <div className="group relative overflow-hidden py-3 -mx-1 select-none">
           <div className="flex gap-3 w-max animate-marquee will-change-transform" style={{ animation: 'marquee 32s linear infinite' }}>
             {[...TECH_STACK, ...TECH_STACK, ...TECH_STACK].map((tech, idx) => (

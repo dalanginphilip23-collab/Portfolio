@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { Project } from '../../types';
 import { PROJECTS } from '../../data/constants';
+import { useGallery } from '../../hooks/useGallery';
 
 interface ProjectDetailModalProps {
   project: Project | null;
@@ -14,13 +15,9 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({ project, onClos
   const [currentProject, setCurrentProject] = useState<Project | null>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
   useEffect(() => {
     if (project) {
       setCurrentProject(project);
-      setCurrentIndex(0);
       setIsRendered(true);
       requestAnimationFrame(() => {
         setIsVisible(true);
@@ -54,30 +51,28 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({ project, onClos
 
   const images = useMemo(() => currentProject ? [currentProject.image, ...(currentProject.gallery || [])] : [], [currentProject]);
 
+  const { currentIndex, goTo, next, prev, stop } = useGallery(images.length, {
+    autoplayMs: isRendered ? 3500 : null,
+    autoplayWhen: isRendered,
+  });
+
+  // Reset to first image whenever a new project opens
   useEffect(() => {
-    if (isRendered && images.length > 1) {
-        if (intervalRef.current) clearInterval(intervalRef.current);
-        intervalRef.current = setInterval(() => {
-          setCurrentIndex((prev) => (prev + 1) % images.length);
-        }, 3500);
-    }
-    return () => { 
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, [isRendered, images.length]);
+    if (project) goTo(0);
+  }, [project, goTo]);
 
   if (!isRendered || !currentProject) return null;
 
   const nextImage = (e?: React.MouseEvent) => {
     e?.stopPropagation();
-    if (intervalRef.current) clearInterval(intervalRef.current);
-    setCurrentIndex((prev) => (prev + 1) % images.length);
+    stop();
+    next();
   };
 
   const prevImage = (e?: React.MouseEvent) => {
     e?.stopPropagation();
-    if (intervalRef.current) clearInterval(intervalRef.current);
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+    stop();
+    prev();
   };
 
   return (
@@ -151,10 +146,10 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({ project, onClos
                 {images.map((_, idx) => (
                   <button 
                     key={idx}
-                    onClick={(e) => { 
-                      e.stopPropagation(); 
-                      if (intervalRef.current) clearInterval(intervalRef.current);
-                      setCurrentIndex(idx); 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      stop();
+                      goTo(idx);
                     }}
                     aria-label={`Show preview ${idx + 1}`}
                     aria-current={idx === currentIndex}
