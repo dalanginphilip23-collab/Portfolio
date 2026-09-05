@@ -3,20 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="John Philip Dalangin — BSIT 4th Year, Frontend Developer + IT Support (Bauan, Batangas). HTML/CSS/JS, React, Tailwind, MySQL, Figma — plus basic Canva/Premiere/CapCut and cabling/hardware troubleshooting. Vitalis PWA + QuickServe POS on Vercel.">
+    <meta name="description" content="John Philip Dalangin — BSIT 4th Year, Frontend Developer (OJT-ready) with IT Support foundations in Bauan, Batangas. React, Tailwind, MySQL, Figma — Vitalis PWA + POS System on Vercel.">
     <meta name="keywords" content="John Philip Dalangin, BSIT, Frontend Developer, IT Support, React, Tailwind, MySQL, Figma, Canva, CapCut, Bauan Batangas, Vitalis, POS System">
     <meta name="author" content="John Philip Dalangin">
     <meta name="theme-color" content="#000000">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://portfolio-delta-two-13.vercel.app/">
     <meta property="og:title" content="John Philip Dalangin | Frontend Developer · IT Support · BSIT-4">
-    <meta property="og:description" content="BSIT-4 Frontend + IT Support. Vitalis fitness PWA and QuickServe restaurant POS — plus more on GitHub. HTML/CSS/JS, React, Tailwind, MySQL, Figma, Canva/Premiere/CapCut.">
+    <meta property="og:description" content="BSIT-4 Frontend (OJT-ready) + IT Support foundations. Vitalis fitness PWA and POS restaurant system — plus more on GitHub. React, Tailwind, MySQL, Figma.">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://avatars.githubusercontent.com/u/235477794?v=4">
-    <meta property="og:url" content="https://github.com/dalanginphilip23-collab">
+    <meta property="og:image" content="https://portfolio-delta-two-13.vercel.app/portfolio.png">
+    <meta property="og:url" content="https://portfolio-delta-two-13.vercel.app/">
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="John Philip Dalangin | Frontend Developer · IT Support · BSIT-4">
+    <meta name="twitter:description" content="BSIT-4 Frontend (OJT-ready) + IT Support. Vitalis PWA + POS System on Vercel.">
+    <meta name="twitter:image" content="https://portfolio-delta-two-13.vercel.app/portfolio.png">
     <title>John Philip Dalangin | Frontend Developer · IT Support · BSIT-4</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="preload" as="image" href="/profile.jpg" fetchpriority="high">
+    <link rel="icon" type="image/jpeg" href="/profile.jpg">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "John Philip Dalangin",
+      "jobTitle": "Frontend Developer",
+      "address": { "@type": "PostalAddress", "addressLocality": "Bauan, Batangas", "addressCountry": "PH" },
+      "email": "mailto:dalangin.philip23@gmail.com",
+      "url": "https://portfolio-delta-two-13.vercel.app/",
+      "sameAs": [
+        "https://github.com/dalanginphilip23-collab",
+        "https://www.linkedin.com/in/john-philip-voi-dalangin-b02113392/"
+      ]
+    }
+    </script>
+    <script>
+      // Prevent theme flash — sync with useTheme localStorage key
+      try {
+        var saved = localStorage.getItem('theme');
+        var dark = saved ? saved === 'dark' : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        if (dark !== false) document.documentElement.classList.add('dark');
+      } catch (e) {}
+    </script>
 </head>
 <body>
     <div id="root"></div>

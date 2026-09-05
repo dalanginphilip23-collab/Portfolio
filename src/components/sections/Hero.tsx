@@ -6,28 +6,9 @@ interface HeroProps {
   onOpenResume: () => void;
 }
 
-// Local profile asset — you uploaded src/assets/profile.jpg (now copied to public/profile.jpg)
+// Local profile asset served from public/
 const FALLBACK_AVATAR = '/profile.jpg';
 const seriousImage = FALLBACK_AVATAR;
-const wakeImage = FALLBACK_AVATAR;
-const sleepImage = FALLBACK_AVATAR;
-
-const StaggeredText: React.FC<{ text: string; isDarkMode: boolean }> = ({ text, isDarkMode }) => {
-  const words = text.split(' ');
-  return (
-    <p className={`text-base md:text-xl font-light leading-snug tracking-tight transition-colors duration-700 ${isDarkMode ? 'text-zinc-400' : 'text-zinc-600'} flex flex-wrap`}>
-      {words.map((word, i) => (
-        <span 
-          key={i}
-          className="inline-block mr-[0.25em] opacity-0 animate-fade-in-up"
-          style={{ animationDelay: `${400 + (i * 40)}ms` }}
-        >
-          {word}
-        </span>
-      ))}
-    </p>
-  );
-};
 
 const Hero: React.FC<HeroProps> = ({ isDarkMode, onOpenResume }) => {
   const [isAwake, setIsAwake] = useState(false);
@@ -39,10 +20,6 @@ const Hero: React.FC<HeroProps> = ({ isDarkMode, onOpenResume }) => {
   const [phase, setPhase] = useState(0);
 
   const parallaxRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (isDarkMode) setIsAwake(false);
-  }, [isDarkMode]);
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -63,17 +40,23 @@ const Hero: React.FC<HeroProps> = ({ isDarkMode, onOpenResume }) => {
   }, []);
 
   useEffect(() => {
+    // Respect reduced motion: show full name instantly, no typing loop
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setLine1(line1Full);
+      setLine2(line2Full);
+      setPhase(2);
+      return;
+    }
     let timeout: ReturnType<typeof setTimeout>;
     const typeSpeed = 65;
-    const deleteSpeed = 30;
-    const holdDuration = 3500;
     const pauseBetweenLines = 150;
 
+    // Type once and hold — no delete loop (reduces re-render + screen-reader churn)
     switch (phase) {
       case 0:
         if (line1.length < line1Full.length) {
-          timeout = setTimeout(() => { 
-            setLine1(line1Full.substring(0, line1.length + 1)); 
+          timeout = setTimeout(() => {
+            setLine1(line1Full.substring(0, line1.length + 1));
           }, typeSpeed);
         } else {
           timeout = setTimeout(() => setPhase(1), pauseBetweenLines);
@@ -81,33 +64,15 @@ const Hero: React.FC<HeroProps> = ({ isDarkMode, onOpenResume }) => {
         break;
       case 1:
         if (line2.length < line2Full.length) {
-          timeout = setTimeout(() => { 
-            setLine2(line2Full.substring(0, line2.length + 1)); 
+          timeout = setTimeout(() => {
+            setLine2(line2Full.substring(0, line2.length + 1));
           }, typeSpeed);
         } else {
-          timeout = setTimeout(() => setPhase(2), holdDuration);
+          timeout = setTimeout(() => setPhase(2), 500);
         }
         break;
       case 2:
-        timeout = setTimeout(() => setPhase(3), holdDuration);
-        break;
-      case 3:
-        if (line2.length > 0) {
-          timeout = setTimeout(() => { 
-            setLine2(line2.substring(0, line2.length - 1)); 
-          }, deleteSpeed);
-        } else {
-          timeout = setTimeout(() => setPhase(4), pauseBetweenLines);
-        }
-        break;
-      case 4:
-        if (line1.length > 0) {
-          timeout = setTimeout(() => { 
-            setLine1(line1.substring(0, line1.length - 1)); 
-          }, deleteSpeed);
-        } else {
-          timeout = setTimeout(() => setPhase(0), 1000);
-        }
+        // Hold final state — no further timers
         break;
     }
     return () => clearTimeout(timeout);
@@ -132,60 +97,62 @@ const Hero: React.FC<HeroProps> = ({ isDarkMode, onOpenResume }) => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
         <div className="lg:col-span-7 flex flex-col justify-end space-y-8 md:space-y-12">
           <div className="space-y-4">
-            <span className={`text-[10px] font-black uppercase tracking-[0.5em] ${isDarkMode ? 'text-zinc-500' : 'text-zinc-400'}`}>
-              Frontend Developer
+            <span className={`text-[10px] font-black uppercase tracking-[0.5em] ${isDarkMode ? 'text-zinc-400' : 'text-zinc-500'}`}>
+              Frontend Developer (OJT-ready) · IT Support foundations
             </span>
-            <h1 className={`text-5xl md:text-8xl font-black leading-[0.85] tracking-tighter uppercase min-h-[1.8em] ${isDarkMode ? 'text-white' : 'text-black'}`}>
-              <div className="flex items-center">
+            <h1 aria-label="John Philip Dalangin" className={`text-5xl md:text-8xl font-black leading-[0.85] tracking-tighter uppercase min-h-[1.8em] ${isDarkMode ? 'text-white' : 'text-black'}`}>
+              <span className="flex items-center" aria-hidden="true">
                 {line1}
-                {(phase === 0 || phase === 4) && (
-                  <span className={`inline-block w-[0.1em] h-[0.85em] bg-blue-500 ml-2 animate-cursor-blink align-middle shadow-[0_0_10px_rgba(59,130,246,0.5)]`} />
+                {phase === 0 && (
+                  <span aria-hidden="true" className={`inline-block w-[0.1em] h-[0.85em] bg-blue-500 ml-2 animate-cursor-blink align-middle shadow-[0_0_10px_rgba(59,130,246,0.5)]`} />
                 )}
-              </div>
-              <div className="flex items-center">
+              </span>
+              <span className="flex items-center" aria-hidden="true">
                 {line2}
-                {(phase === 1 || phase === 3) && (
-                  <span className={`inline-block w-[0.1em] h-[0.85em] bg-blue-500 ml-2 animate-cursor-blink align-middle shadow-[0_0_10px_rgba(59,130,246,0.5)]`} />
+                {phase === 1 && (
+                  <span aria-hidden="true" className={`inline-block w-[0.1em] h-[0.85em] bg-blue-500 ml-2 animate-cursor-blink align-middle shadow-[0_0_10px_rgba(59,130,246,0.5)]`} />
                 )}
-              </div>
+              </span>
             </h1>
           </div>
 
-          {/* Bio summary — moved under name per fix: not above, now directly under JOHN PHILIP DALANGIN */}
+          {/* Bio summary — short pitch, full summary lives in Resume modal */}
           <div className={`p-6 md:p-8 rounded-3xl border ${isDarkMode ? 'bg-zinc-900/40 border-white/10' : 'bg-zinc-50 border-black/5'}`}>
             <div className="flex flex-wrap items-center gap-3 mb-3">
               <span className={`text-[10px] font-black uppercase tracking-[0.3em] px-3 py-1.5 rounded-full border ${isDarkMode ? 'bg-white text-black border-white' : 'bg-black text-white border-black'}`}>
                 BSIT 4TH YEAR — STC COLLEGE OF BATANGAS
               </span>
+              <span className={`inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.25em] px-3 py-1.5 rounded-full ${isDarkMode ? 'bg-emerald-500/10 text-emerald-400' : 'bg-emerald-50 text-emerald-700'}`}>
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" aria-hidden="true" />
+                Open for OJT
+              </span>
             </div>
             <p className={`text-sm md:text-base font-light leading-relaxed max-w-xl ${isDarkMode ? 'text-zinc-300' : 'text-zinc-600'}`}>
-              {RESUME_DATA.summary}
+              I build responsive web apps with React + Tailwind and handle IT Support basics — cabling, PC assembly, OS installs, and troubleshooting. Vitalis PWA + POS System live on Vercel.
             </p>
-            <div className={`mt-4 flex flex-wrap gap-2 text-[10px] font-black uppercase tracking-widest ${isDarkMode ? 'text-zinc-500' : 'text-zinc-400'}`}>
-              <span>{RESUME_DATA.contact.email}</span>
-              <span className="opacity-30">•</span>
+            <div className={`mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 text-xs font-medium ${isDarkMode ? 'text-zinc-400' : 'text-zinc-600'}`}>
+              <a href={`mailto:${RESUME_DATA.contact.email}`} className="underline underline-offset-4 hover:text-blue-500">{RESUME_DATA.contact.email}</a>
+              <span className="opacity-30" aria-hidden="true">•</span>
               <span>{RESUME_DATA.contact.address}</span>
-              <span className="opacity-30">•</span>
-              <a href={RESUME_DATA.contact.github} target="_blank" rel="noopener noreferrer" className="hover:text-blue-500 transition-colors">GitHub</a>
+              <span className="opacity-30" aria-hidden="true">•</span>
+              <a href={RESUME_DATA.contact.github} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:text-blue-500 transition-colors">GitHub</a>
             </div>
           </div>
-          
+
           <div className="space-y-6">
-            <div className="flex flex-wrap gap-4">
-              <a 
-                href="#contact" 
+            <div className="flex flex-wrap items-center gap-4">
+              <a
+                href="#contact"
                 onClick={scrollToContact}
-                className={`text-[10px] font-black uppercase tracking-[0.3em] px-6 md:px-8 py-3 border transition-all ${
-                  isDarkMode ? 'bg-white text-black border-white hover:bg-zinc-200' : 'bg-black text-white border-black hover:bg-zinc-800'
-                }`}
+                className={`text-[11px] font-black uppercase tracking-[0.3em] px-8 py-4 rounded-xl border transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 ${isDarkMode ? 'bg-white text-black border-white hover:bg-zinc-200' : 'bg-black text-white border-black hover:bg-zinc-800'
+                  }`}
               >
                 GET IN TOUCH
               </a>
-              <button 
+              <button
                 onClick={onOpenResume}
-                className={`text-[10px] font-black uppercase tracking-[0.3em] px-6 md:px-8 py-3 border transition-all inline-block text-center ${
-                  isDarkMode ? 'border-white/20 text-white hover:bg-white hover:text-black hover:border-white' : 'border-black/20 text-black hover:bg-black hover:text-white hover:border-black'
-                }`}
+                className={`text-[11px] font-black uppercase tracking-[0.3em] px-8 py-4 rounded-xl border transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 ${isDarkMode ? 'border-white/20 text-white hover:bg-white hover:text-black hover:border-white' : 'border-black/20 text-black hover:bg-black hover:text-white hover:border-black'
+                  }`}
               >
                 VIEW CV
               </button>
@@ -193,66 +160,38 @@ const Hero: React.FC<HeroProps> = ({ isDarkMode, onOpenResume }) => {
           </div>
         </div>
 
-        <div className="lg:col-span-5 relative group">
-          <div 
-            onClick={() => !isDarkMode && setIsAwake(!isAwake)}
-            className={`relative aspect-[3/4] overflow-hidden transition-all duration-1000 cubic-bezier(0.16, 1, 0.3, 1) select-none rounded-[2rem] bg-zinc-950 ${
-              isDarkMode ? 'grayscale-[0.6] cursor-not-allowed' : 'grayscale-0 cursor-pointer hover:scale-[1.02] active:scale-[0.98]'
-            }`}
+        <div className="lg:col-span-5 relative">
+          <button
+            type="button"
+            onClick={() => setIsAwake((v) => !v)}
+            aria-pressed={isAwake}
+            aria-label={isAwake ? 'Profile photo — activated view. Press to toggle effect.' : 'Profile photo of John Philip Dalangin. Press to toggle highlight effect.'}
+            className={`group relative block w-full aspect-[3/4] overflow-hidden transition-all duration-700 select-none rounded-[2rem] bg-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 ${isDarkMode ? 'grayscale-[0.4]' : 'grayscale-0 hover:scale-[1.01] active:scale-[0.99]'
+              }`}
           >
-            <div 
-              ref={parallaxRef} 
+            <div
+              ref={parallaxRef}
               className="absolute inset-0 w-full h-[115%] -top-[7.5%] will-change-transform"
             >
-              <img 
-                src={seriousImage} 
-                alt="John Philip Dalangin" 
+              <img
+                src={seriousImage}
+                alt="Portrait of John Philip Dalangin"
+                width={600}
+                height={800}
+                fetchPriority="high"
                 onError={(e) => { (e.currentTarget as HTMLImageElement).src = FALLBACK_AVATAR; }}
-                className="absolute inset-0 w-full h-full object-cover transform-gpu grayscale-[0.2]" 
+                className="absolute inset-0 w-full h-full object-cover transform-gpu"
               />
-              
-              <img 
-                src={wakeImage} 
-                alt="John Philip Dalangin awake" 
-                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
-                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[1200ms] cubic-bezier(0.4, 0, 0.2, 1) transform-gpu ${!isDarkMode && isAwake ? 'opacity-100' : 'opacity-0'}`} 
-              />
-              
-              <div className={`absolute inset-0 transition-opacity duration-[1200ms] cubic-bezier(0.4, 0, 0.2, 1) transform-gpu ${isDarkMode ? 'opacity-100' : 'opacity-0'}`}>
-                <img 
-                  src={sleepImage} 
-                  alt="" 
-                  aria-hidden="true"
-                  onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
-                  className="w-full h-full object-cover animate-slow-pulse transform-gpu" 
-                />
-                <div className="absolute inset-0 bg-blue-900/20 mix-blend-multiply" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              <div className={`absolute inset-0 transition-opacity duration-700 ${isDarkMode ? 'opacity-100' : isAwake ? 'opacity-100' : 'opacity-0'}`}>
+                <div className="absolute inset-0 bg-blue-900/20 mix-blend-multiply" aria-hidden="true" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" aria-hidden="true" />
               </div>
             </div>
 
-            <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
-               <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-1000 ${!isDarkMode && !isAwake ? 'opacity-100' : 'opacity-0'}`}>
-                  <div className="absolute w-full h-full border-[1px] border-black/5 rounded-full animate-sonar-1"></div>
-                  <div className="absolute w-full h-full border-[1px] border-black/10 rounded-full animate-sonar-2"></div>
-                  <div className="absolute w-full h-full border-[1px] border-black/5 rounded-full animate-sonar-3"></div>
-               </div>
-
-               <div className={`absolute inset-0 transition-opacity duration-1000 ${!isDarkMode && isAwake ? 'opacity-100' : 'opacity-0'}`}>
-                  <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'linear-gradient(rgba(59, 130, 246, 0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, 0.2) 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
-                  <div className="absolute inset-0 animate-grid-scan" style={{ background: 'linear-gradient(to bottom, transparent, rgba(59, 130, 246, 0.4), transparent)', height: '2px', width: '100%' }}></div>
-                  <div className="absolute inset-0 animate-glitch-overlay opacity-10 bg-blue-500/10"></div>
-               </div>
-
-               <div className={`absolute inset-0 transition-opacity duration-1000 ${isDarkMode ? 'opacity-100' : 'opacity-0'}`}>
-                  <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-blue-400/20 rounded-full blur-[80px] animate-orb-float-1"></div>
-                  <div className="absolute bottom-1/4 right-1/4 w-40 h-40 bg-purple-500/10 rounded-full blur-[100px] animate-orb-float-2"></div>
-                  <div className="absolute top-1/2 left-1/2 w-2 h-2 bg-white rounded-full animate-twinkle-1"></div>
-                  <div className="absolute top-1/3 right-1/4 w-1.5 h-1.5 bg-white rounded-full animate-twinkle-2"></div>
-                  <div className="absolute bottom-1/3 left-1/3 w-1 h-1 bg-white rounded-full animate-twinkle-3"></div>
-               </div>
-            </div>
-          </div>
+            <span className={`absolute bottom-4 left-4 z-10 px-4 py-2 text-[10px] font-black uppercase tracking-[0.25em] rounded-full backdrop-blur-md border ${isDarkMode ? 'bg-black/60 text-white border-white/20' : 'bg-white/70 text-black border-black/10'}`}>
+              {isAwake ? 'Highlight on' : 'Bauan, Batangas'}
+            </span>
+          </button>
         </div>
       </div>
     </section>

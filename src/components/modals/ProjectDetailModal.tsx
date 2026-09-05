@@ -12,28 +12,41 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({ project, onClos
   const [isRendered, setIsRendered] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [currentProject, setCurrentProject] = useState<Project | null>(null);
-  
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     if (project) {
       setCurrentProject(project);
+      setCurrentIndex(0);
       setIsRendered(true);
       requestAnimationFrame(() => {
         setIsVisible(true);
       });
       document.body.style.overflow = 'hidden';
+      // Move focus to close button for keyboard users
+      setTimeout(() => closeBtnRef.current?.focus(), 60);
     } else {
       setIsVisible(false);
       const timer = setTimeout(() => {
         setIsRendered(false);
         setCurrentProject(null);
         document.body.style.overflow = 'unset';
-      }, 500); 
+      }, 500);
       return () => clearTimeout(timer);
     }
   }, [project]);
+
+  useEffect(() => {
+    if (!isRendered) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isRendered, onClose]);
 
   useEffect(() => {
     return () => { document.body.style.overflow = 'unset'; };
@@ -68,7 +81,7 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({ project, onClos
   };
 
   return (
-    <div className={`fixed inset-0 z-[150] flex items-center justify-center p-4 md:p-8 overflow-hidden transition-all duration-500 ${isVisible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+    <div role="dialog" aria-modal="true" aria-label={`${currentProject.title} details`} className={`fixed inset-0 z-[150] flex items-center justify-center p-4 md:p-8 overflow-hidden transition-all duration-500 ${isVisible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
       <div 
         className="absolute inset-0 bg-black/95 backdrop-blur-2xl cursor-zoom-out" 
         onClick={onClose} 
@@ -93,8 +106,8 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({ project, onClos
               aria-label={`View ${currentProject.title} live`}
             >
               <img 
-                src={`${src.split('?')[0]}?auto=format&fit=crop&q=85&w=1600`} 
-                alt={`${currentProject.title} - Preview ${idx + 1}`} 
+                src={src} 
+                alt={`${currentProject.title} - Preview ${idx + 1} of ${images.length}`} 
                 loading="lazy"
                 decoding="async"
                 className="w-full h-full object-cover"
@@ -114,9 +127,10 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({ project, onClos
               <div className="absolute inset-y-0 left-0 flex items-center pl-4 md:pl-8 z-20">
                 <button 
                   onClick={prevImage}
-                  className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-black/40 hover:bg-black/60 text-white rounded-full backdrop-blur-md transition-all opacity-0 group-hover/modal-gallery:opacity-100 -translate-x-4 group-hover/modal-gallery:translate-x-0"
+                  aria-label="Previous preview image"
+                  className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-black/40 hover:bg-black/60 focus-visible:bg-black/60 text-white rounded-full backdrop-blur-md transition-all opacity-0 group-hover/modal-gallery:opacity-100 focus-visible:opacity-100 -translate-x-4 group-hover/modal-gallery:translate-x-0 focus-visible:translate-x-0 focus-visible:outline-2 focus-visible:outline-white"
                 >
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
                   </svg>
                 </button>
@@ -124,9 +138,10 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({ project, onClos
               <div className="absolute inset-y-0 right-0 flex items-center pr-4 md:pr-8 z-20">
                 <button 
                   onClick={nextImage}
-                  className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-black/40 hover:bg-black/60 text-white rounded-full backdrop-blur-md transition-all opacity-0 group-hover/modal-gallery:opacity-100 translate-x-4 group-hover/modal-gallery:translate-x-0"
+                  aria-label="Next preview image"
+                  className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-black/40 hover:bg-black/60 focus-visible:bg-black/60 text-white rounded-full backdrop-blur-md transition-all opacity-0 group-hover/modal-gallery:opacity-100 focus-visible:opacity-100 translate-x-4 group-hover/modal-gallery:translate-x-0 focus-visible:translate-x-0 focus-visible:outline-2 focus-visible:outline-white"
                 >
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
@@ -141,7 +156,9 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({ project, onClos
                       if (intervalRef.current) clearInterval(intervalRef.current);
                       setCurrentIndex(idx); 
                     }}
-                    className={`h-1 rounded-full transition-all duration-500 ${
+                    aria-label={`Show preview ${idx + 1}`}
+                    aria-current={idx === currentIndex}
+                    className={`h-1 rounded-full transition-all duration-500 focus-visible:outline-2 focus-visible:outline-white ${
                       currentIndex === idx ? 'w-10 bg-blue-500' : 'w-2 bg-white/30 hover:bg-white/50'
                     }`}
                   />
@@ -151,8 +168,10 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({ project, onClos
           )}
 
           <button 
+            ref={closeBtnRef}
             onClick={onClose}
-            className="absolute top-6 right-6 md:top-8 md:right-8 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-black/50 hover:bg-red-500 text-white rounded-full backdrop-blur-md transition-all group z-30 border border-white/10"
+            aria-label="Close project details"
+            className="absolute top-6 right-6 md:top-8 md:right-8 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-black/50 hover:bg-red-500 text-white rounded-full backdrop-blur-md transition-all group z-30 border border-white/10 focus-visible:outline-2 focus-visible:outline-white"
           >
             <svg className="w-6 h-6 transition-transform group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />

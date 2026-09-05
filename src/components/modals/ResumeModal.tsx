@@ -168,7 +168,7 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, isDarkMode }
   const relevantStrengths: string[] = (RESUME_DATA as any).relevantStrengths || [];
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-0 animate-fade-in overflow-hidden">
+    <div role="dialog" aria-modal="true" aria-label="Resume preview" className="fixed inset-0 z-[100] flex items-center justify-center p-0 animate-fade-in overflow-hidden">
       <div 
         className="absolute inset-0 bg-black/98 backdrop-blur-3xl cursor-zoom-out" 
         onClick={handleClose} 

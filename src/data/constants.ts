@@ -2,14 +2,10 @@ import { Project, NavItem } from '../types';
 
 export const NAV_ITEMS: NavItem[] = [
   { label: 'Tech Stack', href: '#techstack' },
+  { label: 'About', href: '#about' },
   { label: 'Projects', href: '#projects' },
   { label: 'Contact', href: '#contact' },
 ];
-
-/**
- * Valid Base64 PDF for "John Philip Dalangin - Resume"
- */
-export const RESUME_PDF_BASE64 = "data:application/pdf;base64,JVBERi0xLjUKJb/i4u8KMSAwIG9iago8PAovVHlwZSAvQ2F0YWxvZwovUGFnZXMgMiAwIFIKPj4KZW5kb2JqCjIgMCBvYmoKPDwKL1R5cGUgL1BhZ2VzCi9Db3VudCAxCi9LaWRzIFszIDAgUl0KPj4KZW5kb2JqCjMgMCBvYmoKPDwKL1R5cGUgL1BhZ2UKL1BhcmVudCAyIDAgUgovTWVkaWFCb3ggWzAgMCA2MTIgNzkyXQovUmVzb3VyY2VzIDw8Ci9Gb250IDw8Ci9Gb250IDw8Ci9GMSA0IDAgUgo+Pgo+PgovQ29udGVudHMgNSAwIFIKPj4KZW5kb2JqCjQgMCBvYmoKPDwKL1R5cGUgL0ZvbnQKL1N1YnR5cGUgL1R5cGUxCi9CYXNlRm9udCAvSGVsdmV0aWNhCj4+CmVuZG9iago1IDAgb2JqCjw8Ci9MZW5ndGggNDQKPj4Kc3RyZWFtCkJUCi9GMSAyNCBUZgoxMDAgNzAwIFRkIChKb2huIFBoaWxpcCBEYWxhbmdpbiAtIFJlc3VtZSkgVGoKRVQKZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgNgowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwMTUgMDAwMDAgbiAKMDAwMDAwMDA2OCAwMDAwMCBuIAowMDAwMDAwMTIxIDAwMDAwIG4gCjAwMDAwMDAyNDEgMDAwMDAgbiAKMDAwMDAwMDMzOCAwMDAwMCBuIAp0cmFpbGVyCjw8Ci9TaXplIDYKL1Jvb3QgMSAwIFIKPj4Kc3RhcnR4cmVmCjQzMQolJUVPRgo=";
 
 export const RESUME_DATA = {
   name: "JOHN PHILIP VOI G. DALANGIN",
@@ -197,11 +193,11 @@ export const PROJECTS: Project[] = [
     technicalSpecifics: [
       'React 19 + Vite 6 + Tailwind CSS 4 + TypeScript',
       'Dark/light theme, animated hero, scroll reveal, project filtering',
-      'PDF resume generation via html2pdf.js, Gemini AI assistant integration',
+      'PDF resume generation via jsPDF, Gemini AI assistant integration',
       'Deployed on Vercel — https://portfolio-delta-two-13.vercel.app/'
     ],
     challenges: 'Building a fast, accessible 1-page portfolio that showcases Vitalis and POS with real screenshots while staying OJT-ready and lightweight.',
-    solutions: 'Used Vite manualChunks, lazy-loaded modals/AI, GPU-optimized marquee, single-column 1-page CV, and 1:1 public/src/assets image mirroring for Vercel deploys.'
+      solutions: 'Used Vite manualChunks, lazy-loaded modals/AI, GPU-optimized marquee, single-column 1-page CV, and public/ static assets for Vercel deploys.'
   }
 ];
 
@@ -262,7 +258,7 @@ ${PROJECTS.map(p => `
 
 export const QUICK_PROMPTS = [
   "Tell me about Vitalis — how was it built?",
-  "How does QuickServe handle the menu and cart?",
+  "How does POS System handle the menu and cart?",
   "What is John's tech stack?",
-  "Show my GitHub repos that are not deployed."
+  "What is John looking for in an OJT role?"
 ];

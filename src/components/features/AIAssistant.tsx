@@ -31,6 +31,15 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ isDarkMode }) => {
     }
   }, [messages, isTyping, isOpen]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isOpen]);
+
   const handleSend = async (text: string) => {
     if (!text.trim() || isTyping) return;
     if (!isGeminiConfigured()) {
@@ -90,12 +99,12 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ isDarkMode }) => {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className={`fixed bottom-8 right-8 z-[40] flex items-center justify-center w-16 h-16 border transition-all duration-500 rounded-full shadow-2xl hover:scale-110 active:scale-90 group ${
-          isOpen ? 'opacity-0 pointer-events-none scale-0' : 'opacity-100'
-        } ${
-          isDarkMode ? 'bg-zinc-900 text-white border-white/10 backdrop-blur-md' : 'bg-white text-black border-black/10 backdrop-blur-md'
-        }`}
-        aria-label="Open AI Assistant"
+        title="Ask about John — projects, skills, OJT"
+        className={`fixed bottom-8 right-8 z-[40] flex items-center justify-center w-16 h-16 border transition-all duration-500 rounded-full shadow-2xl hover:scale-110 active:scale-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 group ${isOpen ? 'opacity-0 pointer-events-none scale-0' : 'opacity-100'
+          } ${isDarkMode ? 'bg-zinc-900 text-white border-white/10 backdrop-blur-md' : 'bg-white text-black border-black/10 backdrop-blur-md'
+          }`}
+        aria-label="Open AI Assistant — ask about John's projects and skills"
+        aria-expanded={isOpen}
       >
         <div className="relative">
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -117,7 +126,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ isDarkMode }) => {
         isOpen ? 'translate-x-0' : 'translate-x-full'
       } flex flex-col border-l shadow-2xl ${
         isDarkMode ? 'bg-black border-white/10 text-white' : 'bg-white border-black/10 text-black'
-      }`}>
+      }`} role="dialog" aria-modal="true" aria-label="AI assistant chat" aria-hidden={!isOpen}>
         
         <div className={`p-6 border-b flex items-center justify-between ${isDarkMode ? 'border-white/5' : 'border-black/5'}`}>
           <div className="flex items-center space-x-4">
@@ -186,28 +195,31 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ isDarkMode }) => {
           </div>
 
           <div className={`relative rounded-2xl border transition-all duration-300 ${isDarkMode ? 'bg-zinc-900 border-white/10 focus-within:border-white' : 'bg-zinc-50 border-black/10 focus-within:border-black'}`}>
+            <label htmlFor="ai-input" className="sr-only">Ask about John's projects, skills, or OJT availability</label>
             <input
+              id="ai-input"
               type="text"
               value={inputValue}
               disabled={isTyping}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSend(inputValue)}
-              placeholder={!isConfigured ? "AI offline — add API key" : isTyping ? "Thinking..." : "Type your message..."}
+              placeholder={!isConfigured ? "AI offline — add API key" : isTyping ? "Thinking..." : "Ask about projects, skills, OJT..."}
+              autoComplete="off"
               className="w-full p-4 pr-14 text-[13px] font-medium tracking-wide bg-transparent focus:outline-none"
             />
             <button
               onClick={() => handleSend(inputValue)}
               disabled={isTyping || !inputValue.trim()}
-              className={`absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center rounded-xl transition-all ${
-                inputValue.trim() ? (isDarkMode ? 'bg-white text-black' : 'bg-black text-white') : 'opacity-20'
-              }`}
+              aria-label="Send message"
+              className={`absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center rounded-xl transition-all focus-visible:outline-2 focus-visible:outline-blue-500 ${inputValue.trim() ? (isDarkMode ? 'bg-white text-black' : 'bg-black text-white') : 'opacity-20'
+                }`}
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </button>
           </div>
-          <p className="text-center text-[8px] font-black tracking-widest opacity-20 uppercase"></p>
+          <p className="text-center text-[10px] font-medium tracking-wide opacity-40">AI answers from portfolio data only — may be incomplete.</p>
         </div>
       </div>
     </>

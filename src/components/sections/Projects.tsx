@@ -75,8 +75,10 @@ const ProjectGallery: React.FC<{ project: Project; isDarkMode: boolean }> = ({ p
             aria-label={`View ${project.title} live demo`}
           >
             <img
-              src={`${src.split('?')[0]}?auto=format&fit=crop&q=80&w=1200`}
-              alt={`${project.title} view ${idx + 1}`}
+              src={src}
+              alt={`${project.title} screenshot ${idx + 1} of ${images.length}`}
+              width={1200}
+              height={750}
               loading="lazy"
               decoding="async"
               className="w-full h-full object-cover grayscale group-hover:grayscale-0 opacity-60 group-hover:opacity-100 transition-all duration-[1500ms] ease-out transform group-hover:scale-110"
@@ -94,33 +96,35 @@ const ProjectGallery: React.FC<{ project: Project; isDarkMode: boolean }> = ({ p
         <>
           <button
              onClick={(e) => handleManualNav('prev', e)}
-             className={`absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md border border-white/20 text-white flex items-center justify-center transition-all duration-300 z-20 ${isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 pointer-events-none'}`}
-             aria-label="Previous image"
+              className={`absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/50 hover:bg-black/70 backdrop-blur-md border border-white/20 text-white flex items-center justify-center transition-all duration-300 z-20 focus-visible:outline-2 focus-visible:outline-white ${isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 pointer-events-none focus-visible:opacity-100 focus-visible:translate-x-0 focus-visible:pointer-events-auto'}`}
+             aria-label={`Previous image for ${project.title}`}
            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
+             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+             </svg>
            </button>
 
            <button
              onClick={(e) => handleManualNav('next', e)}
-             className={`absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md border border-white/20 text-white flex items-center justify-center transition-all duration-300 z-20 ${isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4 pointer-events-none'}`}
-             aria-label="Next image"
+              className={`absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/50 hover:bg-black/70 backdrop-blur-md border border-white/20 text-white flex items-center justify-center transition-all duration-300 z-20 focus-visible:outline-2 focus-visible:outline-white ${isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4 pointer-events-none focus-visible:opacity-100 focus-visible:translate-x-0 focus-visible:pointer-events-auto'}`}
+             aria-label={`Next image for ${project.title}`}
            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
+             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+             </svg>
            </button>
         </>
       )}
 
       {images.length > 1 && (
-        <div className={`absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 transition-opacity duration-300 z-20 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 transition-opacity duration-300 z-20 ${isHovered ? 'opacity-100' : 'opacity-0 focus-within:opacity-100'}`}>
           {images.map((_, idx) => (
-            <div
+            <button
               key={idx}
-              className={`h-1 rounded-full transition-all duration-300 shadow-sm ${
-                idx === currentIndex ? 'w-6 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]' : 'w-1.5 bg-white/40'
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); setCurrentIndex(idx); }}
+              aria-label={`Go to ${project.title} image ${idx + 1}`}
+              aria-current={idx === currentIndex}
+              className={`h-1 rounded-full transition-all duration-300 focus-visible:outline-2 focus-visible:outline-white ${idx === currentIndex ? 'w-6 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]' : 'w-4 bg-white/40 hover:bg-white/70'
               }`}
             />
           ))}
@@ -157,15 +161,19 @@ const Projects: React.FC<ProjectsProps> = ({ isDarkMode, onOpenSpecs }) => {
   }, [activeTag]);
 
   return (
-    <section id="projects" className="py-24 md:py-32">
+    <section id="projects" className="py-24 md:py-32 scroll-mt-24">
       <div className="space-y-16">
         <ScrollReveal>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-12">
             <div className="space-y-6">
+              <span className={`text-[10px] font-black uppercase tracking-[0.5em] ${isDarkMode ? 'text-zinc-500' : 'text-zinc-400'}`}>03 / Selected Works</span>
               <h2 className={`text-5xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] ${isDarkMode ? 'text-white' : 'text-black'}`}>
-                SELECTED<br/>WORKS.
+                SELECTED<br />WORKS.
               </h2>
               <div className={`h-[2px] w-24 ${isDarkMode ? 'bg-blue-600' : 'bg-black'}`}></div>
+              <p className={`text-sm md:text-[15px] font-light leading-relaxed max-w-md ${isDarkMode ? 'text-zinc-400' : 'text-zinc-600'}`}>
+                Three live builds — fitness PWA, restaurant POS, and this portfolio. Open SPECS for challenges + solutions.
+              </p>
             </div>
 
             <div className="flex flex-wrap gap-2 md:max-w-xl justify-center md:justify-end">
@@ -233,7 +241,7 @@ const Projects: React.FC<ProjectsProps> = ({ isDarkMode, onOpenSpecs }) => {
                           <h3 className={`text-3xl md:text-6xl font-black tracking-tighter uppercase leading-[0.85] transition-all duration-500 group-hover:text-blue-500 ${isDarkMode ? 'text-white' : 'text-black'}`}>
                             {project.title}
                           </h3>
-                          <p className={`text-md md:text-lg font-light leading-relaxed tracking-wide transition-opacity duration-500 ${isDarkMode ? 'text-zinc-500 group-hover:text-zinc-400' : 'text-zinc-600 group-hover:text-zinc-900'}`}>
+                          <p className={`text-md md:text-lg font-light leading-relaxed tracking-wide transition-opacity duration-500 ${isDarkMode ? 'text-zinc-300 group-hover:text-zinc-200' : 'text-zinc-600 group-hover:text-zinc-900'}`}>
                             {project.description}
                           </p>
                         </div>
@@ -244,7 +252,7 @@ const Projects: React.FC<ProjectsProps> = ({ isDarkMode, onOpenSpecs }) => {
                               <span 
                                 key={tag}
                                 className={`text-[10px] font-black uppercase tracking-widest px-4 py-2 border rounded-lg ${
-                                  isDarkMode ? 'border-white/10 text-zinc-600 bg-white/5' : 'border-black/10 text-zinc-400 bg-black/5'
+                                  isDarkMode ? 'border-white/10 text-zinc-300 bg-white/5' : 'border-black/10 text-zinc-600 bg-black/5'
                                 }`}
                               >
                                 {tag}
@@ -267,7 +275,7 @@ const Projects: React.FC<ProjectsProps> = ({ isDarkMode, onOpenSpecs }) => {
 
                             <button 
                               onClick={() => onOpenSpecs(project)}
-                              className={`group/link inline-flex items-center text-[11px] font-black uppercase tracking-[0.4em] pb-1 border-b-2 border-transparent hover:border-blue-500 transition-all opacity-40 hover:opacity-100 shrink-0 ${isDarkMode ? 'text-white' : 'text-black'}`}
+                              className={`group/link inline-flex items-center text-[11px] font-black uppercase tracking-[0.4em] pb-1 border-b-2 border-transparent hover:border-blue-500 transition-all opacity-70 hover:opacity-100 shrink-0 focus-visible:outline-2 focus-visible:outline-blue-500 ${isDarkMode ? 'text-white' : 'text-black'}`}
                             >
                               SPECS
                               <svg className="w-3.5 h-3.5 ml-3.5 transition-transform group-hover/link:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">

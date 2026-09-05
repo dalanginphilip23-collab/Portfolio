@@ -6,6 +6,15 @@ interface FooterProps {
 }
 
 const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const elem = document.getElementById(href.replace('#', ''));
+    if (elem) {
+      const offsetPosition = elem.getBoundingClientRect().top + window.pageYOffset - 100;
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+    }
+  };
+
   const socialLinks = [
     { 
       label: 'GitHub', 
@@ -47,8 +56,8 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
                         <h2 className={`text-4xl md:text-5xl font-black tracking-tighter uppercase leading-[0.85] ${isDarkMode ? 'text-white' : 'text-black'}`}>
                             JOHN PHILIP<br/>DALANGIN.
                         </h2>
-                        <p className={`text-xs font-medium leading-relaxed max-w-xs ${isDarkMode ? 'text-zinc-500' : 'text-zinc-500'}`}>
-                            A frontend developer focused on building immersive digital experiences.
+                        <p className={`text-sm font-light leading-relaxed max-w-xs ${isDarkMode ? 'text-zinc-400' : 'text-zinc-600'}`}>
+                            Frontend developer (OJT-ready) with IT Support foundations — building clean, responsive web experiences.
                         </p>
                     </div>
                     <div className="flex gap-3">
@@ -77,15 +86,15 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-12">
                          <div className="space-y-6">
                              <h3 className={`text-[10px] font-black uppercase tracking-[0.3em] ${isDarkMode ? 'text-zinc-600' : 'text-zinc-400'}`}>Sitemap</h3>
-                             <ul className="space-y-4">
+                              <ul className="space-y-4">
                                 {NAV_ITEMS.map(item => (
                                     <li key={item.label}>
-                                        <a href={item.href} className={`text-sm font-bold uppercase tracking-widest transition-colors hover:text-blue-500 ${isDarkMode ? 'text-zinc-400' : 'text-zinc-600'}`}>
+                                        <a href={item.href} onClick={(e) => scrollToSection(e, item.href)} className={`text-sm font-bold uppercase tracking-widest transition-colors hover:text-blue-500 ${isDarkMode ? 'text-zinc-300' : 'text-zinc-600'}`}>
                                             {item.label}
                                         </a>
                                     </li>
                                 ))}
-                             </ul>
+                              </ul>
                          </div>
 
                          <div className="space-y-6 col-span-1 md:col-span-2">
