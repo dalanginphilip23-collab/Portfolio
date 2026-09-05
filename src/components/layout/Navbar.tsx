@@ -8,6 +8,14 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ isDarkMode, toggleTheme }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -34,7 +42,7 @@ const Navbar: React.FC<NavbarProps> = ({ isDarkMode, toggleTheme }) => {
 
   return (
     <>
-      <header className={`fixed top-0 left-0 right-0 z-50 border-b ${isDarkMode ? 'bg-[#09090B]/80 border-white/10 backdrop-blur-md' : 'bg-[#FAFAF9]/80 border-zinc-200 backdrop-blur-md'}`}>
+      <header className={`fixed top-0 left-0 right-0 z-50 border-b transition-all duration-300 ${isDarkMode ? 'bg-[#09090B]/80 border-white/10 backdrop-blur-md' : 'bg-[#FAFAF9]/80 border-zinc-200 backdrop-blur-md'} ${scrolled ? 'shadow-[0_1px_20px_rgba(0,0,0,0.06)]' : ''}`}>
         <nav className="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between">
           <a
             href="#home"

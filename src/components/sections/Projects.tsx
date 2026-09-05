@@ -24,7 +24,7 @@ const Projects: React.FC<ProjectsProps> = ({ isDarkMode, onOpenSpecs }) => {
 
   return (
     <section id="projects" className={`py-12 scroll-mt-20 border-t ${hairline}`}>
-      <ScrollReveal>
+      <ScrollReveal variant="fade">
         <h2 className={`text-sm font-medium ${isDarkMode ? 'text-zinc-400' : 'text-zinc-500'}`}>Projects</h2>
         <p className={`mt-2 text-base leading-relaxed ${muted}`}>
           Three live builds. Details covers challenges and solutions.
@@ -37,7 +37,7 @@ const Projects: React.FC<ProjectsProps> = ({ isDarkMode, onOpenSpecs }) => {
                 key={tag}
                 onClick={() => setActiveTag(tag)}
                 aria-pressed={active}
-                className={`text-sm px-3.5 py-1.5 rounded-full border transition-colors ${
+                className={`text-sm px-3.5 py-1.5 rounded-full border transition-all hover:-translate-y-0.5 ${
                   active
                     ? isDarkMode
                       ? 'bg-zinc-100 text-zinc-900 border-zinc-100'
@@ -55,60 +55,64 @@ const Projects: React.FC<ProjectsProps> = ({ isDarkMode, onOpenSpecs }) => {
       </ScrollReveal>
 
       <div className="mt-8 space-y-10">
-        {filtered.map((project) => (
-          <ScrollReveal key={project.id}>
+        {filtered.map((project, i) => (
+          <ScrollReveal key={project.id} variant="up" delay={Math.min(i * 100, 200)} threshold={0.1}>
             <article className={`border-t pt-8 ${hairline}`}>
-              <a href={project.link} target="_blank" rel="noopener noreferrer" className="block group">
-                <div className={`overflow-hidden rounded-xl border ${hairline} ${isDarkMode ? 'bg-zinc-900' : 'bg-white'}`}>
-                  <img
-                    src={project.image}
-                    alt={`${project.title} screenshot`}
-                    width={1200}
-                    height={750}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full aspect-[16/10] object-cover"
-                  />
-                </div>
-              </a>
-              <div className="mt-4">
-                <div className="flex items-baseline justify-between gap-4">
-                  <h3 className={`text-xl font-semibold tracking-tight ${heading}`}>{project.title}</h3>
-                  <span className={`text-[13px] shrink-0 ${muted}`}>
-                    {(project.gallery?.length ?? 1) > 1 ? `${(project.gallery?.length ?? 1)} screens` : '1 screen'}
-                  </span>
-                </div>
-                <p className={`mt-2 text-[15px] leading-relaxed ${muted}`}>{project.description}</p>
-                <p className={`mt-2 text-[13px] ${isDarkMode ? 'text-zinc-500' : 'text-zinc-500'}`}>
-                  {project.tags.join(' · ')}
-                </p>
-                <div className="mt-3 flex items-center gap-5 text-sm">
-                  <a
-                    href={project.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`underline underline-offset-4 ${isDarkMode ? 'text-zinc-200 hover:text-white' : 'text-zinc-800 hover:text-zinc-900'}`}
-                  >
-                    Live demo
-                  </a>
-                  {project.githubLink && (
+              <ScrollReveal variant="scale" duration={800}>
+                <a href={project.link} target="_blank" rel="noopener noreferrer" className="block group">
+                  <div className={`overflow-hidden rounded-xl border transition-shadow duration-300 group-hover:shadow-lg ${hairline} ${isDarkMode ? 'bg-zinc-900' : 'bg-white'}`}>
+                    <img
+                      src={project.image}
+                      alt={`${project.title} screenshot`}
+                      width={1200}
+                      height={750}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full aspect-[16/10] object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                    />
+                  </div>
+                </a>
+              </ScrollReveal>
+              <ScrollReveal variant="up" delay={120}>
+                <div className="mt-4">
+                  <div className="flex items-baseline justify-between gap-4">
+                    <h3 className={`text-xl font-semibold tracking-tight ${heading}`}>{project.title}</h3>
+                    <span className={`text-[13px] shrink-0 ${muted}`}>
+                      {(project.gallery?.length ?? 1) > 1 ? `${(project.gallery?.length ?? 1)} screens` : '1 screen'}
+                    </span>
+                  </div>
+                  <p className={`mt-2 text-[15px] leading-relaxed ${muted}`}>{project.description}</p>
+                  <p className="mt-2 text-[13px] text-zinc-500">
+                    {project.tags.join(' · ')}
+                  </p>
+                  <div className="mt-3 flex items-center gap-5 text-sm">
                     <a
-                      href={project.githubLink}
+                      href={project.link}
                       target="_blank"
                       rel="noopener noreferrer"
+                      className={`underline underline-offset-4 ${isDarkMode ? 'text-zinc-200 hover:text-white' : 'text-zinc-800 hover:text-zinc-900'}`}
+                    >
+                      Live demo
+                    </a>
+                    {project.githubLink && (
+                      <a
+                        href={project.githubLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`underline underline-offset-4 ${muted} hover:opacity-80`}
+                      >
+                        Source
+                      </a>
+                    )}
+                    <button
+                      onClick={() => onOpenSpecs(project)}
                       className={`underline underline-offset-4 ${muted} hover:opacity-80`}
                     >
-                      Source
-                    </a>
-                  )}
-                  <button
-                    onClick={() => onOpenSpecs(project)}
-                    className={`underline underline-offset-4 ${muted} hover:opacity-80`}
-                  >
-                    Details
-                  </button>
+                      Details
+                    </button>
+                  </div>
                 </div>
-              </div>
+              </ScrollReveal>
             </article>
           </ScrollReveal>
         ))}

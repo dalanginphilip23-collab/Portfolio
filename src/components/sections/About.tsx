@@ -27,7 +27,7 @@ const About: React.FC<AboutProps> = ({ isDarkMode }) => {
 
   return (
     <section id="about" className={`py-12 scroll-mt-20 border-t ${isDarkMode ? 'border-white/10' : 'border-zinc-200'}`}>
-      <ScrollReveal>
+      <ScrollReveal variant="fade">
         <h2 className={`text-sm font-medium ${isDarkMode ? 'text-zinc-400' : 'text-zinc-500'}`}>About</h2>
         <p className={`mt-2 text-base leading-relaxed ${isDarkMode ? 'text-zinc-300' : 'text-zinc-600'}`}>
           Frontend (OJT-ready) with support foundations — based in {RESUME_DATA.contact.address}.
@@ -35,10 +35,10 @@ const About: React.FC<AboutProps> = ({ isDarkMode }) => {
       </ScrollReveal>
 
       <div className="mt-8">
-        {experiences.map((exp) => (
-          <ScrollReveal key={exp.title}>
-            <div className={`py-5 grid grid-cols-1 sm:grid-cols-[140px_1fr] gap-1 sm:gap-6 border-t last:border-b ${isDarkMode ? 'border-white/10' : 'border-zinc-200'}`}>
-              <p className={`text-sm ${isDarkMode ? 'text-zinc-500' : 'text-zinc-500'}`}>{exp.year}</p>
+        {experiences.map((exp, i) => (
+          <ScrollReveal key={exp.title} variant="right" delay={i * 90} threshold={0.2}>
+            <div className={`py-5 grid grid-cols-1 sm:grid-cols-[140px_1fr] gap-1 sm:gap-6 border-t last:border-b transition-colors hover:pl-1 duration-300 ${isDarkMode ? 'border-white/10' : 'border-zinc-200'}`}>
+              <p className="text-sm text-zinc-500">{exp.year}</p>
               <div>
                 <h3 className={`text-[15px] font-medium ${isDarkMode ? 'text-zinc-100' : 'text-zinc-900'}`}>{exp.title}</h3>
                 <p className={`mt-1 text-[15px] leading-relaxed ${isDarkMode ? 'text-zinc-400' : 'text-zinc-600'}`}>{exp.desc}</p>
@@ -48,9 +48,11 @@ const About: React.FC<AboutProps> = ({ isDarkMode }) => {
         ))}
       </div>
 
-      <p className={`mt-6 text-sm leading-relaxed ${isDarkMode ? 'text-zinc-500' : 'text-zinc-500'}`}>
-        Strengths: {RESUME_DATA.relevantStrengths.slice(0, 5).join(' · ')}
-      </p>
+      <ScrollReveal variant="fade" delay={120}>
+        <p className="mt-6 text-sm leading-relaxed text-zinc-500">
+          Strengths: {RESUME_DATA.relevantStrengths.slice(0, 5).join(' · ')}
+        </p>
+      </ScrollReveal>
     </section>
   );
 };

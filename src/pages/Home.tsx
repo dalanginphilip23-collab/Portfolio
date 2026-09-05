@@ -7,6 +7,7 @@ import About from '../components/sections/About';
 import Projects from '../components/sections/Projects';
 import Contact from '../components/sections/Contact';
 import ScrollToTop from '../components/ui/ScrollToTop';
+import ScrollProgress from '../components/ui/ScrollProgress';
 import { Project } from '../types';
 
 const AIAssistant = lazy(() => import('../components/features/AIAssistant'));
@@ -26,6 +27,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode, toggleTheme }) => {
     <div className={`min-h-screen transition-colors ${isDarkMode ? 'bg-[#09090B] text-zinc-100' : 'bg-[#FAFAF9] text-zinc-900'}`}>
 
       <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+      <ScrollProgress />
 
       <main className="max-w-3xl mx-auto px-6">
         <Hero isDarkMode={isDarkMode} onOpenResume={() => setIsResumeOpen(true)} />

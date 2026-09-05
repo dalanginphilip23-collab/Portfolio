@@ -1,5 +1,6 @@
 import React from 'react';
 import { RESUME_DATA, NAV_ITEMS } from '../../data/constants';
+import ScrollReveal from '../ui/ScrollReveal';
 
 interface FooterProps {
   isDarkMode: boolean;
@@ -17,6 +18,7 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
 
   return (
     <footer className={`mt-8 border-t ${isDarkMode ? 'border-white/10' : 'border-zinc-200'}`}>
+      <ScrollReveal variant="fade">
       <div className="max-w-3xl mx-auto px-6 py-10">
         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-8">
           <div>
@@ -57,6 +59,7 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
         </div>
         <p className="mt-8 text-[13px] text-zinc-500">© {new Date().getFullYear()} John Philip Dalangin</p>
       </div>
+      </ScrollReveal>
     </footer>
   );
 };

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { RESUME_DATA } from '../../data/constants';
+import ScrollReveal from '../ui/ScrollReveal';
 
 interface ContactProps {
   isDarkMode: boolean;
@@ -102,18 +103,21 @@ const Contact: React.FC<ContactProps> = ({ isDarkMode }) => {
 
   return (
     <section id="contact" className={`py-12 scroll-mt-20 border-t ${isDarkMode ? 'border-white/10' : 'border-zinc-200'}`}>
-      <h2 className={`text-sm font-medium ${isDarkMode ? 'text-zinc-400' : 'text-zinc-500'}`}>Contact</h2>
-      <p className={`mt-2 text-base leading-relaxed ${isDarkMode ? 'text-zinc-300' : 'text-zinc-600'}`}>
-        Open for OJT and junior frontend work. I reply within one business day.
-      </p>
-      <p className={`mt-3 text-sm ${isDarkMode ? 'text-zinc-400' : 'text-zinc-600'}`}>
-        <a href={`mailto:${RESUME_DATA.contact.email}`} className="underline underline-offset-4">{RESUME_DATA.contact.email}</a>
-        <span className="mx-2 opacity-40">·</span>
-        <a href={RESUME_DATA.contact.github} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">GitHub</a>
-        <span className="mx-2 opacity-40">·</span>
-        <a href={RESUME_DATA.contact.linkedin} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">LinkedIn</a>
-      </p>
+      <ScrollReveal variant="fade">
+        <h2 className={`text-sm font-medium ${isDarkMode ? 'text-zinc-400' : 'text-zinc-500'}`}>Contact</h2>
+        <p className={`mt-2 text-base leading-relaxed ${isDarkMode ? 'text-zinc-300' : 'text-zinc-600'}`}>
+          Open for OJT and junior frontend work. I reply within one business day.
+        </p>
+        <p className={`mt-3 text-sm ${isDarkMode ? 'text-zinc-400' : 'text-zinc-600'}`}>
+          <a href={`mailto:${RESUME_DATA.contact.email}`} className="underline underline-offset-4">{RESUME_DATA.contact.email}</a>
+          <span className="mx-2 opacity-40">·</span>
+          <a href={RESUME_DATA.contact.github} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">GitHub</a>
+          <span className="mx-2 opacity-40">·</span>
+          <a href={RESUME_DATA.contact.linkedin} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">LinkedIn</a>
+        </p>
+      </ScrollReveal>
 
+      <ScrollReveal variant="up" delay={120}>
       <div className="mt-8">
         {isSuccess ? (
           <div className={`rounded-xl border p-6 ${isDarkMode ? 'border-white/10 bg-white/[0.02]' : 'border-zinc-200 bg-white'}`}>
@@ -183,7 +187,7 @@ const Contact: React.FC<ContactProps> = ({ isDarkMode }) => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`text-sm font-medium px-5 py-2.5 rounded-full transition-colors disabled:opacity-50 ${isDarkMode ? 'bg-zinc-100 text-zinc-900 hover:bg-white' : 'bg-zinc-900 text-white hover:bg-zinc-700'}`}
+              className={`text-sm font-medium px-5 py-2.5 rounded-full transition-all hover:-translate-y-0.5 disabled:opacity-50 ${isDarkMode ? 'bg-zinc-100 text-zinc-900 hover:bg-white' : 'bg-zinc-900 text-white hover:bg-zinc-700'}`}
             >
               {isSubmitting ? 'Sending…' : 'Send message'}
             </button>
@@ -191,6 +195,7 @@ const Contact: React.FC<ContactProps> = ({ isDarkMode }) => {
           </form>
         )}
       </div>
+      </ScrollReveal>
     </section>
   );
 };
